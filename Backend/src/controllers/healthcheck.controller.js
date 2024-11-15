@@ -7,7 +7,7 @@ const healthcheck = asyncHandler(async (req, res) => {
     //TODO: build a healthcheck response that simply returns the OK status as json with a message
     try {
         res.status(200).json(
-            new ApiResponse(200, null, "Service is up and running")
+            new ApiResponse(200, 'Badhiya Chal Rha Hai', "Service is up and running")
         );
     } catch (error) {
         // In case of any unexpected error, return an error response

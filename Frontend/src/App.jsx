@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [healthCheck, sethealthCheck] = useState(0)
+  useEffect(() => {
+    axios.get('/api/v1/healthcheck')
+    .then((response)=>{
+      sethealthCheck(response.data)
+      console.log(response)
+      console.log(response.data);
+      
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  })
+  
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+    <h2>HealthCheck Report</h2>
+    <ul>
+      <li>{healthCheck.statusCode}</li>
+      <li>{healthCheck?.data}</li>
+      <li>{healthCheck.message}</li>
+      <li>{healthCheck.success}</li>
+    </ul>
+    </div>
+     </>
   )
 }
 
