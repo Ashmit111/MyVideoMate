@@ -215,7 +215,7 @@ const App = () => {
           <a
             key={index}
             href={href}
-            className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-lg"
+            className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xl"
           >
             {icon}
           </a>
