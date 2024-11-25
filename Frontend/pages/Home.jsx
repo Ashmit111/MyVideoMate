@@ -23,7 +23,15 @@ const Home = () => {
         { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
       ];
   return (
-    <div>
+    <div className=' min-h-screen bg-black'>
+      <nav className='w-full fixed'>
+        <div className='flex justify-around py-3'>
+          <div className="flex gap-2">
+            <img src="Frontend\public\mytube.svg" alt="Logo" />
+            <h2>MyTube</h2>
+          </div>
+        </div>
+      </nav>
       
     </div>
   )
