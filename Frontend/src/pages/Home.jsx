@@ -35,14 +35,14 @@ const Home = () => {
       };
   return (
     <div className='h-screen bg-slate-900'>
-      <nav className='w-full fixed bg-black h-16'>
+      <nav className='w-full fixed bg-black h-16 flex'>
         <div className='flex items-center justify-between py-3'>
           <div className="flex gap-2 items-center px-3">
             <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
             <h2 className='pt-1 text-lg text-white'>MyTube</h2>
           </div>
         </div>
-        <div className="flex-1 max-w-xl mx-auto -mt-11">
+        <div className="flex-1 max-w-xl mx-auto mt-3">
               <form onSubmit={handleSearch} className="relative">
                 <div className="flex items-center">
                   <input
@@ -65,10 +65,23 @@ const Home = () => {
                     )}
                   </button>
                 </div>
-                </form>
+              </form>
+              <div className='flex'>
+                  <button
+                    className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                    aria-label="Create video"
+                  >
+                    <RiVideoAddLine className="h-6 w-6 text-white" />
+                  </button>
+                  <button
+                    className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                    aria-label="Notifications"
+                  >
+                    <RiNotification3Line className="h-6 w-6 text-white" />
+                  </button>
+                  </div>
             </div>
       </nav>
-      
     </div>
   )
 }
