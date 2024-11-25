@@ -37,7 +37,7 @@ const Home = () => {
     <div className='h-screen bg-slate-900'>
       <nav className='w-full fixed bg-black h-16 flex items-center'>
         <div className='flex items-center py-3'>
-          <div className="flex gap-2 items-center px-3">
+          <div className="flex gap-2 items-center px-3 ml-2">
             <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
             <h2 className='pt-1 text-lg text-white'>MyTube</h2>
           </div>
@@ -49,7 +49,7 @@ const Home = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 rounded-2xl bg-black border-[1.7px] border-white text-white placeholder-white"
+                className="w-full px-4 py-[6px] rounded-2xl bg-black border-[1.7px] border-white text-white placeholder-white"
                 placeholder="Search"
                 aria-label="Search"
               />
@@ -66,14 +66,14 @@ const Home = () => {
               </button>
             </form>
             <button
-              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2"
               aria-label="Create video"
               // onClick={handleCreateVideo}
             >
               <RiVideoAddLine className="h-6 w-6 text-white" />
             </button>
             <button
-              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2"
               aria-label="Notifications"
               // onClick={handleNotifications}
             >
