@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import App from './App'
-import Home from 'pages/Home'
+import Home from './pages/Home.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
