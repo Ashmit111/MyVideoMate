@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
-import { RiVideoAddLine, RiNotification3Line } from "react-icons/ri";
-import { FiMenu, FiSearch } from "react-icons/fi";
+import { RiVideoAddLine } from "react-icons/ri";
+import { FiSearch } from "react-icons/fi";
 import { BiLogOut, BiSolidLike } from "react-icons/bi";
-import { FaHistory, FaRegCompass  } from "react-icons/fa";
-import { MdSubscriptions, MdVideoLibrary } from "react-icons/md";
-import { IoSettings } from "react-icons/io5";
+import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
+import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
+import { IoSettings } from "react-icons/io5"; 
 
 
 
@@ -24,7 +24,7 @@ const Home = () => {
         { icon: <IoSettings className="w-6 h-6"/>, label: "Settings"},
         { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
       ];
-
+      const profilePic = "";
       const handleSearch = (e) => {
         e.preventDefault(); 
         setIsLoading(true);
@@ -35,52 +35,69 @@ const Home = () => {
       };
   return (
     <div className='h-screen bg-slate-900'>
-      <nav className='w-full fixed bg-black h-16 flex'>
-        <div className='flex items-center justify-between py-3'>
+      <nav className='w-full fixed bg-black h-16 flex items-center'>
+        <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3">
             <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
             <h2 className='pt-1 text-lg text-white'>MyTube</h2>
           </div>
         </div>
-        <div className="flex-1 max-w-xl mx-auto mt-3">
-              <form onSubmit={handleSearch} className="relative">
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className={`w-full px-4 py-2 rounded-lg bg-black border "border-white text-white placeholder-white`}
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-                    aria-label="Submit search"
-                  >
-                    {isLoading ? (
-                      <div className="w-5 h-5 border-2 border-gray-500 border-t-red-500 rounded-full animate-spin"></div>
-                    ) : (
-                      <FiSearch className="h-5 w-5 text-white" />
-                    )}
-                  </button>
-                </div>
-              </form>
-              <div className='flex'>
-                  <button
-                    className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-                    aria-label="Create video"
-                  >
-                    <RiVideoAddLine className="h-6 w-6 text-white" />
-                  </button>
-                  <button
-                    className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-                    aria-label="Notifications"
-                  >
-                    <RiNotification3Line className="h-6 w-6 text-white" />
-                  </button>
-                  </div>
+        <div className="flex-1 max-w-xl mx-auto mt-2 items-center justify-center">
+          <div className="flex items-center space-x-2">
+            <form onSubmit={handleSearch} className="relative flex items-center flex-grow -mt-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 rounded-2xl bg-black border border-white text-white placeholder-white"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                aria-label="Submit search"
+              >
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-gray-500 border-t-red-500 rounded-full animate-spin"></div>
+                ) : (
+                <FiSearch className="h-5 w-5 text-white" />
+                )}
+              </button>
+            </form>
+            <button
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+              aria-label="Create video"
+              // onClick={handleCreateVideo}
+            >
+              <RiVideoAddLine className="h-6 w-6 text-white" />
+            </button>
+            <button
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+              aria-label="Notifications"
+              // onClick={handleNotifications}
+            >
+              <MdOutlineNotificationsActive className="h-6 w-6 text-white" />
+            </button>
+            
+          </div>
+        </div>
+        <div className="items-center pr-8">
+             {profilePic.length>0 ? (
+                <img
+                src={profilePic} // Fetched from DB
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover border-2 border-white"
+                aria-label="User profile"
+                />
+                ) : (
+                <FaRegUser
+                  className="w-5 h-5 text-white"
+                  aria-label="Default user icon"
+                />
+              )}
             </div>
+
       </nav>
     </div>
   )
