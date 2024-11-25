@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { RiVideoAddLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
-import { BiLogOut, BiSolidLike } from "react-icons/bi";
+import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
@@ -16,13 +16,13 @@ const Home = () => {
     const [searchError, setSearchError] = useState("");
 
     const sideItems = [
-        { icon: <BiSolidLike className="w-6 h-6" />, label: "Liked Videos" },
+        { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
         { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel" },
         { icon: <MdSubscriptions className="w-6 h-6" />, label: "Subscriptions" },
         { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists" },
         { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History" }, 
         { icon: <IoSettings className="w-6 h-6"/>, label: "Settings"},
-        { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
+        // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
       ];
       const profilePic = "";
       const handleSearch = (e) => {
@@ -99,6 +99,29 @@ const Home = () => {
             </div>
 
       </nav>
+      //sidebar
+      <div className="h-full flex flex-col bg-black gap-2 mt-2">
+        <div>
+          {sideItems.map((item,index)=>(
+            <button
+            key={index}
+            className="w-full flex items-center px-8 py-3 text-white  bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+            aria-label={item.label}
+            >
+             {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
+             <span className="ml-4 text-sm">{item.label}</span>
+           </button>
+         ))}
+        </div>
+          <div className='mt-auto'>
+            <button className="w-full flex items-center px-8 py-3 text-white  bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+            aria-label= "Log Out">
+              <BiLogOut className='h-5 w-5 text-red'/>
+              <span className="ml-4 text-sm">Log Out</span>
+            </button>
+          </div>
+      </div>
+      
     </div>
   )
 }
