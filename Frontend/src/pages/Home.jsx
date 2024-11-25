@@ -49,7 +49,7 @@ const Home = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 rounded-2xl bg-black border border-white text-white placeholder-white"
+                className="w-full px-4 py-2 rounded-2xl bg-black border-[1.7px] border-white text-white placeholder-white"
                 placeholder="Search"
                 aria-label="Search"
               />
