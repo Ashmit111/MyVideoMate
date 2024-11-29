@@ -6,6 +6,7 @@ import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
+import VideoCard from '@/components/ui/videoCard';
 
 
 
@@ -123,7 +124,12 @@ const Home = () => {
           </button>
         </div>
       </div>
-
+      //Main 
+      <div className='pt-16 pb-10 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+        {videos.map((video, index) =>(
+          <VideoCard key={index} video={video} />
+        ))}
+     </div>     
       
     </div>
   )
