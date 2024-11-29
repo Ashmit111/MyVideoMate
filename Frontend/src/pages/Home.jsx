@@ -34,7 +34,7 @@ const Home = () => {
         }, 1000);
       };
   return (
-    <div className='h-screen bg-slate-900'>
+    <div className='h-screen bg-black w-full'>
       <nav className='w-full fixed bg-black h-16 flex items-center'>
         <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3 ml-2">
@@ -55,7 +55,7 @@ const Home = () => {
               />
               <button
                 type="submit"
-                className="px-6 py-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                className="px-6 py-2 bg-transparent rounded-full outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#313030] focus:bg-[#313030]"
                 aria-label="Submit search"
               >
               {isLoading ? (
@@ -66,14 +66,14 @@ const Home = () => {
               </button>
             </form>
             <button
-              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2"
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2 hover:bg-[#313030] focus:bg-[#313030]"
               aria-label="Create video"
               // onClick={handleCreateVideo}
             >
               <RiVideoAddLine className="h-6 w-6 text-white" />
             </button>
             <button
-              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2"
+              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2 hover:bg-[#313030] focus:bg-[#313030]"
               aria-label="Notifications"
               // onClick={handleNotifications}
             >
@@ -100,27 +100,30 @@ const Home = () => {
 
       </nav>
       //sidebar
-      <div className="h-full flex flex-col bg-black gap-2 mt-2">
+      <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
         <div>
-          {sideItems.map((item,index)=>(
+          {sideItems.map((item, index) => (
             <button
-            key={index}
-            className="w-full flex items-center px-8 py-3 text-white  bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-            aria-label={item.label}
+              key={index}
+              className="w-full flex items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
+              aria-label={item.label}
             >
-             {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
-             <span className="ml-4 text-sm">{item.label}</span>
-           </button>
-         ))}
-        </div>
-          <div className='mt-auto'>
-            <button className="w-full flex items-center px-8 py-3 text-white  bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-            aria-label= "Log Out">
-              <BiLogOut className='h-5 w-5 text-red'/>
-              <span className="ml-4 text-sm">Log Out</span>
+              {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
+              <span className="ml-4 text-sm">{item.label}</span>
             </button>
-          </div>
+          ))}
+        </div>
+        <div className="mt-auto mb-2">
+          <button
+            className="w-full flex items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#1e1e1e] focus:bg-[#1e1e1e]"
+            aria-label="Log Out"
+          >
+            <BiLogOut className="h-5 w-5 text-red" />
+            <span className="ml-4 text-sm">Log Out</span>
+          </button>
+        </div>
       </div>
+
       
     </div>
   )
