@@ -237,40 +237,38 @@ const Home = () => {
             </div>
 
       </nav>
-      //sidebar
-      <div className="h-screen bg-black w-full flex">
-  {/* Sidebar */}
-  <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
-    <div>
-      {sideItems.map((item, index) => (
-        <button
-          key={index}
-          className="w-full flex items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
-          aria-label={item.label}
-        >
-          {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
-          <span className="ml-4 text-sm">{item.label}</span>
-        </button>
-      ))}
-    </div>
-    <div className="mt-auto mb-2">
-      <button
-        className="w-full flex items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#1e1e1e] focus:bg-[#1e1e1e]"
-        aria-label="Log Out"
-      >
-        <BiLogOut className="h-5 w-5 text-red" />
-        <span className="ml-4 text-sm">Log Out</span>
-      </button>
-    </div>
-  </div>
-
-  {/* Main Content */}
-  <div className="flex-1 pl-60 pt-16 pb-14 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-    {videos.map((video, index) => (
-      <VideoCard key={index} video={video} />
-    ))}
-  </div>
-</div>
+      //sidebar 
+        {/* Sidebar */}
+        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
+          <div>
+            {sideItems.map((item, index) => (
+              <button
+                key={index}
+                className="w-full flex cursor-pointer items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
+                aria-label={item.label}
+              >
+                {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
+                <span className="ml-4 text-sm">{item.label}</span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-auto mb-2">
+            <button
+              className="w-full flex items-center cursor-pointer px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#1e1e1e] focus:bg-[#1e1e1e]"
+              aria-label="Log Out"
+            >
+              <BiLogOut className="h-5 w-5 text-red" />
+              <span className="ml-4 text-sm">Log Out</span>
+            </button>
+          </div>
+        </div>
+ 
+      {/* Main Content */}
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
+          {videos.map((video, index) => (
+            <VideoCard key={index} video={video} />
+          ))}
+     </div>
     
       
     </div>
