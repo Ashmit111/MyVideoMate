@@ -13,6 +13,8 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchError, setSearchError] = useState("");
     const [videos, setVideos] = useState([]);
+    const [showModal,setShowModal] = useState(false);
+    const [notiModal,setNotiModal] = useState(false);
 
     const sideItems = [
         { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
@@ -170,6 +172,23 @@ const Home = () => {
           setIsLoading(false);
         }, 1000);
       };
+
+      const handleCreateVideo = () => {
+        setShowModal(true) // Video Modal
+      }
+
+      const handleCloseVideoModal = () => {
+        setShowModal(false); // Video Modal 
+      };
+
+      const handleNotifications = () => {
+        setNotiModal(true); // Notification Modal 
+      };
+
+      const handleCloseNotificationModal = () => {
+        setNotiModal(false); // Notification Modal 
+      };
+
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50'>
