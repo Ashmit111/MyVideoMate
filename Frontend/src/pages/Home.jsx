@@ -8,8 +8,7 @@ import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "r
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
 
-const Home = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+const Home = () => { 
     const [isLoading, setIsLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchError, setSearchError] = useState("");
