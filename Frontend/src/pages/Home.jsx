@@ -278,7 +278,7 @@ const Home = () => {
 
       {/* Drag-and-Drop Area */}
       <div
-        className="drag-drop-area border-2 border-dashed border-purple-600 p-8 rounded-lg text-center mb-6 cursor-pointer"
+        className="drag-drop-area border-2 border-dashed border-red-500 p-8 rounded-lg text-center mb-6 cursor-pointer"
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
           e.preventDefault();
@@ -286,23 +286,17 @@ const Home = () => {
           setValue("video", files[0], { shouldValidate: true });
         }}
       >
-        <div className="icon mb-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 text-purple-500 mx-auto"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M4 12l4-4m0 0l4 4m-4-4v12"
-            />
-          </svg>
+        <div className="icon mb-4 ml-10">
+        <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="h-8 w-8 border-red-500"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path d="M5 20h14v-2H5v2zm7-16L8.5 9.5H11V15h2V9.5h2.5L12 4zM6 10v4h2v-4H6zm10 0v4h2v-4h-2z" />
+  </svg>
         </div>
-        <p className="text-purple-400 mb-2">
+        <p className="text-red-400 mb-2">
           Drag and drop video files to upload
         </p>
         <p className="text-gray-400 mb-4">
@@ -319,7 +313,7 @@ const Home = () => {
         />
         <label
           htmlFor="fileInput"
-          className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded cursor-pointer"
+          className="border-red-500 hover:border-red-400 text-white py-2 px-4 rounded cursor-pointer"
         >
           Select Files
         </label>
@@ -366,7 +360,7 @@ const Home = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
+          className="w-full py-2 border-red-500 hover:border-red-400 text-white rounded"
         >
           Upload Video
         </button>
