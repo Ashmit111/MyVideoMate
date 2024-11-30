@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { useForm } from "react-hook-form";
 import { RiVideoAddLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { BiLogOut, BiLike } from "react-icons/bi";
@@ -7,6 +8,7 @@ import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
+
 
 const Home = () => { 
     const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +28,13 @@ const Home = () => {
         // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
       ];
       const profilePic = "";
+
+      const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+      } = useForm();
 
       useEffect(() => {
         const fetchVideos = async () => {
@@ -224,7 +233,7 @@ const Home = () => {
             <button
               className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2 hover:bg-[#313030] focus:bg-[#313030]"
               aria-label="Create video"
-              // onClick={handleCreateVideo}
+              onClick={handleCreateVideo}
             >
               <RiVideoAddLine className="h-6 w-6 text-white" />
             </button>
@@ -239,20 +248,133 @@ const Home = () => {
           </div>
         </div>
         <div className="items-center pr-8">
-             {profilePic.length>0 ? (
-                <img
-                src={profilePic} // Fetched from DB
-                alt="Profile"
-                className="w-10 h-10 rounded-full object-cover border-2 border-white"
-                aria-label="User profile"
-                />
-                ) : (
-                <FaRegUser
-                  className="w-5 h-5 text-white"
-                  aria-label="Default user icon"
-                />
-              )}
-            </div>
+          {profilePic.length>0 ? (
+            <img
+              src={profilePic} // Fetched from DB
+              alt="Profile"
+              className="w-10 h-10 rounded-full object-cover border-2 border-white"
+              aria-label="User profile"
+              />
+              ) : (
+              <FaRegUser
+                className="w-5 h-5 text-white"
+                aria-label="Default user icon"
+              />
+          )}
+        </div>
+
+        {showModal && (
+  <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60">
+    <div className="modal bg-black p-6 rounded-lg w-[500px] relative">
+      <button
+        className="close-btn absolute top-2 right-2 text-white font-bold"
+        onClick={handleCloseVideoModal}
+      >
+        Close
+      </button>
+      <h2 className="text-2xl font-semibold mb-6 text-white text-center">
+        Upload Video
+      </h2>
+
+      {/* Drag-and-Drop Area */}
+      <div
+        className="drag-drop-area border-2 border-dashed border-purple-600 p-8 rounded-lg text-center mb-6 cursor-pointer"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          const files = e.dataTransfer.files;
+          setValue("video", files[0], { shouldValidate: true });
+        }}
+      >
+        <div className="icon mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-12 w-12 text-purple-500 mx-auto"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M4 12l4-4m0 0l4 4m-4-4v12"
+            />
+          </svg>
+        </div>
+        <p className="text-purple-400 mb-2">
+          Drag and drop video files to upload
+        </p>
+        <p className="text-gray-400 mb-4">
+          Or click below to select files manually.
+        </p>
+        <input
+          type="file"
+          {...register("video", { required: "Video file is required" })}
+          className="hidden"
+          id="fileInput"
+          onChange={(e) =>
+            setValue("video", e.target.files[0], { shouldValidate: true })
+          }
+        />
+        <label
+          htmlFor="fileInput"
+          className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded cursor-pointer"
+        >
+          Select Files
+        </label>
+      </div>
+      {errors.video && (
+        <span className="text-red-500 text-sm">{errors.video.message}</span>
+      )}
+
+      <form  >
+        {/* Title Input */}
+        <label className="block mb-2 font-medium text-white">Title*</label>
+        <input
+          type="text"
+          {...register("title", {
+            required: "Title is required",
+            minLength: { value: 3, message: "Title must be at least 3 characters" },
+          })}
+          className="block w-full mb-4 p-2 border border-gray-700 rounded bg-black text-white"
+          placeholder="Enter video title"
+        />
+        {errors.title && (
+          <span className="text-red-500 text-sm">{errors.title.message}</span>
+        )}
+
+        {/* Description Input */}
+        <label className="block mb-2 font-medium text-white">Description*</label>
+        <textarea
+          {...register("description", {
+            required: "Description is required",
+            maxLength: {
+              value: 200,
+              message: "Description cannot exceed 200 characters",
+            },
+          })}
+          className="block w-full mb-4 p-2 border border-gray-700 rounded bg-black text-white"
+          placeholder="Enter video description"
+        ></textarea>
+        {errors.description && (
+          <span className="text-red-500 text-sm">
+            {errors.description.message}
+          </span>
+        )}
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
+        >
+          Upload Video
+        </button>
+      </form>
+    </div>
+  </div>
+)}
+
 
       </nav>
       //sidebar 
