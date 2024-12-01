@@ -37,7 +37,7 @@ const Home = () => {
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
       } = useForm();
 
       const handleVideoChange = (e) => {
@@ -62,6 +62,7 @@ const Home = () => {
         console.log(data);
         console.log(data.video );
         console.log(data.thumbnail ); 
+        reset()
       };
 
       const handleRemoveVideo = () => {
@@ -459,8 +460,9 @@ const Home = () => {
                    <button
                      type="submit"
                      className="px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-300 transition-colors"
+                     disabled={isSubmitting}
                    >
-                     Upload
+                     {isSubmitting ? "Uploading" : "Upload"}
                    </button>
                  </div>
                </form>
