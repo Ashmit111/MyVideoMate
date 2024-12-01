@@ -8,6 +8,7 @@ import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
+import { FiUpload, FiX, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 
 
 const Home = () => { 
@@ -17,6 +18,9 @@ const Home = () => {
     const [videos, setVideos] = useState([]);
     const [showModal,setShowModal] = useState(false);
     const [notiModal,setNotiModal] = useState(false);
+    const [videoPreview, setVideoPreview] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState(null);
+
 
     const sideItems = [
         { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
@@ -35,6 +39,39 @@ const Home = () => {
         reset,
         formState: { errors },
       } = useForm();
+
+      const handleVideoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const videoUrl = URL.createObjectURL(file);
+          setVideoPreview(videoUrl);
+          console.log(videoUrl)
+        }
+      };
+    
+      const handleThumbnailChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const thumbnailUrl = URL.createObjectURL(file);
+          setThumbnailPreview(thumbnailUrl);
+          console.log(thumbnailUrl)
+        }
+      };
+    
+      const onSubmit = (data) => {
+        console.log(data);
+        console.log(data.video );
+        console.log(data.thumbnail ); 
+      };
+
+      const handleRemoveVideo = () => {
+        setVideoPreview(null);
+        const videoInput = document.getElementById("video-upload");
+        if (videoInput) {
+          videoInput.value = "";
+        }
+      };
+    
 
       useEffect(() => {
         const fetchVideos = async () => {
@@ -187,7 +224,10 @@ const Home = () => {
       }
 
       const handleCloseVideoModal = () => {
-        setShowModal(false); // Video Modal 
+        setShowModal(false); // Close Video Modal
+        reset(); // Reset form if needed
+        setVideoPreview(null);
+        setThumbnailPreview(null); 
       };
 
       const handleNotifications = () => {
@@ -264,110 +304,170 @@ const Home = () => {
         </div>
 
         {showModal && (
-  <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-60">
-    <div className="modal bg-black p-6 rounded-lg w-[500px] relative">
-      <button
-        className="close-btn absolute top-2 right-2 text-white font-bold"
-        onClick={handleCloseVideoModal}
-      >
-        Close
-      </button>
-      <h2 className="text-2xl font-semibold mb-6 text-white text-center">
-        Upload Video
-      </h2>
+           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 border-white">
+            <div className="bg-black border  border-white rounded-xl w-5/12 max-w-3xl p-6 relative">
 
-      {/* Drag-and-Drop Area */}
-      <div
-        className="drag-drop-area border-2 border-dashed border-red-500 p-8 rounded-lg text-center mb-6 cursor-pointer"
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          const files = e.dataTransfer.files;
-          setValue("video", files[0], { shouldValidate: true });
-        }}
-      >
-        <div className="icon mb-4 ml-10">
-        <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="h-8 w-8 border-red-500"
-    fill="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path d="M5 20h14v-2H5v2zm7-16L8.5 9.5H11V15h2V9.5h2.5L12 4zM6 10v4h2v-4H6zm10 0v4h2v-4h-2z" />
-  </svg>
-        </div>
-        <p className="text-red-400 mb-2">
-          Drag and drop video files to upload
-        </p>
-        <p className="text-gray-400 mb-4">
-          Or click below to select files manually.
-        </p>
-        <input
-          type="file"
-          {...register("video", { required: "Video file is required" })}
-          className="hidden"
-          id="fileInput"
-          onChange={(e) =>
-            setValue("video", e.target.files[0], { shouldValidate: true })
-          }
-        />
-        <label
-          htmlFor="fileInput"
-          className="border-red-500 hover:border-red-400 text-white py-2 px-4 rounded cursor-pointer"
-        >
-          Select Files
-        </label>
-      </div>
-      {errors.video && (
-        <span className="text-red-500 text-sm">{errors.video.message}</span>
-      )}
-
-      <form  >
-        {/* Title Input */}
-        <label className="block mb-2 font-medium text-white">Title*</label>
-        <input
-          type="text"
-          {...register("title", {
-            required: "Title is required",
-            minLength: { value: 3, message: "Title must be at least 3 characters" },
-          })}
-          className="block w-full mb-4 p-2 border border-gray-700 rounded bg-black text-white"
-          placeholder="Enter video title"
-        />
-        {errors.title && (
-          <span className="text-red-500 text-sm">{errors.title.message}</span>
-        )}
-
-        {/* Description Input */}
-        <label className="block mb-2 font-medium text-white">Description*</label>
-        <textarea
-          {...register("description", {
-            required: "Description is required",
-            maxLength: {
-              value: 200,
-              message: "Description cannot exceed 200 characters",
-            },
-          })}
-          className="block w-full mb-4 p-2 border border-gray-700 rounded bg-black text-white"
-          placeholder="Enter video description"
-        ></textarea>
-        {errors.description && (
-          <span className="text-red-500 text-sm">
-            {errors.description.message}
-          </span>
-        )}
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full py-2 border-red-500 hover:border-red-400 text-white rounded"
-        >
-          Upload Video
-        </button>
-      </form>
-    </div>
-  </div>
-)}
+             <button
+               onClick={handleCloseVideoModal}
+               className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+               aria-label="Close modal"
+             >
+               <FiX size={24} />
+             </button>
+ 
+             <h2 className="text-2xl font-bold text-white mb-6">Upload Video</h2>
+ 
+             <div className="max-h-[70vh] overflow-y-auto pr-2">
+               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                 <div className="space-y-2">
+                   <label className="block text-gray-300 text-sm font-medium">
+                     Video File
+                   </label>
+                   <div className="relative">
+                     <input
+                       type="file"
+                       accept="video/*"
+                       {...register("video", { required: "Video is required" })}
+                       onChange={handleVideoChange}
+                       className="hidden"
+                       id="video-upload"
+                     />
+                     {!videoPreview && (
+                       <label
+                         htmlFor="video-upload"
+                         className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-colors"
+                       >
+                         <div className="text-center">
+                           <FiUpload className="mx-auto text-gray-400 mb-2" size={24} />
+                           <span className="text-gray-400">Click to upload video</span>
+                         </div>
+                       </label>
+                     )}
+                     {errors.video && (
+                       <p className="text-red-500 text-sm mt-1 flex items-center">
+                         <FiAlertCircle className="mr-1" />
+                         {errors.video.message}
+                       </p>
+                     )}
+                   </div>
+                 </div>
+ 
+                 {videoPreview && (
+                   <div className="relative">
+                     <button
+                       onClick={handleRemoveVideo}
+                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors z-10"
+                       aria-label="Remove video"
+                     >
+                       <FiX size={20} />
+                     </button>
+                     <div className="aspect-w-16 aspect-h-9">
+                       <video
+                         src={videoPreview}
+                         controls
+                         className="rounded-lg w-full"
+                       >
+                         Your browser does not support the video tag.
+                       </video>
+                     </div>
+                   </div>
+                 )}
+ 
+                 <div className="space-y-2">
+                   <label className="block text-gray-300 text-sm font-medium">
+                     Thumbnail
+                   </label>
+                   <div className="relative">
+                     <input
+                       type="file"
+                       accept="image/*"
+                       {...register("thumbnail", { required: "Thumbnail is required" })}
+                       onChange={handleThumbnailChange}
+                       className="hidden"
+                       id="thumbnail-upload"
+                     />
+                     <label
+                       htmlFor="thumbnail-upload"
+                       className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-colors"
+                     >
+                       {thumbnailPreview ? (
+                         <img
+                           src={thumbnailPreview}
+                           alt="Thumbnail preview"
+                           className="max-h-40 rounded"
+                         />
+                       ) : (
+                         <div className="text-center">
+                           <FiUpload className="mx-auto text-gray-400 mb-2" size={24} />
+                           <span className="text-gray-400">Click to upload thumbnail</span>
+                         </div>
+                       )}
+                     </label>
+                     {errors.thumbnail && (
+                       <p className="text-red-500 text-sm mt-1 flex items-center">
+                         <FiAlertCircle className="mr-1" />
+                         {errors.thumbnail.message}
+                       </p>
+                     )}
+                   </div>
+                 </div>
+ 
+                 <div className="space-y-2">
+                   <label className="block text-gray-300 text-sm font-medium">
+                     Title
+                   </label>
+                   <input
+                     type="text"
+                     {...register("title", { required: "Title is required" })}
+                     className="w-full bg-black border border-gray-300 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-white transition-colors"
+                     placeholder="Enter video title"
+                   />
+ 
+                   {errors.title && (
+                     <p className="text-red-500 text-sm mt-1 flex items-center">
+                       <FiAlertCircle className="mr-1" />
+                       {errors.title.message}
+                     </p>
+                   )}
+                 </div>
+ 
+                 <div className="space-y-2">
+                   <label className="block text-gray-300 text-sm font-medium">
+                     Description
+                   </label>
+                   <textarea
+                     {...register("description", { required: "Description is required" })}
+                     className="w-full bg-black border border-gray-300 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-white transition-colors h-32 resize-none"
+                     placeholder="Enter video description"
+                   />
+                   {errors.description && (
+                     <p className="text-red-500 text-sm mt-1 flex items-center">
+                       <FiAlertCircle className="mr-1" />
+                       {errors.description.message}
+                     </p>
+                   )}
+                 </div>
+ 
+                 <div className="flex justify-end space-x-4">
+                   <button
+                     type="button"
+                     onClick={() => setIsOpen(false)}
+                     className="px-6 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
+                   >
+                     Cancel
+                   </button>
+                   <button
+                     type="submit"
+                     className="px-6 py-2 bg-white text-black rounded-lg hover:bg-gray-300 transition-colors"
+                   >
+                     Upload
+                   </button>
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
+ )}
 
 
       </nav>
