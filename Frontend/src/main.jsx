@@ -3,12 +3,14 @@ import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import App from './App'
 import Home from './pages/Home.jsx'
+import SearchResult from './pages/SearchResult'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home/>}/>
+      <Route path="/SearchResult" element={<SearchResult/>}/>
     </>
   )
 );
