@@ -1,7 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
 
-const SearchResult = () => {
+function SearchResult() {
   return (
     <div>
       
@@ -10,3 +9,4 @@ const SearchResult = () => {
 }
 
 export default SearchResult
+ 
