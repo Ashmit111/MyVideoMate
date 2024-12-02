@@ -245,7 +245,7 @@ const Home = () => {
 
       const handleCloseVideoModal = () => {
         setShowModal(false); // Close Video Modal
-        // reset(); // Reset form if needed
+        reset(); // Reset form if needed
         setVideoPreview(null);
         setThumbnailPreview(null); 
       };
