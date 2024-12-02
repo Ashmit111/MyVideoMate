@@ -8,7 +8,7 @@ import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
-import { FiUpload, FiX, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi"; 
 
 
 const Home = () => { 
@@ -36,33 +36,52 @@ const Home = () => {
       const {
         register,
         handleSubmit,
-        reset,
+        reset, 
+        setValue,
         formState: { errors, isSubmitting },
       } = useForm();
 
       const handleVideoChange = (e) => {
         const file = e.target.files[0];
+        console.log(file)
         if (file) {
-          const videoUrl = URL.createObjectURL(file);
-          setVideoPreview(videoUrl);
-          console.log(videoUrl)
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setVideoPreview(reader.result); // Set video preview 
+          };
+          reader.readAsDataURL(file); // Read the file as a data URL
         }
       };
-    
+      
       const handleThumbnailChange = (e) => {
         const file = e.target.files[0];
+        console.log(file)
         if (file) {
-          const thumbnailUrl = URL.createObjectURL(file);
-          setThumbnailPreview(thumbnailUrl);
-          console.log(thumbnailUrl)
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setThumbnailPreview(reader.result); // Set thumbnail preview
+            // setValue("thumbnail", file); // Store the file in form state
+          };
+          reader.readAsDataURL(file); // Read the file as a data URL
         }
-      };
+      }; 
     
-      const onSubmit = (data) => {
-        console.log(data);
-        console.log(data.video );
-        console.log(data.thumbnail ); 
-        reset()
+      const onSubmit = (data) => { 
+        const videoInput = document.getElementById("video-upload");
+        const thumbnailInput = document.getElementById("thumbnail-upload");
+      
+        const formData = {
+          ...data,
+          video: videoInput?.files[0] || null,
+          thumbnail: thumbnailInput?.files[0] || null,
+        };
+      
+        console.log(formData); // Ensure the data contains video and thumbnail files
+      
+        // Reset form and previews
+        reset();
+        setVideoPreview(null);
+        setThumbnailPreview(null); 
       };
 
       const handleRemoveVideo = () => {
@@ -226,7 +245,7 @@ const Home = () => {
 
       const handleCloseVideoModal = () => {
         setShowModal(false); // Close Video Modal
-        reset(); // Reset form if needed
+        // reset(); // Reset form if needed
         setVideoPreview(null);
         setThumbnailPreview(null); 
       };
@@ -452,7 +471,7 @@ const Home = () => {
                  <div className="flex justify-end space-x-4">
                    <button
                      type="button"
-                     onClick={() => setIsOpen(false)}
+                     onClick={() => setShowModal(false)}
                      className="px-6 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
                    >
                      Cancel
