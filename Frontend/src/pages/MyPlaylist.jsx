@@ -4,7 +4,7 @@ import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
-import playlistCard from '@/components/ui/playlistCard';
+import PlaylistCard from '@/components/ui/playlistCard';
 
 function MyPlaylist() {
     const [isLoading, setIsLoading] = useState(false); 
@@ -73,7 +73,7 @@ function MyPlaylist() {
       {/* Main Content */}
       <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
           {playlists.map((playlist, index) => (
-            <playlistCard key={index} video={playlist} />
+            <PlaylistCard key={index} playlist={playlist} />
           ))}
      </div>
     
