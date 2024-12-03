@@ -4,11 +4,25 @@ import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
-import VideoCard from '@/components/ui/videoCard';
+import playlistCard from '@/components/ui/playlistCard';
 
 function MyPlaylist() {
     const [isLoading, setIsLoading] = useState(false); 
     const [videos, setVideos] = useState([]);
+
+    const playlists = [
+      {
+        id: 1,
+        name: "Chill Vibes Playlist",
+        description: "A relaxing mix of chill music to unwind and de-stress.",
+      },
+      {
+        id: 2,
+        name: "Workout Hits",
+        description: "An energizing playlist to keep you motivated during your workout sessions.",
+      },
+    ];
+    
 
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
@@ -58,8 +72,8 @@ function MyPlaylist() {
  
       {/* Main Content */}
       <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-          {videos.map((video, index) => (
-            <VideoCard key={index} video={video} />
+          {playlists.map((playlist, index) => (
+            <playlistCard key={index} video={playlist} />
           ))}
      </div>
     
