@@ -158,9 +158,9 @@ function WatchHistory() {
     }, []);
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
-      <nav className='w-full fixed bg-black h-16 flex items-center z-50'>
-         <div>
-            <h1>Watch History</h1>
+      <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
+         <div className='mx-auto'>
+            <h2 className='text-white font-bold text-2xl pt-3'>Watch History</h2>
          </div>
       </nav>
       //sidebar 
