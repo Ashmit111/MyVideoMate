@@ -300,7 +300,7 @@ const Home = () => {
             <button
               className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2 hover:bg-[#313030] focus:bg-[#313030]"
               aria-label="Notifications"
-              // onClick={handleNotifications}
+              onClick={handleNotifications}
             >
               <MdOutlineNotificationsActive className="h-6 w-6 text-white" />
             </button>
@@ -488,8 +488,29 @@ const Home = () => {
              </div>
            </div>
          </div>
- )}
+        )}
 
+        {notiModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 border-white">
+            <div className="bg-black border  border-white rounded-xl w-5/12 max-w-3xl p-6 relative">
+              <button onClick={handleCloseNotificationModal} className="absolute top-4 right-4 text-white hover:text-gray-400" >
+                ✕
+              </button>
+              {notifications.length > 0 ? (
+                notifications.map((notification, index) => (
+                <div
+                  key={notification.id || index}
+                  className="flex items-start justify-between p-3 border-b border-gray-700 last:border-0"
+                >
+                  <p className="text-white">{notification.message}</p> 
+                </div>
+                ))
+              ) : (
+                <p className="text-gray-400 text-center">No notifications available.</p>
+              )}  
+            </div>
+          </div>
+        )}
 
       </nav>
       //sidebar 
