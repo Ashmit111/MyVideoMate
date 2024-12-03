@@ -21,6 +21,14 @@ const Home = () => {
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
 
+    const notifications = [
+      { id: 1, message: "Your order has been shipped!" },
+      { id: 2, message: "New friend request received." },
+      { id: 3, message: "Your subscription will expire soon." },
+      { id: 4, message: "Update: System maintenance scheduled." },
+      { id: 5, message: "You've earned a new badge!" },
+      { id: 6, message: "Reminder: Your meeting starts in 30 minutes." },
+    ];
 
     const sideItems = [
         { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
