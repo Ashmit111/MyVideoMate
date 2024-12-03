@@ -45,7 +45,6 @@ const Home = () => {
         register,
         handleSubmit,
         reset, 
-        setValue,
         formState: { errors, isSubmitting },
       } = useForm();
 
@@ -67,8 +66,7 @@ const Home = () => {
         if (file) {
           const reader = new FileReader();
           reader.onloadend = () => {
-            setThumbnailPreview(reader.result); // Set thumbnail preview
-            // setValue("thumbnail", file); // Store the file in form state
+            setThumbnailPreview(reader.result); // Set thumbnail preview 
           };
           reader.readAsDataURL(file); // Read the file as a data URL
         }
@@ -84,9 +82,9 @@ const Home = () => {
           thumbnail: thumbnailInput?.files[0] || null,
         };
       
-        console.log(formData); // Ensure the data contains video and thumbnail files
+        console.log(formData); 
       
-        // Reset form and previews
+        // Reset form 
         reset();
         setVideoPreview(null);
         setThumbnailPreview(null); 
