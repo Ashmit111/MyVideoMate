@@ -4,6 +4,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import App from './App'
 import Home from './pages/Home.jsx'
 import SearchResult from './pages/SearchResult'
+import WatchHistory from './pages/WatchHistory'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -11,6 +12,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home/>}/>
       <Route path="/SearchResult" element={<SearchResult/>}/>
+      <Route path="/WatchHistory" element={<WatchHistory/>}/>
     </>
   )
 );
