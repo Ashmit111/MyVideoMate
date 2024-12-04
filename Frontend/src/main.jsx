@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import SearchResult from './pages/SearchResult'
 import WatchHistory from './pages/WatchHistory'
 import MyPlaylist from './pages/MyPlaylist'
+import PlaylistVideos from './pages/PlaylistVideos'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path="/SearchResult" element={<SearchResult/>}/>
       <Route path="/WatchHistory" element={<WatchHistory/>}/>
       <Route path="/MyPlaylist" element={<MyPlaylist/>}/>
+      <Route path="/PlaylistVideos" element={<PlaylistVideos/>}/>
     </>
   )
 );
