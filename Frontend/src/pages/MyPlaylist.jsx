@@ -7,8 +7,7 @@ import { IoSettings } from "react-icons/io5";
 import PlaylistCard from '@/components/ui/playlistCard';
 
 function MyPlaylist() {
-    const [isLoading, setIsLoading] = useState(false); 
-    const [videos, setVideos] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);  
 
     const playlists = [
       {

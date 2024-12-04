@@ -5,8 +5,9 @@ import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import PlaylistCard from '@/components/ui/playlistCard';
+import VideoCard from '@/components/ui/videoCard';
 
-function MyPlaylist() {
+function PlaylistVideos() {
     const [isLoading, setIsLoading] = useState(false); 
     const [videos, setVideos] = useState([]); 
 
@@ -174,4 +175,4 @@ function MyPlaylist() {
   )
 }
 
-export default MyPlaylist
+export default PlaylistVideos
