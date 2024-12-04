@@ -51,7 +51,7 @@ function MyPlaylist() {
       </nav>
       //sidebar 
         {/* Sidebar */}
-        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
+        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-gray-600">
           <div>
             {sideItems.map((item, index) => (
               <button
