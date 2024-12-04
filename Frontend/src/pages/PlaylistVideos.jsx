@@ -134,7 +134,7 @@ function PlaylistVideos() {
       </nav>
       //sidebar 
         {/* Sidebar */}
-        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
+        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-gray-600">
           <div>
             {sideItems.map((item, index) => (
               <button
@@ -159,20 +159,21 @@ function PlaylistVideos() {
         </div>
  
       {/* Main Content */}
-
-            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-full">
-                <div className="w-1/2 p-4 mx-20">
+        <div className='bg-black'>  
+            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)]">
+                <div className="w-1/2 p-4 mr-20 ml-28">
                     {playlists.map((playlist, index) => (
                     <PlaylistCard key={index} playlist={playlist} />
                     ))}
                 </div>
-                <div className='flex-col overflow-y-auto'>
+                <div className='flex-col overflow-y-auto space-y-8 mr-14'>
                     {videos.map((video, index) => (
                     <VideoCard2 key={index} video={video} />
                     ))}
                 </div>
                 
             </div>
+        </div>      
 
       {/* <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
           {playlists.map((playlist, index) => (
