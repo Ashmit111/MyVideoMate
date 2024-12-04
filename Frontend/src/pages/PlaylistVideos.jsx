@@ -161,12 +161,12 @@ function PlaylistVideos() {
       {/* Main Content */}
         <div className='bg-black'>  
             <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)]">
-                <div className="w-1/2 p-4 mr-20 ml-28">
+                <div className="w-1/2 p-4 mr-20 ml-28 fixed">
                     {playlists.map((playlist, index) => (
                     <PlaylistCard key={index} playlist={playlist} />
                     ))}
                 </div>
-                <div className='flex-col overflow-y-auto space-y-8 mr-14'>
+                <div className='flex-col overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
                     {videos.map((video, index) => (
                     <VideoCard2 key={index} video={video} />
                     ))}
