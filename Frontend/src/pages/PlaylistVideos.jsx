@@ -4,8 +4,8 @@ import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
-import PlaylistCard from '@/components/ui/playlistCard';
-import VideoCard from '@/components/ui/videoCard';
+import PlaylistCard from '@/components/ui/playlistCard'; 
+import VideoCard2 from '@/components/ui/videoCard2';
 
 function PlaylistVideos() {
     const [isLoading, setIsLoading] = useState(false); 
@@ -168,7 +168,7 @@ function PlaylistVideos() {
                 </div>
                 <div className='flex-col overflow-y-auto'>
                     {videos.map((video, index) => (
-                    <VideoCard key={index} video={video} />
+                    <VideoCard2 key={index} video={video} />
                     ))}
                 </div>
                 
