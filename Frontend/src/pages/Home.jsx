@@ -266,7 +266,7 @@ const Home = () => {
 
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
-      <nav className='w-full fixed bg-black h-16 flex items-center z-50'>
+      <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>
         <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3 ml-2">
             <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
@@ -521,7 +521,7 @@ const Home = () => {
       </nav>
       //sidebar 
         {/* Sidebar */}
-        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4">
+        <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-slate-500">
           <div>
             {sideItems.map((item, index) => (
               <button
