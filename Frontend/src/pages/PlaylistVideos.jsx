@@ -21,6 +21,14 @@ function PlaylistVideos() {
       // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
     ]; 
 
+    const playlists = [
+        {
+          id: 1,
+          name: "Chill Vibes Playlist",
+          description: "A relaxing mix of chill music to unwind and de-stress.",
+        }
+    ] 
+
     useEffect(() => {
         const fetchVideos = async () => {
           const fetchedVideos = [
@@ -152,9 +160,11 @@ function PlaylistVideos() {
  
       {/* Main Content */}
 
-            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black">
-                <div className="w-1/2 p-4">
-                    
+            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-full">
+                <div className="w-1/2 p-4 mx-20">
+                    {playlists.map((playlist, index) => (
+                    <PlaylistCard key={index} playlist={playlist} />
+                    ))}
                 </div>
                 <div className='flex-col overflow-y-auto'>
                     {videos.map((video, index) => (
