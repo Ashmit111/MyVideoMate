@@ -86,6 +86,62 @@ const getAllVideos = asyncHandler(async (req, res) => {
     }
 });
 
+const homepageVideos = asyncHandler(async (req, res) => {
+    try {
+        const options = {
+            limit: 16, // Limit to the first 16 videos
+            sort: { createdAt: -1 } // Sort by most recent
+        };
+
+        // Aggregation pipeline
+        const videoQuery = Video.aggregate([
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "owner",
+                    foreignField: "_id",
+                    as: "videoWithUserDetails"
+                }
+            },
+            {
+                $unwind: "$videoWithUserDetails" // Unwind the user details
+            },
+            {
+                $project: {
+                    title: 1,
+                    thumbnail: 1,
+                    duration: 1,
+                    views: 1,
+                    createdAt: 1, // Include createdAt field
+                    "videoWithUserDetails.username": 1,
+                    "videoWithUserDetails.avatar": 1
+                }
+            },
+            {
+                $limit: options.limit // Ensure the limit of 16
+            }
+        ]);
+
+        // Execute aggregation with pagination
+        const videos = await Video.aggregatePaginate(videoQuery, options);
+
+        if (!videos.docs.length) {
+            return res.status(404).json(
+                new ApiResponse(404, null, "No videos found")
+            );
+        }
+
+        return res.status(200).json(
+            new ApiResponse(200, videos.docs, "Homepage videos fetched successfully")
+        );
+    } catch (error) {
+        console.error("Error fetching homepage videos:", error);
+        return res.status(500).json(
+            new ApiResponse(500, null, "Failed to fetch homepage videos")
+        );
+    }
+});
+
 
 const publishAVideo = asyncHandler(async (req, res) => {
     try {
