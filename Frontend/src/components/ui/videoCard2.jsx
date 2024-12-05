@@ -29,11 +29,11 @@ const VideoCard2 = ({ video }) => {
                 </div>
                 <div className='flex gap-4'>
                     <img
-                    src={video.channelAvatar}
-                    alt={video.channelName}
+                    src={video.owner.avatar}
+                    alt={video.owner.username}
                     className="w-10 h-10 rounded-full" />
                     <p className="text-xs text-gray-400 mt-3">
-                    {video.channelName}
+                    {video.owner.username}
                     </p>
                 </div>
             </div>
