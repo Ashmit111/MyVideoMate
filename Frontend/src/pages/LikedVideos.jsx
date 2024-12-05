@@ -129,7 +129,7 @@ function LikedVideos() {
           </div>
         </div>
          <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Playlists</h2>
+            <h2 className='text-white font-bold text-2xl pt-3'>Liked Videos</h2>
          </div>
       </nav>
       //sidebar 
