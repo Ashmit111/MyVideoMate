@@ -173,15 +173,7 @@ function PlaylistVideos() {
                 </div>
                 
             </div>
-        </div>      
-
-      {/* <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-          {playlists.map((playlist, index) => (
-            <PlaylistCard key={index} playlist={playlist} />
-          ))}
-     </div> */}
-    
-      
+        </div> 
     </div>
   )
 }
