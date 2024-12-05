@@ -20,8 +20,8 @@ const VideoCard = ({ video }) => {
           <div className="flex items-start space-x-4">
             {/* Channel Avatar */}
             <img
-              src={video.videoWithUserDetails.avatar}
-              alt={video.videoWithUserDetails.username}
+              src={video.owner.avatar}
+              alt={video.owner.username}
               className="w-10 h-10 rounded-full"
             />
             
@@ -31,10 +31,11 @@ const VideoCard = ({ video }) => {
                 {video.title}
               </h3>
               <p className="text-xs text-gray-400 mt-1">
-              {video.videoWithUserDetails.username}
+              {video.owner.username}
               </p>
               <p className="text-xs text-gray-400">
-                {video.views} views • {new Date(video.createdAt).toLocaleDateString()}
+                {video.views} views 
+                {/* • {new Date(video.createdAt).toLocaleDateString()} */}
               </p>
             </div>
           </div>
