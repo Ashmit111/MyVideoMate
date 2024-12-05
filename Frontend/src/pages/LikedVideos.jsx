@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react'; 
-import { BiLogOut, BiLike } from "react-icons/bi";
+import { BiLogOut, BiLike, BiSolidLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
@@ -129,7 +129,7 @@ function LikedVideos() {
           </div>
         </div>
          <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Liked Videos</h2>
+            <h2 className='text-white font-bold text-2xl pt-3 flex gap-2'>Liked Videos  <BiSolidLike className='mt-1'/></h2>
          </div>
       </nav>
       //sidebar 
