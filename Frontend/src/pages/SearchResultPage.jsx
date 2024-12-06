@@ -1,6 +1,6 @@
 import React from 'react'
 
-function SearchResult() {
+function SearchResultPage() {
   return (
     <div>
       
@@ -8,5 +8,5 @@ function SearchResult() {
   )
 }
 
-export default SearchResult
+export default SearchResultPage
  
