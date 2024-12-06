@@ -3,7 +3,7 @@ import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import App from './App'
 import Home from './pages/Home.jsx'
-import SearchResult from './pages/SearchResult'
+import SearchResultPage from './pages/SearchResultPage'
 import WatchHistory from './pages/WatchHistory'
 import MyPlaylist from './pages/MyPlaylist'
 import PlaylistVideos from './pages/PlaylistVideos'
@@ -14,7 +14,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<App />} />
       <Route path="/Home" element={<Home/>}/>
-      <Route path="/SearchResult" element={<SearchResult/>}/>
+      <Route path="/SearchResultPage" element={<SearchResultPage/>}/>
       <Route path="/WatchHistory" element={<WatchHistory/>}/>
       <Route path="/MyPlaylist" element={<MyPlaylist/>}/>
       <Route path="/PlaylistVideos" element={<PlaylistVideos/>}/>
