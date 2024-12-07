@@ -38,6 +38,10 @@ router
     .delete(deleteVideo)
     .patch(upload.single("thumbnail"), updateVideo);
 
+router
+    .route("/search")
+    .get(getAllVideos)    
+
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
 
 export default router

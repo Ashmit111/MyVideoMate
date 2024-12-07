@@ -10,6 +10,7 @@ import { IoSettings } from "react-icons/io5";
 import VideoCard from '@/components/ui/videoCard';
 import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";
 import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => { 
@@ -21,6 +22,7 @@ const Home = () => {
     const [notiModal,setNotiModal] = useState(false);
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
+    const navigate = useNavigate()
 
     const notifications = [
       { id: 1, message: "Your order has been shipped!" },
@@ -124,13 +126,16 @@ const Home = () => {
         fetchVideos();
     }, []);
 
-      const handleSearch = (e) => {
-        e.preventDefault(); 
-        setLoading(true); 
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      };
+    const handleSearch = (e) => {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+          setLoading(true);
+          setTimeout(() => {
+              setLoading(false);
+              navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+          }, 3000); // Simulates a delay, adjust as needed
+      }
+  };
 
       const handleCreateVideo = () => {
         setShowModal(true) // Video Modal
@@ -188,6 +193,7 @@ const Home = () => {
                 type="submit"
                 className="px-6 py-2 bg-transparent rounded-full outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#313030] focus:bg-[#313030]"
                 aria-label="Submit search"
+                // onClick={handleSearch}
               >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-gray-500 border-t-red-500 rounded-full animate-spin"></div>
