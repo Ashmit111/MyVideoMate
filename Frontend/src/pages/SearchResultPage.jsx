@@ -31,28 +31,28 @@ function SearchResultPage() {
     const profilePic = "";
  
 
-    // useEffect(() => {
-    //   const fetchVideos = async () => {
-    //     setLoading(true);
-    //     setError('');
+    useEffect(() => {
+      const fetchVideos = async () => {
+        setLoading(true);
+        setError('');
   
-    //     try {
-    //       const response = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` );
-    //       console.log(response)
-    //       console.log(response.data)
-    //       console.log(response.data.data)
-    //       setVideos(response.data); // Assuming the response data is an array of videos
-    //     } catch (err) {
-    //       setError('Error fetching videos. Please try again.');
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    //   };
+        try {
+          const response = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` );
+          console.log(response)
+          console.log(response.data)
+          console.log(response.data.data)
+          setVideos(response.data.data); // Assuming the response data is an array of videos
+        } catch (err) {
+          setError('Error fetching videos. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      };
   
-    //   if (query) {
-    //     fetchVideos();
-    //   }
-    // }, [query]);
+      if (query) {
+        fetchVideos();
+      }
+    }, [query]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -104,11 +104,11 @@ return (
               aria-label="Submit search"
               // onClick={handleSearch}
             >
-            {loading ? (
+            {/* {loading ? (
               <div className="w-5 h-5 border-2 border-gray-500 border-t-red-500 rounded-full animate-spin"></div>
               ) : (
               <FiSearch className="h-5 w-5 text-white" />
-              )}
+              )} */}
             </button>
           </form> 
         </div>
@@ -157,11 +157,11 @@ return (
       </div>
 
     {/* Main Content */}
-    {/* <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
+    <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
       {videos.map(video => (
         <VideoCard2 key={video._id} video={video} />  
       ))}
-   </div> */}
+   </div> 
   
     
   </div>
