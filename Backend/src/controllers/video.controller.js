@@ -41,7 +41,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
             .sort({ [sortBy]: sortOrder })
             .skip((page - 1) * limit)
             .limit(parseInt(limit, 10))
-            .select("-videoFile -isPublished -description");
+            .select("-videoFile -isPublished ");
 
 
         // Log fetched videos
