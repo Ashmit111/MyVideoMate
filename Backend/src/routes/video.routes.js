@@ -32,15 +32,15 @@ router
         publishAVideo
     );
 
+router.route("/search").get(getAllVideos)
+
 router
     .route("/:videoId")
     .get(getVideoById)
     .delete(deleteVideo)
     .patch(upload.single("thumbnail"), updateVideo);
 
-router
-    .route("/search")
-    .get(getAllVideos)    
+    
 
 router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
 
