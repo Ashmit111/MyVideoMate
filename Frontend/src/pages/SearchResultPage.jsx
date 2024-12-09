@@ -5,7 +5,7 @@ import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
-import VideoCard2 from '@/components/ui/videoCard2'; 
+import VideoCard3 from '@/components/ui/videoCard3';
 import axios from 'axios'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -157,9 +157,9 @@ return (
       </div>
 
     {/* Main Content */}
-    <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
+    <div className="flex-col pl-64 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
       {videos.map(video => (
-        <VideoCard2 key={video._id} video={video} />  
+        <VideoCard3 key={video._id} video={video} />  
       ))}
    </div> 
   
