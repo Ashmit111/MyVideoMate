@@ -18,7 +18,7 @@ const App = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <div className='bg-gray-900 h-screen w-screen '>
+    <div className='bg-gray-900 h-screen w-screen overflow-x-hidden'>
       <div className="absolute inset-0 bg-gradient-to-br from-black/50 to-gray-900/20 backdrop-blur-sm z-0" />
       
       {/* Navbar */}
