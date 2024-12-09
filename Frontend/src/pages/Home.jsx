@@ -130,10 +130,8 @@ const Home = () => {
       e.preventDefault();
       if (searchQuery.trim()) {
           setLoading(true);
-          setTimeout(() => {
-              setLoading(false);
-              navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
-          }, 3000); // Simulates a delay, adjust as needed
+          setLoading(false);
+          navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
       }
   };
 
