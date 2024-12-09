@@ -24,7 +24,8 @@ const VideoCard2 = ({ video }) => {
                 </div>
                 <div>
                     <p className="text-xs text-gray-400">
-                    {video.views} views • {video.timeAgo}
+                    {video.views} views • 
+                    {/* {video.timeAgo} */}
                     </p>
                 </div>
                 <div className='flex gap-4'>
