@@ -22,62 +22,39 @@ const extractPublicId = (url) => {
 
 const getAllVideos = asyncHandler(async (req, res) => {
     try {
-        const { page = 1, limit = 10, query = "", sortBy = "createdAt", sortType = "desc", userId } = req.query;
-        
+        const {
+            page = 1,
+            limit = 10,
+            query = "",
+            sortBy = "createdAt",
+            sortType = "desc",
+        } = req.query;
+
         const sortOrder = sortType === "asc" ? 1 : -1;
-        
-        const options = {
-            page: parseInt(page, 10),
-            limit: parseInt(limit, 10),
-            sort: { [sortBy]: sortOrder } 
-        };
 
-        const searchConditions = [];
-        if (query) {
-            searchConditions.push(
-                { $text: { $search: query } }, 
-                { title: { $regex: query, $options: "i" } },
-                { owner: { $regex: query, $options: "i" } },
-                { description: { $regex: query, $options: "i" } }
-            );
-        }
-        
-        const videoQuery = Video.aggregate([
-            {
-                $match: searchConditions.length > 0 ? { $or: searchConditions } : {}
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "owner",
-                    foreignField: "_id",
-                    as: "videoWithUserDetails"
-                }
-            },
-            {
-                $unwind: "$videoWithUserDetails" 
-            },
-            {
-                $project: {
-                    title: 1, 
-                    createdAt: 1,
-                    thumbnail: 1, 
-                    duration: 1,
-                    views: 1,
-                    "videoWithUserDetails.username": 1,
-                    "videoWithUserDetails.avatar": 1
-                }
-            }
-        ]);
-        
-        const allVideos = await Video.aggregatePaginate(videoQuery, options);
+        // Log received query parameters for debugging
+        console.log("Request Query Parameters:", { page, limit, query, sortBy, sortType });
 
-        if (!allVideos.docs.length) {
-            throw new ApiError(404, "No videos found");
+        // Fetch videos with a direct query and population of 'owner' field
+        const allVideos = await Video.find(query ? { $text: { $search: query } } : {})
+            .populate("owner", "username avatar")  // Populate owner with 'username' and 'avatar' fields
+            .sort({ [sortBy]: sortOrder })
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit, 10))
+            .select("-videoFile -isPublished -description");
+
+
+        // Log fetched videos
+        console.log("Fetched Videos:", allVideos);
+
+        if (!allVideos.length) {
+            console.log(`No videos found for query: "${query}"`);
+            throw new ApiError(404, `No videos found for query: "${query}"`);
         }
 
+        // Return the response with fetched videos
         return res.status(200).json(
-            new ApiResponse(200, allVideos.docs, "Videos fetched successfully")
+            new ApiResponse(200, allVideos, "Videos fetched successfully")
         );
     } catch (error) {
         console.error("Error fetching videos:", error);
@@ -86,6 +63,9 @@ const getAllVideos = asyncHandler(async (req, res) => {
         );
     }
 });
+
+
+
 
 const homepageVideos = asyncHandler(async (req, res) => {
     try {
@@ -242,7 +222,7 @@ const getVideoById = asyncHandler(async (req, res) => {
             new ApiResponse(
                 500,
                 null,
-                "Failed to fetch video"
+                "Failed to fetch video ko"
             )
         ); 
     }
