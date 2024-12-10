@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from 'react';
 import { FaVideo, FaBars, FaTimes, FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import AuthModal from './components/ui/AuthModal';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -9,6 +10,13 @@ const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
+
+  // Login Modal
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+
+  const toggleModal = () => setIsOpen(!isOpen);
+  const toggleForm = () => setIsLogin(!isLogin);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,15 +50,21 @@ const App = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-4">
-              {["HOME", "ABOUT", "LOGIN"].map((item) => (
-                <button
-                  key={item}
-                  className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800  transition-all duration-300 text-md"
-                >
-                  {item}
-                </button>
-              ))}
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md">
+                HOME
+              </button>
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md">
+                ABOUT
+              </button>
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md"
+              onClick={() => {
+                setIsLogin(true);
+                toggleModal();
+              }}>
+                LOGIN
+              </button>
             </div>
+
 
             {/* Mobile Menu Toggle */}
             <div className="md:hidden">
@@ -107,6 +121,12 @@ const App = () => {
           </button>
         </div>
       </motion.div>
+      <AuthModal
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        isLogin={isLogin}
+        toggleForm={toggleForm}
+      />
 
       {/* Right Content */}
       <motion.div
@@ -134,7 +154,7 @@ const App = () => {
 </main>
 
 {/* Footer */}
-<footer className="relative z-10 bg-gray-900  backdrop-blur-md py-10">
+<footer className="relative z-0 bg-gray-900  backdrop-blur-md py-10">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {/* Top Section */}
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
