@@ -194,7 +194,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               onClick={toggleForm}
               className="text-white font-medium"
             >
-              {isLogin ? "Register" : "Login"}
+              {isLogin ? "Register" : "LogIn"}
             </button>
           </p>
         </form>
