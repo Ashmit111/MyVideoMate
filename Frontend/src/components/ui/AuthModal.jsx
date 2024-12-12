@@ -85,6 +85,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           {!isLogin && (
+            <>
             <div>
               <label
                 htmlFor="username"
@@ -102,7 +103,27 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                 <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
               )}
             </div>
+            <div>
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-300 mb-1"
+              >
+                Fullname
+              </label>
+              <input
+                {...register("fullName", { required: "Fullname is required" })}
+                type="text"
+                id="fullName"
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
+              />
+              {errors.fullName && (
+                <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+              )}
+            </div>
+            </>
+            
           )}
+          
 
           <div>
             <label
@@ -153,6 +174,19 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
           </div>
 
           {!isLogin && (
+            <>
+            <label
+              htmlFor="coverImage"
+              className="block text-sm font-medium text-gray-300 mb-1"
+            >Cover Image
+              <input
+                type="file"
+                id="coverImage"
+                accept="image/*"
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
+                // onChange={handleProfilePicChange}
+              />
+            </label>
             <div>
               <label
                 htmlFor="otp"
@@ -170,6 +204,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                 <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>
               )}
             </div>
+            </>
           )}
 
           <button
