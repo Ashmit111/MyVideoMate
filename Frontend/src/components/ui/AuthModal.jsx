@@ -11,21 +11,33 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
     reset,
   } = useForm();
   
-  const [profilePic, setProfilePic] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   const onSubmit = (data) => {
-    console.log("Form submitted:", data);
+    const avatarInput = document.getElementById("avatar")
+    const coverImageInput = document.getElementById("coverImage")
+
+    const formData = {
+      ...data,
+      avatar: avatarInput?.files[0] || null,
+      coverImage: coverImageInput?.files[0] || null,
+    }
+
+    console.log(formData);
+
     reset();
+    setAvatar(null);
+      
   };
 
-  const handleProfilePicChange = (e) => {
+  const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setProfilePic(reader.result);
+      reader.onloadend = () => setAvatar(reader.result);
       reader.readAsDataURL(file);
     } else {
-      setProfilePic(null);
+      setAvatar(null);
     }
   };
 
@@ -60,13 +72,13 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
         {!isLogin && (
           <div className="flex justify-center mb-4">
             <label
-              htmlFor="profilePic"
+              htmlFor="avatar"
               className="relative cursor-pointer rounded-full w-24 h-24 overflow-hidden border-4 border-gray-400 flex items-center justify-center"
             >
-              {profilePic ? (
+              {avatar ? (
                 <img
-                  src={profilePic}
-                  alt="Profile Preview"
+                  src={avatar}
+                  alt="Avatar"
                   className="w-full h-full object-cover rounded-full"
                 />
               ) : (
@@ -74,10 +86,10 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               )}
               <input
                 type="file"
-                id="profilePic"
+                id="avatar"
                 accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer"
-                onChange={handleProfilePicChange}
+                onChange={handleAvatarChange}
               />
             </label>
           </div>
@@ -183,7 +195,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                 type="file"
                 id="coverImage"
                 accept="image/*"
-                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
+                className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
                 // onChange={handleProfilePicChange}
               />
             </label>
