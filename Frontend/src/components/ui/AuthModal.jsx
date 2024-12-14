@@ -3,8 +3,9 @@ import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import emailjs from '@emailjs/browser';
+import OTPModal from "./OtpModal";
 
-const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
+const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }) => {
   const {
     register,
     handleSubmit,
@@ -44,28 +45,42 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
 
   const onRegister = async (data) => {
     try {
-      const avatarInput = document.getElementById("avatar");
-      const coverImageInput = document.getElementById("coverImage");
-  
-      const formData = {
-        ...data,
-        avatar: avatarInput?.files[0] || null,
-        coverImage: coverImageInput?.files[0] || null,
-      };
-  
-      console.log("Register Form Data:", formData);
-  
-      reset();
-      setAvatar(null);
-  
       const otpCode = generateOTP();
       sessionStorage.setItem("userData", JSON.stringify(data));
   
-      sendOTPEmail(data.email, otpCode);
+      await sendOTPEmail(data.email, otpCode);
+  
+      setOTPModalOpen(true); // Open OTP modal
+      toggleModal(); // Close the current AuthModal
     } catch (error) {
       setError(error.message);
     }
   };
+  
+  // const onRegister = async (data) => {
+  //   try {
+  //     const avatarInput = document.getElementById("avatar");
+  //     const coverImageInput = document.getElementById("coverImage");
+  
+  //     const formData = {
+  //       ...data,
+  //       avatar: avatarInput?.files[0] || null,
+  //       coverImage: coverImageInput?.files[0] || null,
+  //     };
+  
+  //     console.log("Register Form Data:", formData);
+  
+  //     reset();
+  //     setAvatar(null);
+  
+  //     const otpCode = generateOTP();
+  //     sessionStorage.setItem("userData", JSON.stringify(data));
+  
+  //     sendOTPEmail(data.email, otpCode);
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  // };
   
   const onLogin = async (data) => {
     try {
