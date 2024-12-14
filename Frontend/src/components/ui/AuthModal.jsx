@@ -10,24 +10,22 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
     formState: { errors },
     reset,
   } = useForm();
-  
+
   const [avatar, setAvatar] = useState(null);
 
   const onSubmit = (data) => {
-    const avatarInput = document.getElementById("avatar")
-    const coverImageInput = document.getElementById("coverImage")
+    const avatarInput = document.getElementById("avatar");
+    const coverImageInput = document.getElementById("coverImage");
 
     const formData = {
       ...data,
       avatar: avatarInput?.files[0] || null,
       coverImage: coverImageInput?.files[0] || null,
-    }
+    };
 
     console.log(formData);
-
     reset();
     setAvatar(null);
-      
   };
 
   const handleAvatarChange = (e) => {
@@ -55,7 +53,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-black text-white rounded-lg p-6 w-full max-w-sm relative shadow-2xl border border-white">
+      <div className="bg-black text-white rounded-lg px-6 py-4 w-full max-w-sm relative shadow-2xl border border-white">
         <button
           onClick={toggleModal}
           className="absolute right-4 top-4 text-white hover:text-gray-300 transition-colors duration-300"
@@ -68,12 +66,11 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
           {isLogin ? "Welcome Back" : "Join Us"}
         </h2>
 
-        {/* Profile Picture Upload Section */}
         {!isLogin && (
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-3">
             <label
               htmlFor="avatar"
-              className="relative cursor-pointer rounded-full w-24 h-24 overflow-hidden border-4 border-gray-400 flex items-center justify-center"
+              className="relative cursor-pointer rounded-full w-20 h-20 overflow-hidden border-2 border-gray-400 flex items-center justify-center"
             >
               {avatar ? (
                 <img
@@ -82,7 +79,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                   className="w-full h-full object-cover rounded-full"
                 />
               ) : (
-                <span className="text-gray-400 text-xl">+</span>
+                <span className="text-gray-400 text-lg">+</span>
               )}
               <input
                 type="file"
@@ -98,50 +95,39 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           {!isLogin && (
             <>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-300 mb-1"
-              >
-                Username
-              </label>
-              <input
-                {...register("username", { required: "Username is required" })}
-                type="text"
-                id="username"
-                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-              />
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="fullName"
-                className="block text-sm font-medium text-gray-300 mb-1"
-              >
-                Fullname
-              </label>
-              <input
-                {...register("fullName", { required: "Fullname is required" })}
-                type="text"
-                id="fullName"
-                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-              />
-              {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
-              )}
-            </div>
+              <div>
+                <label htmlFor="username" className="block text-sm font-medium text-gray-300">
+                  Username
+                </label>
+                <input
+                  {...register("username", { required: "Username is required" })}
+                  type="text"
+                  id="username"
+                  className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                />
+                {errors.username && (
+                  <p className="text-red-500 text-sm">{errors.username.message}</p>
+                )}
+              </div>
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-300">
+                  Fullname
+                </label>
+                <input
+                  {...register("fullName", { required: "Fullname is required" })}
+                  type="text"
+                  id="fullName"
+                  className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                />
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+                )}
+              </div>
             </>
-            
           )}
-          
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
               Email
             </label>
             <input
@@ -154,18 +140,15 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               })}
               type="email"
               id="email"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
+              className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
               Password
             </label>
             <input
@@ -178,64 +161,44 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               })}
               type="password"
               id="password"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
+              className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
 
           {!isLogin && (
-            <>
-            <label
-              htmlFor="coverImage"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >Cover Image
+            <div>
+              <label htmlFor="coverImage" className="block text-sm font-medium text-gray-300">
+                Cover Image
+              </label>
               <input
                 type="file"
                 id="coverImage"
                 accept="image/*"
-                className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-                // onChange={handleProfilePicChange}
+                className="w-full px-4 py-1 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
               />
-            </label>
-            <div>
-              <label
-                htmlFor="otp"
-                className="block text-sm font-medium text-gray-300 mb-1"
-              >
-                OTP
-              </label>
-              <input
-                {...register("otp", { required: "OTP is required" })}
-                type="text"
-                id="otp"
-                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-white text-white"
-              />
-              {errors.otp && (
-                <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>
-              )}
             </div>
-            </>
           )}
 
           <button
             type="submit"
-            className="w-full py-2 bg-gray-200 text-black rounded-md hover:opacity-90 transition-all font-semibold hover:bg-white"
+            className="w-full py-2 bg-gray-200 text-black rounded hover:opacity-90 transition font-semibold"
           >
             {isLogin ? "Login" : "Register"}
           </button>
 
           <button
             type="button"
-            className="w-full py-2 bg-gray-800 text-white rounded-md flex items-center justify-center space-x-2 hover:bg-gray-900 transition-all border border-gray-600"
+            className="w-full py-2 bg-gray-800 text-white rounded flex items-center justify-center space-x-2 hover:bg-gray-900 transition border border-gray-600"
           >
             <FcGoogle size={20} />
             <span>{isLogin ? "Login with Google" : "Register with Google"}</span>
           </button>
 
-          <p className="text-center text-sm text-gray-400 mt-3">
-            {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <p className="text-center text-sm text-gray-400">
+            {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
             <button
               type="button"
               onClick={toggleForm}
