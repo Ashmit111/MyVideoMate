@@ -25,7 +25,7 @@ function PlaylistVideos() {
         {
           id: 1,
           name: "Chill Vibes Playlist",
-          description: "A relaxing mix of chill music to unwind and de-stress.",
+          description: "A relaxing mix of chill music to unwind and de-stress mind and soul.",
         }
     ] 
 
