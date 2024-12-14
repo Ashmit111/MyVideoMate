@@ -2,7 +2,8 @@ import React from 'react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from 'react';
 import { FaVideo, FaBars, FaTimes, FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import AuthModal from './components/ui/AuthModal';
+import AuthModal from './components/ui/AuthModal'; 
+import OTPModal from './components/ui/OtpModal';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +15,8 @@ const App = () => {
   // Login Modal
   const [isOpen, setIsOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
+
 
   const toggleModal = () => setIsOpen(!isOpen);
   const toggleForm = () => setIsLogin(!isLogin);
@@ -126,8 +129,9 @@ const App = () => {
         toggleModal={toggleModal}
         isLogin={isLogin}
         toggleForm={toggleForm}
+        setOTPModalOpen={setOTPModalOpen}
       />
-
+       <OTPModal isOpen={isOTPModalOpen} toggleModal={() => setOTPModalOpen(false)} />
       {/* Right Content */}
       <motion.div
         initial={{ x: 100, opacity: 0 }}
