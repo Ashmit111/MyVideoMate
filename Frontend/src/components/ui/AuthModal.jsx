@@ -13,6 +13,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
   } = useForm();
 
   const [avatar, setAvatar] = useState(null);
+  const [error, setError] = useState('');
 
   const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
  
@@ -41,20 +42,40 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
     }
   };
 
-  const onSubmit = (data) => {
-    const avatarInput = document.getElementById("avatar");
-    const coverImageInput = document.getElementById("coverImage");
-
-    const formData = {
-      ...data,
-      avatar: avatarInput?.files[0] || null,
-      coverImage: coverImageInput?.files[0] || null,
-    };
-
-    console.log(formData);
-    reset();
-    setAvatar(null);
+  const onRegister = async (data) => {
+    try {
+      const avatarInput = document.getElementById("avatar");
+      const coverImageInput = document.getElementById("coverImage");
+  
+      const formData = {
+        ...data,
+        avatar: avatarInput?.files[0] || null,
+        coverImage: coverImageInput?.files[0] || null,
+      };
+  
+      console.log("Register Form Data:", formData);
+  
+      reset();
+      setAvatar(null);
+  
+      const otpCode = generateOTP();
+      sessionStorage.setItem("userData", JSON.stringify(data));
+  
+      sendOTPEmail(data.email, otpCode);
+    } catch (error) {
+      setError(error.message);
+    }
   };
+  
+  const onLogin = async (data) => {
+    try {
+      console.log("Login Form Data:", data);
+      // Add your login logic here (e.g., API call for authentication)
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -120,7 +141,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={handleSubmit(isLogin ? onLogin : onRegister)} className="space-y-3">
           {!isLogin && (
             <>
               <div>
