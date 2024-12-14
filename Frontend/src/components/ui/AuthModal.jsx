@@ -13,6 +13,8 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
   } = useForm();
 
   const [avatar, setAvatar] = useState(null);
+
+  const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
  
   const sendOTPEmail = async (email, otp) => {
     if (!email) {
