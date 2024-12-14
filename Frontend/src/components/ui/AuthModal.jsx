@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { useForm } from "react-hook-form";
+import emailjs from '@emailjs/browser';
 
 const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
   const {
@@ -12,6 +13,31 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
   } = useForm();
 
   const [avatar, setAvatar] = useState(null);
+ 
+  const sendOTPEmail = async (email, otp) => {
+    if (!email) {
+      setError('Email is missing!');
+      console.error('Email not provided for OTP');
+      return;
+    }
+
+    const templateParams = {
+      user_email: email, // Correctly use email from the form data
+      otp_code: otp,
+    };
+
+    try {
+      await emailjs.send(
+        'service_97368wp',  // Replace with your EmailJS service ID
+        'template_5ch5w8s', // Replace with your EmailJS template ID
+        templateParams,
+        'sjhWYCaqHvchcm5EZ'   // Replace with your EmailJS public key
+      );
+      console.log('OTP sent to email');
+    } catch (error) {
+      console.error('Failed to send OTP:', error);
+    }
+  };
 
   const onSubmit = (data) => {
     const avatarInput = document.getElementById("avatar");
