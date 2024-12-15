@@ -7,6 +7,10 @@ const OTPModal = ({ isOpen, toggleModal }) => {
     const onVerifyOTP = async (data) => {
       const storedData = JSON.parse(sessionStorage.getItem("userData"));
       const { otp } = data;
+      console.log(storedData);
+      console.log(otp);
+      
+      
   
       if (otp === storedData.otpCode) {
         console.log("OTP verified successfully!");
