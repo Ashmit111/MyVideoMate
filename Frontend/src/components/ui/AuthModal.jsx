@@ -46,7 +46,19 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
   const onRegister = async (data) => {
     try {
       const otpCode = generateOTP();
-      sessionStorage.setItem("userData", JSON.stringify(data));
+      console.log(otpCode);
+
+      const avatarInput = document.getElementById("avatar");
+      const coverImageInput = document.getElementById("coverImage");
+
+      const userData = { 
+        ...data,
+        otpCode,
+        avatar: avatarInput?.files[0] || null,
+        coverImage: coverImageInput?.files[0] || null };
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      // console.log(userData);
+      
   
       await sendOTPEmail(data.email, otpCode);
   
