@@ -3,18 +3,24 @@ import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import emailjs from '@emailjs/browser';
-import OTPModal from "./OtpModal";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/Features/authSlice";
+import { useNavigate } from "react-router-dom";
+
 
 const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    isSubmitting,
   } = useForm();
 
   const [avatar, setAvatar] = useState(null);
   const [error, setError] = useState('');
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
  
@@ -97,7 +103,20 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
   const onLogin = async (data) => {
     try {
       console.log("Login Form Data:", data);
-      // Add your login logic here (e.g., API call for authentication)
+
+      const response = await axios.post('/api/v1/users/login', {
+        email: data.email,  // Send email
+        password: data.password,  // Send password
+      });
+
+      console.log(response.data);
+        
+      const userData = response.data;
+      if (userData) {
+        dispatch(login(userData))
+        console.log("Data Stored in Store",userData);
+        
+      }
     } catch (error) {
       setError(error.message);
     }
