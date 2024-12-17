@@ -1,6 +1,7 @@
 import React from 'react' 
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -14,16 +15,28 @@ const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
 
       console.log(avatar);
       console.log(coverImage);
+
+      const formData = new FormData();
+      formData.append("fullName", storedData.fullName);
+      formData.append("email", storedData.email);
+      formData.append("username", storedData.username);
+      formData.append("password", storedData.password);
+      formData.append("avatar", avatar );
+      formData.append("coverImage", coverImage  || null);
+  
       
       if (otp === storedData.otpCode) {
         console.log("OTP verified successfully!");
          
-        // const response = await axios.post('/api/v1/users/register', {
-        //   email: data.email,  // Send email
-        //   password: data.password,  // Send password
-        // });
+        const response = await axios.post('/api/v1/users/register', formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the correct content type
+          },
+        });
+        
+        console.log(response.data);
 
-        sessionStorage.removeItem("userData"); // Clean up
+         sessionStorage.removeItem("userData"); // Clean up
         reset();
         toggleOTPModal();
         navigate('/home')
