@@ -1,22 +1,33 @@
 import React from 'react' 
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-const OTPModal = ({ isOpen, toggleModal }) => {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+    const navigate = useNavigate();
   
     const onVerifyOTP = async (data) => {
       const storedData = JSON.parse(sessionStorage.getItem("userData"));
       const { otp } = data;
       console.log(storedData);
       console.log(otp);
+
+      console.log(avatar);
+      console.log(coverImage);
       
-      
-  
       if (otp === storedData.otpCode) {
         console.log("OTP verified successfully!");
-        // Proceed with further logic, e.g., saving user to the database
+         
+        // const response = await axios.post('/api/v1/users/register', {
+        //   email: data.email,  // Send email
+        //   password: data.password,  // Send password
+        // });
+
         sessionStorage.removeItem("userData"); // Clean up
-        toggleModal(); // Close OTP modal
+        reset();
+        toggleOTPModal();
+        navigate('/home')
+        // Close OTP modal
       } else {
         console.error("Invalid OTP!");
       }
@@ -27,7 +38,7 @@ const OTPModal = ({ isOpen, toggleModal }) => {
     return (
       <div
         id="overlay"
-        onClick={(e) => e.target.id === "overlay" && toggleModal()}
+        // onClick={(e) => e.target.id === "overlay" && toggleOTPModal()}
         className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
         role="dialog"
         aria-modal="true"
