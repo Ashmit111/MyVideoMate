@@ -6,15 +6,20 @@ import emailjs from '@emailjs/browser';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/Features/authSlice";
 import { useNavigate } from "react-router-dom";
+import OTPModal from "./OtpModal";
 
 
-const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }) => {
+const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting } 
   } = useForm();
 
+  const [isOTPModalOpen, setOTPModalOpen] = useState(false);
+  const [avatarProp, setAvatarProp] = useState(null); // Avatar file
+  const [coverImageProp, setCoverImageProp] = useState(null); // Cover image file
   const [avatar, setAvatar] = useState(null);
   const [error, setError] = useState('');
 
@@ -62,13 +67,16 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
         avatar: avatarInput?.files[0] || null,
         coverImage: coverImageInput?.files[0] || null };
       sessionStorage.setItem("userData", JSON.stringify(userData));
-      // console.log(userData);
+      console.log(userData);
       
   
       await sendOTPEmail(data.email, otpCode);
   
       setOTPModalOpen(true); // Open OTP modal
-      toggleModal(); // Close the current AuthModal
+      // setTimeout(() => {
+      //   toggleModal(); // Close AuthModal
+      // }, 300);
+      reset();
     } catch (error) {
       setError(error.message);
     }
@@ -103,18 +111,20 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
     try {
       console.log("Login Form Data:", data);
 
-      const response = await axios.post('/api/v1/users/login', {
+      const response = await axios.post("/api/v1/users/login", {
         email: data.email,  // Send email
         password: data.password,  // Send password
       });
 
       console.log(response.data);
+      console.log("yam  yam");
+      
         
       const userData = response.data;
       if (userData) {
         dispatch(login(userData))
         console.log("Data Stored in Store",userData);
-        
+        navigate("/home")
       }
     } catch (error) {
       setError(error.message);
@@ -122,8 +132,9 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
   };
   
 
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = (e, setter) => {
     const file = e.target.files[0];
+    setter(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => setAvatar(reader.result);
@@ -132,6 +143,11 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
       setAvatar(null);
     }
   };
+
+  const handleCoverImageChange = (e,setter) => {
+    const file = e.target.files[0];
+    setter(file)
+  }
 
   const closeOnOverlayClick = (e) => {
     if (e.target.id === "overlay") toggleModal();
@@ -180,7 +196,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
                 id="avatar"
                 accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer"
-                onChange={handleAvatarChange}
+                onChange={(e) => handleAvatarChange(e, setAvatarProp)}
               />
             </label>
           </div>
@@ -272,6 +288,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
                 id="coverImage"
                 accept="image/*"
                 className="w-full px-4 py-1 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                onChange={(e) => handleCoverImageChange(e, setCoverImageProp)}
               />
             </div>
           )}
@@ -304,7 +321,14 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
           </p>
         </form>
       </div>
+      <OTPModal
+        isOpen={isOTPModalOpen}
+        toggleOTPModal={() => setOTPModalOpen(false)}
+        avatar={avatarProp}  
+        coverImage={coverImageProp}  
+      />
     </div>
+    
   );
 };
 
