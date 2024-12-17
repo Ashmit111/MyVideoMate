@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+import fs from 'fs'
 
 
 const deleteFromCloudinary = async (imageUrl) => {
@@ -99,10 +100,7 @@ const registerUser = asyncHandler( async (req, res) => {
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
-
-    fs.unlinkSync(avatarLocalPath);
-    fs.unlinkSync(coverImageLocalPath);
-
+ 
     if (!createdUser) {
         throw new ApiError(500, "Something went wrong while registering the user")
     }
