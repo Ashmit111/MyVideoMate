@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 
 const OTPModal = ({ isOpen, toggleModal }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
   
     const onVerifyOTP = async (data) => {
       const storedData = JSON.parse(sessionStorage.getItem("userData"));
@@ -54,8 +54,9 @@ const OTPModal = ({ isOpen, toggleModal }) => {
             <button
               type="submit"
               className="w-full py-2 bg-gray-200 text-black rounded hover:opacity-90 transition font-semibold"
+              disabled={isSubmitting}
             >
-              Verify OTP
+              {isSubmitting ? "Verifying" : "Verify OTP"}
             </button>
           </form>
         </div>

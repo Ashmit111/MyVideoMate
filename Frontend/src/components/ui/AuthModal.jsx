@@ -12,8 +12,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    isSubmitting,
+    formState: { errors, isSubmitting } 
   } = useForm();
 
   const [avatar, setAvatar] = useState(null);
@@ -280,8 +279,9 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm, setOTPModalOpen }
           <button
             type="submit"
             className="w-full py-2 bg-gray-200 text-black rounded hover:opacity-90 transition font-semibold"
+            disabled={isSubmitting}
           >
-            {isLogin ? "Login" : "Register"}
+            {isSubmitting ? "Submitting..." : isLogin ? "Login" : "Register"}
           </button>
 
           <button
