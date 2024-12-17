@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/Features/authSlice";
 import { useNavigate } from "react-router-dom";
 import OTPModal from "./OtpModal";
+import axios from "axios";
 
 
 const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
@@ -117,8 +118,6 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       });
 
       console.log(response.data);
-      console.log("yam  yam");
-      
         
       const userData = response.data;
       if (userData) {
