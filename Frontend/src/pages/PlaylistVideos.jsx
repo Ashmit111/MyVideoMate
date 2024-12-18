@@ -6,6 +6,7 @@ import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import PlaylistCard from '@/components/ui/playlistCard'; 
 import VideoCard2 from '@/components/ui/videoCard2';
+import { Link } from 'react-router-dom';
 
 function PlaylistVideos() {
     const [isLoading, setIsLoading] = useState(false); 
@@ -167,9 +168,11 @@ function PlaylistVideos() {
                     ))}
                 </div>
                 <div className='flex-col overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
-                    {videos.map((video, index) => (
-                    <VideoCard2 key={index} video={video} />
-                    ))}
+                {videos.map(video => (
+                  <Link key={video._id} to={`/video/${video._id}`}>
+                    <VideoCard2 video={video} />
+                  </Link>
+                ))}
                 </div>
                 
             </div>
