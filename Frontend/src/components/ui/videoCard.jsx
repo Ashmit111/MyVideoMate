@@ -11,7 +11,7 @@ const VideoCard = ({ video }) => {
             className="w-full h-full object-cover"
           />
           <span className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-xs px-2 py-1 rounded-md">
-            {video.duration}
+            {video.formattedDuration}
           </span>
         </div>
   
