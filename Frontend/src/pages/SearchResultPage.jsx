@@ -8,6 +8,7 @@ import { IoSettings } from "react-icons/io5";
 import VideoCard3 from '@/components/ui/videoCard3';
 import axios from 'axios'; 
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function SearchResultPage() { 
   const [loading, setLoading] = useState(true); 
