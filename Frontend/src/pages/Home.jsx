@@ -75,22 +75,29 @@ const Home = () => {
         }
       }; 
     
-      const onSubmit = (data) => { 
+      const onSubmit = async (data) => { 
         const videoInput = document.getElementById("video-upload");
         const thumbnailInput = document.getElementById("thumbnail-upload");
       
         const formData = {
           ...data,
-          video: videoInput?.files[0] || null,
+          videoFile: videoInput?.files[0] || null,
           thumbnail: thumbnailInput?.files[0] || null,
         };
       
         console.log(formData); 
-      
-        // Reset form 
+
+        const response = await axios.post("/api/v1/videos",formData, {
+          headers: {
+            "Content-Type": "multipart/form-data", // Set the correct content type
+          },
+        }); 
+        console.log(response.data);
+          // Reset form 
         reset();
         setVideoPreview(null);
         setThumbnailPreview(null); 
+        setShowModal(false)
       };
 
       const handleRemoveVideo = () => {
@@ -153,6 +160,10 @@ const Home = () => {
       const handleCloseNotificationModal = () => {
         setNotiModal(false); // Notification Modal 
       };
+
+      const handleLogout = () => {
+        
+      }
 
       if (loading) {
         return (
@@ -257,7 +268,7 @@ const Home = () => {
                      <input
                        type="file"
                        accept="video/*"
-                       {...register("video", { required: "Video is required" })}
+                       {...register("videoFile", { required: "Video is required" })}
                        onChange={handleVideoChange}
                        className="hidden"
                        id="video-upload"
