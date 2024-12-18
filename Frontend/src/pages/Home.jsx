@@ -11,6 +11,7 @@ import VideoCard from '@/components/ui/videoCard';
 import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
+import { Drumstick } from 'lucide-react';
 
 
 const Home = () => { 
@@ -112,24 +113,31 @@ const Home = () => {
       useEffect(() => {
         const fetchVideos = async () => {
             try { 
-                const response = await axios.get("/api/v1/videos", {
-                    params: {
-                        limit: 16, // Limit to 16 videos
-                    },
-                });
-                console.log(response)
-                console.log(response.data)
-                console.log(response.data.data)
-                // Update state with the fetched videos
-                setVideos(response.data.data);
-                setLoading(false);
+              const response = await axios.get("/api/v1/videos", {
+                params: {
+                    limit: 16, // Limit to 16 videos
+                },
+            });
+
+            const videosWithFormattedDuration = response.data.data.map((video) => {
+                const formattedDuration = formatDuration(video.duration); // Format the duration
+                return { ...video, formattedDuration }; // Add formatted duration to each video object
+            });
+            console.log(videosWithFormattedDuration);
+            
+            setVideos(videosWithFormattedDuration); // Update state with formatted videos
+            setLoading(false);
             } catch (err) {
                 // Handle any errors
                 setError("Failed to fetch videos");
                 setLoading(false);
             }
         };
-
+        function formatDuration(seconds) {
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+      } 
         fetchVideos();
     }, []);
 
@@ -161,8 +169,10 @@ const Home = () => {
         setNotiModal(false); // Notification Modal 
       };
 
-      const handleLogout = () => {
-        
+      const handleLogout = async () => {
+        const response = await axios.post("/api/v1/users/logout" );
+        console.log(response.data);
+        navigate("/")
       }
 
       if (loading) {
@@ -453,6 +463,7 @@ const Home = () => {
             <button
               className="w-full flex items-center cursor-pointer px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#1e1e1e] focus:bg-[#1e1e1e]"
               aria-label="Log Out"
+              onClick={handleLogout}
             >
               <BiLogOut className="h-5 w-5 text-red" />
               <span className="ml-4 text-sm">Log Out</span>
