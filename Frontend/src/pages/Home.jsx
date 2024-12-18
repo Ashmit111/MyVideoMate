@@ -10,8 +10,8 @@ import { IoSettings } from "react-icons/io5";
 import VideoCard from '@/components/ui/videoCard';
 import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";
 import axios from 'axios'; 
-import { useNavigate } from 'react-router-dom';
-import { Drumstick } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 
 const Home = () => { 
@@ -474,7 +474,9 @@ const Home = () => {
       {/* Main Content */}
       <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
         {videos.map(video => (
-          <VideoCard key={video._id} video={video} />  
+          <Link key={video._id} to={`/video/${video._id}`}>
+            <VideoCard video={video} />
+          </Link>
         ))}
      </div>
     
