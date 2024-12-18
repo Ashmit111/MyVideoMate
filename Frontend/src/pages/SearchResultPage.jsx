@@ -37,11 +37,16 @@ function SearchResultPage() {
         setError('');
   
         try {
-          const response = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` );
-          console.log(response)
-          console.log(response.data)
-          console.log(response.data.data)
-          setVideos(response.data.data); // Assuming the response data is an array of videos
+          const response = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` ); 
+
+          const videosWithFormattedDuration = response.data.data.map((video) => {
+            const formattedDuration = formatDuration(video.duration); // Format the duration
+            return { ...video, formattedDuration }; // Add formatted duration to each video object
+        });
+        console.log(videosWithFormattedDuration);
+        
+        setVideos(videosWithFormattedDuration); // Update state with formatted videos
+         
         } catch (err) {
           setError('Error fetching videos. Please try again.');
         } finally {
@@ -52,6 +57,11 @@ function SearchResultPage() {
       if (query) {
         fetchVideos();
       }
+      function formatDuration(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+     } 
     }, [query]);
 
   const handleSearch = (e) => {
