@@ -168,9 +168,11 @@ function LikedVideos() {
                     ))}
                 </div>
                 <div className='flex-col overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
-                    {videos.map((video, index) => (
-                    <VideoCard2 key={index} video={video} />
-                    ))}
+                {videos.map(video => (
+                  <Link key={video._id} to={`/video/${video._id}`}>
+                    <VideoCard2 video={video} />
+                  </Link>
+                ))}
                 </div>
                 
             </div>
