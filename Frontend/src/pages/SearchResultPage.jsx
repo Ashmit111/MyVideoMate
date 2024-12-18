@@ -169,9 +169,11 @@ return (
 
     {/* Main Content */}
     <div className="flex-col pl-64 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
-      {videos.map(video => (
-        <VideoCard3 key={video._id} video={video} />  
-      ))}
+    {videos.map(video => (
+          <Link key={video._id} to={`/video/${video._id}`}>
+            <VideoCard3 video={video} />
+          </Link>
+        ))}
    </div> 
   
     
