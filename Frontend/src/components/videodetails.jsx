@@ -1,29 +1,37 @@
 import React, { useState } from "react";
 import { FiThumbsUp } from "react-icons/fi";
-import { FiThumbsUp as FilledThumbsUp } from "react-icons/fi";
-import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
-import { MdClose } from "react-icons/md";
+import { BiSolidLike } from "react-icons/bi";
+import { MdPlaylistAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
+import { MdClose } from "react-icons/md";
 
 const VideoDetails = ({ video }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(video.likes || 0);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const playlists = ["Favorites", "Watch Later", "React Tutorials", "My Playlist"]; // Sample playlist data
+  const playlists = ["Favorites", "Watch Later", "React Tutorials", "My Playlist"];
+
+  const handleLikeToggle = () => {
+    setIsLiked(!isLiked);
+    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+  };
 
   return (
-    <div className="p-4 bg-[#181818] rounded-lg mb-4 text-white">
+    <div className="p-4 bg-[#181818] rounded-lg mb-2 text-white">
       {/* Video Title */}
-      <h1 className="text-xl font-bold mb-2">{video.title}</h1>
+      <h1 className="text-xl font-bold ">{video.title}</h1>
 
       {/* Views and Upload Time */}
-      <div className="flex justify-between text-sm text-gray-400 mb-2">
-        <span>{video.views} Views • {video.uploadedTime}</span>
+      <div className="flex justify-between text-sm text-gray-400 ">
+        <span>
+          {video.views} Views • {video.uploadedTime}
+        </span>
       </div>
 
       {/* Channel and Actions */}
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex items-center gap-4 mb-1">
         <img
           src={video.channel.avatar}
           alt="channel avatar"
@@ -36,47 +44,49 @@ const VideoDetails = ({ video }) => {
           </p>
         </div>
 
-        {/* Subscribe Button */}
-        <motion.button
-          onClick={() => setIsSubscribed(!isSubscribed)}
-          whileTap={{ scale: 0.9 }}
-          className={`ml-auto px-4 py-2 rounded-lg transition-all ${
-            isSubscribed
-              ? "bg-gray-600 text-white hover:bg-gray-700"
-              : "bg-purple-500 hover:bg-purple-600"
-          }`}
-        >
-          {isSubscribed ? "Subscribed" : "Subscribe"}
-        </motion.button>
+        {/* Like, Save, and Subscribe Buttons */}
+        <div className="flex flex-col items-end ml-auto gap-2">
+          <div className="flex gap-4 mb-2 -mt-5">
+            {/* Like Button */}
+            <button
+              onClick={handleLikeToggle}
+              className="flex items-center gap-2 text-white rounded-3xl"
+            >
+              {isLiked ? (
+                <BiSolidLike className="text-white text-xl" />
+              ) : (
+                <FiThumbsUp className="text-xl" />
+              )}
+              <span className="text-sm">{likesCount} {likesCount === 1 ? "Like" : "Likes"}</span>
+            </button>
+
+            {/* Save Button */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 text-gray-400 transition-all rounded-3xl"
+            >
+              <MdPlaylistAddCircle className="text-2xl" />
+              <span className="text-sm">Save</span>
+            </button>
+          </div>
+
+          {/* Subscribe Button */}
+          <motion.button
+            onClick={() => setIsSubscribed(!isSubscribed)}
+            whileTap={{ scale: 0.9 }}
+            className={`px-4 py-2 rounded-3xl mb-2 transition-all ${
+              isSubscribed
+                ? "bg-gray-800 text-white "
+                : "bg-[#f86a6b] "
+            }`}
+          >
+            {isSubscribed ? "Subscribed" : "Subscribe"}
+          </motion.button>
+        </div>
       </div>
-
-      {/* Like and Save Buttons */}
-      <div className="flex gap-4 items-center">
-        {/* Like Button */}
-        <button
-          onClick={() => setIsLiked(!isLiked)}
-          className="flex items-center gap-1 text-gray-400 hover:text-purple-500 transition-all"
-        >
-          {isLiked ? (
-            <FilledThumbsUp className="text-purple-500 text-xl" />
-          ) : (
-            <FiThumbsUp className="text-xl" />
-          )}
-          <span>{isLiked ? "Liked" : "Like"}</span>
-        </button>
-
-        {/* Save Button */}
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-1 text-gray-400 hover:text-purple-500 transition-all"
-        >
-          <BsBookmark className="text-xl" />
-          <span>Save</span>
-        </button>
-      </div>
-
+            <hr />
       {/* Video Description */}
-      <div className="mt-4 bg-[#282828] p-4 rounded-lg text-gray-300">
+      <div className="mt-1  p-4 text-gray-300">
         <p>{video.description}</p>
       </div>
 
@@ -86,7 +96,7 @@ const VideoDetails = ({ video }) => {
           <div className="bg-[#181818] p-6 rounded-lg w-[400px] relative">
             <h3 className="text-lg font-semibold mb-4">Save to Playlist</h3>
             <MdClose
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-300 cursor-pointer"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-300 cursor-pointer "
               onClick={() => setIsModalOpen(false)}
             />
             <ul>
