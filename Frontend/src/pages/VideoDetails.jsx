@@ -57,7 +57,7 @@ function VideoDetail () {
         {
           id: "1",
           title: "Building a RESTful API with Node.js",
-          thumbnail: "https://via.placeholder.com/150x90",
+          thumbnail: "https://images.pexels.com/photos/23731974/pexels-photo-23731974/free-photo-of-a-stony-seashore.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
           channelName: "API Builder",
           views: "14.5K",
           uploadedTime: "7 hours ago",
@@ -197,20 +197,20 @@ function VideoDetail () {
                        </button>
                      </div>
                    </div>
-                   <div className="flex flex-col lg:flex-row gap-4 bg-[#0F0F0F] text-white p-4 pl-28 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
-      {/* Main Video Section */}
-      <div className="flex-1">
-        <VideoPlayer videoUrl={videoData.url} />
-        <VideoDetails video={videoData} />
-        <VideoComments comments={videoData.comments} />
-      </div>
+                  <div className="flex flex-col lg:flex-row gap-4 bg-[#0F0F0F] text-white p-4 pl-20 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
+                    {/* Main Video Section */}
+                    <div className="flex-1">
+                      <VideoPlayer videoUrl={videoData.url} />
+                      <VideoDetails video={videoData} />
+                      <VideoComments comments={videoData.comments} />
+                    </div>
 
-      {/* Sidebar */}
-      <div className="w-full lg:w-1/3">
-        <Sidebar videos={suggestedVideos} />
-      </div>
-    </div>
-    </div>
+                    {/* Sidebar */}
+                    <div className="w-full ml-5 lg:w-1/3">
+                      <Sidebar videos={suggestedVideos} />
+                    </div>
+                  </div>
+     </div>
   )
 }
 
