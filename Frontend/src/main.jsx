@@ -17,13 +17,13 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />} />
-      <Route path="/Home" element={<Home/>}/>
+      <Route path="/home" element={<Home/>}/>
       <Route path="/search" element={<SearchResultPage/>}/>
-      <Route path="/WatchHistory" element={<WatchHistory/>}/>
-      <Route path="/MyPlaylist" element={<MyPlaylist/>}/>
-      <Route path="/PlaylistVideos" element={<PlaylistVideos/>}/>
-      <Route path="/LikedVideos" element={<LikedVideos/>}/>
-      <Route path="/Video" element={<VideoDetails/>}/>
+      <Route path="/watchHistory" element={<WatchHistory/>}/>
+      <Route path="/myPlaylist" element={<MyPlaylist/>}/>
+      <Route path="/playlistVideos" element={<PlaylistVideos/>}/>
+      <Route path="/likedVideos" element={<LikedVideos/>}/>
+      <Route path="/video/:videoId" element={<VideoDetails/>}/>
     </>
   )
 );
