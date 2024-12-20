@@ -7,7 +7,7 @@ const VideoComments = ({ comments }) => {
   // Add Comment Handler
   const handleAddComment = () => {
     if (newComment.trim()) {
-      setCommentList([...commentList, { user: "You", text: newComment }]);
+      setCommentList([...commentList, { owner: "You", content: newComment }]);
       setNewComment("");
     }
   };
@@ -38,8 +38,8 @@ const VideoComments = ({ comments }) => {
       <div>
         {commentList.map((comment, index) => (
           <div key={index} className="py-2 px-2 border-b border-gray-100">
-            <h4 className="font-semibold text-white">{comment.user}</h4>
-            <p className="text-gray-300">{comment.text}</p>
+            <h4 className="font-semibold text-white">{comment.owner}</h4>
+            <p className="text-gray-300">{comment.content}</p>
           </div>
         ))}
       </div>
