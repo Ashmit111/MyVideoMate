@@ -16,6 +16,8 @@ function VideoDetail () {
     const [loading, setLoading] = useState(true); 
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
+    const [url,setUrl] = useState("")
+    const [videoData,setVideoData] = useState("")
     const {videoId} = useParams()
 
     const sideItems = [
@@ -29,23 +31,23 @@ function VideoDetail () {
       ];
       const profilePic = "";
 
-      const videoData = {
-        title: "Advanced React Patterns",
-        views: "30,164",
-        uploadedTime: "18 hours ago",
-        description:
-          "Dive into the world of React with our latest tutorial series: 'Advanced React Patterns'! 🚀",
-        channel: {
-          name: "React Patterns",
-          subscribers: "757K",
-          avatar: "https://via.placeholder.com/150",
-        } , 
-        comments: [
-          { user: "John Doe", text: "Great video! Learned a lot." },
-          { user: "Jane Smith", text: "Very informative, thanks!" },
-          { user: "Alex Johnson", text: "Can you explain more about hooks?" },
-        ],
-      };
+      // const videoData = {
+      //   title: "Advanced React Patterns",
+      //   views: "30,164",
+      //   uploadedTime: "18 hours ago",
+      //   description:
+      //     "Dive into the world of React with our latest tutorial series: 'Advanced React Patterns'! 🚀",
+      //   channel: {
+      //     name: "React Patterns",
+      //     subscribers: "757K",
+      //     avatar: "https://via.placeholder.com/150",
+      //   } , 
+      //   comments: [
+      //     { user: "John Doe", text: "Great video! Learned a lot." },
+      //     { user: "Jane Smith", text: "Very informative, thanks!" },
+      //     { user: "Alex Johnson", text: "Can you explain more about hooks?" },
+      //   ],
+      // };
     
       // Static sample suggested videos
       const suggestedVideos = [
@@ -94,7 +96,13 @@ function VideoDetail () {
       useEffect(() => {
          const fetchVideo = async () => {
           const response = await axios.get(`/api/v1/videos/${videoId}`)
-          console.log(response.data); 
+          console.log(response.data);
+          const {videoFile, thumbnail} = response.data.data;
+          const urls = {videoFile, thumbnail}
+           setUrl(urls) 
+           const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
+           const extractedData = { username, avatar, title, description, views };
+           setVideoData(extractedData)
          }
          if (videoId) {
           fetchVideo()
@@ -206,9 +214,9 @@ function VideoDetail () {
                   <div className="flex flex-col lg:flex-row gap-4 bg-[#0F0F0F] text-white p-4 pl-20 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
                     {/* Main Video Section */}
                     <div className="flex-1">
-                      <VideoPlayer videoUrl={videoData.url} />
+                      <VideoPlayer video={url} />
                       <VideoDetails video={videoData} />
-                      <VideoComments comments={videoData.comments} />
+                      {/* <VideoComments comments={videoData.comments} /> */}
                     </div>
 
                     {/* Sidebar */}
