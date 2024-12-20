@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react'; 
+import { useState, useEffect } from 'react'; 
 import { BiLogOut, BiLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";  
 import axios from 'axios'; 
+import { useParams } from 'react-router-dom';
 import VideoComments from '@/components/videocomments';
 import VideoPlayer from '@/components/videoplayer';
 import VideoDetails from '@/components/videodetails';
@@ -15,6 +16,7 @@ function VideoDetail () {
     const [loading, setLoading] = useState(true); 
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
+    const {videoId} = useParams()
 
     const sideItems = [
         { icon: <BiLike className="w-6 h-6" />, },
@@ -88,6 +90,17 @@ function VideoDetail () {
           uploadedTime: "8 hours ago",
         },
       ];
+
+      useEffect(() => {
+         const fetchVideo = async () => {
+          const response = await axios.get(`/api/v1/videos/${videoId}`)
+          console.log(response.data); 
+         }
+         if (videoId) {
+          fetchVideo()
+         }
+      }, [videoId])
+      
     
 
       const handleSearch = (e) => {
