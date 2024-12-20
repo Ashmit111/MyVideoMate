@@ -6,6 +6,7 @@ import { MdSubscriptions, MdVideoLibrary } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";  
 import axios from 'axios'; 
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import VideoComments from '@/components/videocomments';
 import VideoPlayer from '@/components/videoplayer';
 import VideoDetails from '@/components/videodetails';
@@ -16,9 +17,9 @@ function VideoDetail () {
     const [loading, setLoading] = useState(true); 
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
-    const [url,setUrl] = useState("")
+    const [url,setUrl] = useState({})
     const [videoData,setVideoData] = useState("")
-    const [suggestedVideos, setSuggestedVideos] = useState("")
+    const [suggestedVideos, setSuggestedVideos] = useState([])
     const {videoId} = useParams()
 
     const sideItems = [
@@ -238,7 +239,11 @@ function VideoDetail () {
 
                     {/* Sidebar */}
                     <div className="w-full ml-5 lg:w-1/3">
-                      <Sidebar videos={suggestedVideos} />
+                      {suggestedVideos.map((video) => (
+                        <Link to={`/video/${video._id}`} key={video._id} className="block hover:no-underline">
+                          <Sidebar video={video} />
+                        </Link>
+                      ))}
                     </div>
                   </div>
      </div>
