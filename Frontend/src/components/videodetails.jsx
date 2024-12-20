@@ -38,9 +38,9 @@ const VideoDetails = ({ video }) => {
           className="w-12 h-12 rounded-full"
         />
         <div>
-          <h2 className="text-lg font-semibold">{video.channel.name}</h2>
+          <h2 className="text-lg font-semibold">{video.username}</h2>
           <p className="text-sm text-gray-400">
-            {video.channel.subscribers || "253"} Subscribers
+            {video?.subscribers || "253"} Subscribers
           </p>
         </div>
 
