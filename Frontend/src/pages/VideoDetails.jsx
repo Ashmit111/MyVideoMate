@@ -18,6 +18,7 @@ function VideoDetail () {
     const [error, setError] = useState("");
     const [url,setUrl] = useState("")
     const [videoData,setVideoData] = useState("")
+    const [suggestedVideos, setSuggestedVideos] = useState("")
     const {videoId} = useParams()
 
     const sideItems = [
@@ -50,48 +51,48 @@ function VideoDetail () {
       // };
     
       // Static sample suggested videos
-      const suggestedVideos = [
-        {
-          id: "1",
-          title: "Building a RESTful API with Node.js",
-          thumbnail: "https://images.pexels.com/photos/23731974/pexels-photo-23731974/free-photo-of-a-stony-seashore.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-          channelName: "API Builder",
-          views: "14.5K",
-          uploadedTime: "7 hours ago",
-        },
-        {
-          id: "2",
-          title: "Creating Custom Hooks in React",
-          thumbnail: "https://via.placeholder.com/150x90",
-          channelName: "Hook Master",
-          views: "9.3K",
-          uploadedTime: "9 hours ago",
-        },
-        {
-          id: "3",
-          title: "Building Scalable Web Applications with Django",
-          thumbnail: "https://via.placeholder.com/150x90",
-          channelName: "Django Master",
-          views: "18.9M",
-          uploadedTime: "12 hours ago",
-        },
-        {
-          id: "4",
-          title: "Getting Started with Express.js",
-          thumbnail: "https://via.placeholder.com/150x90",
-          channelName: "Express Learner",
-          views: "11.1K",
-          uploadedTime: "5 hours ago",
-        },
-        {
-          id: "5",
-          title: "Introduction to React Native",
-          thumbnail: "https://via.placeholder.com/150x90",
-          channelName: "React Native Dev",
-          views: "10.9K",
-          uploadedTime: "8 hours ago",
-        },
-      ];
+      // const suggestedVideos = [
+      //   {
+      //     id: "1",
+      //     title: "Building a RESTful API with Node.js",
+      //     thumbnail: "https://images.pexels.com/photos/23731974/pexels-photo-23731974/free-photo-of-a-stony-seashore.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      //     channelName: "API Builder",
+      //     views: "14.5K",
+      //     uploadedTime: "7 hours ago",
+      //   },
+      //   {
+      //     id: "2",
+      //     title: "Creating Custom Hooks in React",
+      //     thumbnail: "https://via.placeholder.com/150x90",
+      //     channelName: "Hook Master",
+      //     views: "9.3K",
+      //     uploadedTime: "9 hours ago",
+      //   },
+      //   {
+      //     id: "3",
+      //     title: "Building Scalable Web Applications with Django",
+      //     thumbnail: "https://via.placeholder.com/150x90",
+      //     channelName: "Django Master",
+      //     views: "18.9M",
+      //     uploadedTime: "12 hours ago",
+      //   },
+      //   {
+      //     id: "4",
+      //     title: "Getting Started with Express.js",
+      //     thumbnail: "https://via.placeholder.com/150x90",
+      //     channelName: "Express Learner",
+      //     views: "11.1K",
+      //     uploadedTime: "5 hours ago",
+      //   },
+      //   {
+      //     id: "5",
+      //     title: "Introduction to React Native",
+      //     thumbnail: "https://via.placeholder.com/150x90",
+      //     channelName: "React Native Dev",
+      //     views: "10.9K",
+      //     uploadedTime: "8 hours ago",
+      //   },
+      // ];
 
       useEffect(() => {
          const fetchVideo = async () => {
@@ -99,14 +100,30 @@ function VideoDetail () {
           console.log(response.data);
           const {videoFile, thumbnail} = response.data.data;
           const urls = {videoFile, thumbnail}
-           setUrl(urls) 
-           const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
-           const extractedData = { username, avatar, title, description, views };
-           setVideoData(extractedData)
+          setUrl(urls) 
+
+          const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
+          const extractedData = { username, avatar, title, description, views };
+          setVideoData(extractedData)
+          const query = `${extractedData.title} ${extractedData.description}`;
+          const suggestedVideoResponse = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` );
+
+          const videosWithFormattedDuration = suggestedVideoResponse.data.data.map((video) => {
+          const formattedDuration = formatDuration(video.duration); // Format the duration
+          return { ...video, formattedDuration };
+          })  
+          
+          setSuggestedVideos(videosWithFormattedDuration) 
          }
          if (videoId) {
           fetchVideo()
          }
+
+         function formatDuration(seconds) {
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        } 
       }, [videoId])
       
     
