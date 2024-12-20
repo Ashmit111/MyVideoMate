@@ -20,6 +20,7 @@ function VideoDetail () {
     const [url,setUrl] = useState({})
     const [videoData,setVideoData] = useState("")
     const [suggestedVideos, setSuggestedVideos] = useState([])
+    const [commentData, setCommentData] = useState([])
     const {videoId} = useParams()
 
     const sideItems = [
@@ -115,6 +116,9 @@ function VideoDetail () {
           })  
           
           setSuggestedVideos(videosWithFormattedDuration) 
+
+          const commentResponse = await axios.get(`/api/v1/comments/${videoId}`)
+          setCommentData(commentResponse)
          }
          if (videoId) {
           fetchVideo()
@@ -234,7 +238,7 @@ function VideoDetail () {
                     <div className="flex-1">
                       <VideoPlayer video={url} />
                       <VideoDetails video={videoData} />
-                      {/* <VideoComments comments={videoData.comments} /> */}
+                      {/* <VideoComments comments={commentData} /> */}
                     </div>
 
                     {/* Sidebar */}
