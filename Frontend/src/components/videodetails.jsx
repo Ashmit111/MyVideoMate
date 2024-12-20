@@ -26,21 +26,21 @@ const VideoDetails = ({ video }) => {
       {/* Views and Upload Time */}
       <div className="flex justify-between text-sm text-gray-400 ">
         <span>
-          {video.views} Views • {video.uploadedTime}
+          {video.views} Views • {video.uploadedTime || "2 Months ago"}
         </span>
       </div>
 
       {/* Channel and Actions */}
       <div className="flex items-center gap-4 mb-1">
         <img
-          src={video.channel.avatar}
+          src={video.avatar}
           alt="channel avatar"
           className="w-12 h-12 rounded-full"
         />
         <div>
           <h2 className="text-lg font-semibold">{video.channel.name}</h2>
           <p className="text-sm text-gray-400">
-            {video.channel.subscribers} Subscribers
+            {video.channel.subscribers || "253"} Subscribers
           </p>
         </div>
 
