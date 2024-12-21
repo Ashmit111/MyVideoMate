@@ -1,30 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FiThumbsUp } from "react-icons/fi";
 import { BiSolidLike } from "react-icons/bi";
 import { MdPlaylistAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
 import { MdClose } from "react-icons/md";
 
-const VideoDetails = ({ video }) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(video.likes || 0);
+const VideoDetails = ({ video, videoId }) => {
+  const [isLiked, setIsLiked] = useState(video.isLiked || false);
+  const [likeCount, setLikeCount] = useState(video.likes || 0);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const playlists = ["Favorites", "Watch Later", "React Tutorials", "My Playlist"];
+ 
+  useEffect(() => {
+    const fetchLikeData = async () => {
+      try {
+        const response = await axios.get(`/api/v1/likes/toggle/v/${videoId}`);
+        const { likeCount, liked } = response.data.data;
+        setLikeCount(likeCount);
+        setIsLiked(liked);
+      } catch (error) {
+        console.error("Error fetching like data:", error);
+      }
+    };
 
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
-    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+    fetchLikeData();
+  }, [videoId]);
+
+  const handleLikeToggle = async () => {
+    try {
+      const response = await axios.post(`/api/v1/likes/toggle/v/${videoId}`);
+      const { liked, likeCount: updatedLikeCount } = response.data.data;
+
+      // Update state based on API response
+      setIsLiked(liked);
+      setLikeCount(updatedLikeCount);
+    } catch (error) {
+      console.error("Error toggling like:", error.response?.data || error.message);
+    }
   };
 
   return (
     <div className="p-4 bg-[#181818] rounded-lg mb-2 text-white">
       {/* Video Title */}
-      <h1 className="text-xl font-bold ">{video.title}</h1>
+      <h1 className="text-xl font-bold">{video.title}</h1>
 
       {/* Views and Upload Time */}
-      <div className="flex justify-between text-sm text-gray-400 ">
+      <div className="flex justify-between text-sm text-gray-400">
         <span>
           {video.views} Views • {video.uploadedTime || "2 Months ago"}
         </span>
@@ -40,7 +64,7 @@ const VideoDetails = ({ video }) => {
         <div>
           <h2 className="text-lg font-semibold">{video.username}</h2>
           <p className="text-sm text-gray-400">
-            {video?.subscribers || "253"} Subscribers
+            {video.subscribers || "253"} Subscribers
           </p>
         </div>
 
@@ -57,7 +81,7 @@ const VideoDetails = ({ video }) => {
               ) : (
                 <FiThumbsUp className="text-xl" />
               )}
-              <span className="text-sm">{likesCount} {likesCount === 1 ? "Like" : "Likes"}</span>
+              <span className="text-sm">{likeCount} {likeCount === 1 ? "Like" : "Likes"}</span>
             </button>
 
             {/* Save Button */}
@@ -75,18 +99,17 @@ const VideoDetails = ({ video }) => {
             onClick={() => setIsSubscribed(!isSubscribed)}
             whileTap={{ scale: 0.9 }}
             className={`px-4 py-2 rounded-3xl mb-2 transition-all ${
-              isSubscribed
-                ? "bg-gray-800 text-white "
-                : "bg-[#f86a6b] "
+              isSubscribed ? "bg-gray-800 text-white " : "bg-[#f86a6b]"
             }`}
           >
             {isSubscribed ? "Subscribed" : "Subscribe"}
           </motion.button>
         </div>
       </div>
-            <hr />
+      <hr />
+
       {/* Video Description */}
-      <div className="mt-1  p-4 text-gray-300">
+      <div className="mt-1 p-4 text-gray-300">
         <p>{video.description}</p>
       </div>
 
@@ -96,7 +119,7 @@ const VideoDetails = ({ video }) => {
           <div className="bg-[#181818] p-6 rounded-lg w-[400px] relative">
             <h3 className="text-lg font-semibold mb-4">Save to Playlist</h3>
             <MdClose
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-300 cursor-pointer "
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-300 cursor-pointer"
               onClick={() => setIsModalOpen(false)}
             />
             <ul>
