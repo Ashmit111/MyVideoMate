@@ -40,8 +40,7 @@ function VideoDetail () {
           const {videoFile, thumbnail} = response.data.data;
           const urls = {videoFile, thumbnail}
           const {_id} = response.data.data.userDetails
-          const Id = _id.toString();
-          console.log(Id); 
+          const Id = _id.toString(); 
           setId(Id)
           setUrl(urls) 
 
