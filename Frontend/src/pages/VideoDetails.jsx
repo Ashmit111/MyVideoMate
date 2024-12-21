@@ -19,7 +19,8 @@ function VideoDetail () {
     const [error, setError] = useState("");
     const [url,setUrl] = useState({})
     const [videoData,setVideoData] = useState("")
-    const [suggestedVideos, setSuggestedVideos] = useState([]) 
+    const [suggestedVideos, setSuggestedVideos] = useState([])
+    const [id, setId] = useState("")
     const {videoId} = useParams()
 
     const sideItems = [
@@ -38,6 +39,10 @@ function VideoDetail () {
           console.log(response.data);
           const {videoFile, thumbnail} = response.data.data;
           const urls = {videoFile, thumbnail}
+          const {_id} = response.data.data.userDetails
+          const Id = _id.toString();
+          console.log(Id); 
+          setId(Id)
           setUrl(urls) 
 
           const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
@@ -169,7 +174,7 @@ function VideoDetail () {
                     {/* Main Video Section */}
                     <div className="flex-1">
                       <VideoPlayer video={url} />
-                      <VideoDetails video={videoData} videoId={videoId}/>
+                      <VideoDetails video={videoData} videoId={videoId} channelId={id}/>
                       <VideoComments videoId={videoId} />
                     </div>
 
