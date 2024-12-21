@@ -6,18 +6,20 @@ const VideoComments = ({ videoId }) => {
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState(null); // To store error messages
 
-  // Fetch Comments on Component Mount
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get(`/api/v1/comments/${videoId}`);
-        setCommentList(response.data?.data || []); // Set the comment list
-      } catch (err) {
-        console.error("Error fetching comments:", err.response?.data || err.message);
-        setError("Failed to fetch comments. Please try again.");
-      }
-    };
+  // Fetch Comments
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`/api/v1/comments/${videoId}`);
+      setCommentList(response.data?.data || []); // Set the comment list
+      setError(null); // Clear any existing error
+    } catch (err) {
+      console.error("Error fetching comments:", err.response?.data || err.message);
+      // setError("Failed to fetch comments. Please try again.");
+    }
+  };
 
+  // Fetch comments on component mount and whenever videoId changes
+  useEffect(() => {
     fetchComments();
   }, [videoId]);
 
@@ -33,12 +35,12 @@ const VideoComments = ({ videoId }) => {
         console.log("API Response:", response.data);
 
         // Check if the comment was successfully added
-        if (response.data?.success && response.data?.data) {
+        if (response.data?.success) {
           setNewComment(""); // Clear the input field
           setError(null); // Clear errors
 
-          // Add the new comment to the list
-          setCommentList((prevComments) => [...prevComments, response.data.data]);
+          // Fetch the updated list of comments
+          fetchComments();
         } else {
           setError(response.data?.message || "Failed to add comment.");
         }
