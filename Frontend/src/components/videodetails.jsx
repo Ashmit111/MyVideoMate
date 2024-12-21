@@ -33,8 +33,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
     const fetchSubscriptionData = async () => {
       try {  
         const response = await axios.get(`/api/v1/subscriptions/c/${channelId}`);
-        const { subscriptionCount, subscribed } = response.data.data;
-        console.log(subscriptionCount); 
+        const { subscriptionCount, subscribed } = response.data.data; 
         setSubscriptionCounts(subscriptionCount);
         setIsSubscribed(subscribed);
       } catch (error) {
@@ -55,6 +54,17 @@ const VideoDetails = ({ video, videoId, channelId }) => {
       setLikeCount(updatedLikeCount);
     } catch (error) {
       console.error("Error toggling like:", error.response?.data || error.message);
+    }
+  };
+
+  const handleSubscriptionToggle = async () => {
+    try {
+      const response = await axios.post(`/api/v1/subscriptions/c/${channelId}`);
+      const { subscriptionCount, subscribed } = response.data.data; 
+      setSubscriptionCounts(subscriptionCount);
+      setIsSubscribed(subscribed);
+    } catch (error) {
+      console.error("Error toggling subscription:", error);
     }
   };
 
@@ -112,7 +122,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
 
           {/* Subscribe Button */}
           <motion.button
-            onClick={() => setIsSubscribed(!isSubscribed)}
+            onClick={handleSubscriptionToggle}
             whileTap={{ scale: 0.9 }}
             className={`px-4 py-2 rounded-3xl mb-2 transition-all ${
               isSubscribed ? "bg-gray-800 text-white " : "bg-[#f86a6b]"
