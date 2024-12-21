@@ -90,7 +90,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
         <div>
           <h2 className="text-lg font-semibold">{video.username}</h2>
           <p className="text-sm text-gray-400">
-            {subscriptionCounts} Subscribers
+            {subscriptionCounts} {subscriptionCounts === 1 ? "Subscriber" : "Subscribers"} 
           </p>
         </div>
 
