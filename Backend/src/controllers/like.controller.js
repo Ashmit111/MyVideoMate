@@ -2,30 +2,45 @@ import mongoose, {isValidObjectId} from "mongoose"
 import {Like} from "../models/like.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
-import {asyncHandler} from "../utils/asyncHandler.js"
+import {asyncHandler} from "../utils/asyncHandler.js" 
 
-const toggleVideoLike = asyncHandler(async (req, res) => {
-    //TODO: toggle like on video
-    try {
-        const {videoId} = req.params;
-        const userId = req.user._id;
+ const toggleAndGetLikes = asyncHandler(async (req, res) => {
+  try {
+    const { videoId } = req.params;
+    const userId = req.user._id; 
 
-        if (!isValidObjectId(videoId)) {
-            throw new ApiError(400, "Invalid video ID");
-        }
-    
-        const existingLike = await Like.findOne({ video: videoId, likedBy: userId });
-        if (existingLike) {
-            await Like.findByIdAndDelete(existingLike._id)
-            return res.status(200).json(new ApiResponse(200, { liked: false }, "Like removed successfully"));
-        } else {
-            await Like.create({video: videoId, likedBy: userId})
-            return res.status(200).json(new ApiResponse(200, { liked: true }, "Like added successfully"));
-        }     
-    } catch (error) {
-        return res.status(500).json(new ApiResponse(500, null, `Error toggling like: ${error.message}`));
+    if (!isValidObjectId(videoId)) {
+      throw new ApiError(400, "Invalid video ID");
     }
-})
+
+    // Handle POST request to toggle like
+    if (req.method === "POST") {
+      const existingLike = await Like.findOne({ video: videoId, likedBy: userId });
+
+      if (existingLike) {
+        await Like.findByIdAndDelete(existingLike._id); // Remove like
+        return res.status(200).json(new ApiResponse(200, { liked: false }, "Like removed successfully"));
+      } else {
+        await Like.create({ video: videoId, likedBy: userId }); // Add like
+        return res.status(200).json(new ApiResponse(200, { liked: true }, "Like added successfully"));
+      }
+    }
+
+    // Handle GET request to fetch like count and user like status
+    if (req.method === "GET") {
+      const likeCount = await Like.countDocuments({ video: videoId });
+      const liked = await Like.findOne({ video: videoId, likedBy: userId });
+
+      return res.status(200).json(
+        new ApiResponse(200, { likeCount, liked: !!liked }, "Like count fetched successfully")
+      );
+    }
+  } catch (error) {
+    return res.status(500).json(new ApiResponse(500, null, `Error: ${error.message}`));
+  }
+});
+
+
 
 const toggleCommentLike = asyncHandler(async (req, res) => {
     //TODO: toggle like on comment
@@ -103,6 +118,6 @@ const getLikedVideos = asyncHandler(async (req, res) => {
 export {
     toggleCommentLike,
     toggleTweetLike,
-    toggleVideoLike,
+    toggleAndGetLikes,
     getLikedVideos
 }
