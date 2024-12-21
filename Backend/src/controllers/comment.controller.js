@@ -6,77 +6,37 @@ import { asyncHandler } from "../utils/asyncHandler.js"
 import { Video } from "../models/video.model.js"
 
 const getVideoComments = asyncHandler(async (req, res) => {
-    //TODO: get all comments for a video
-    //Custom aggregation pipeline approach
-    //Can also be done with mongooseAggregatePaginate built in best approach
-    //Check dasboard for reference 
     const { videoId } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
-
-    try {
-        const comment = await Video.aggregate([
-            {
-                $match: {
-                    _id: new mongoose.Types.ObjectId(videoId)
-                }
-            },
-            {
-                $lookup: {
-                    from: "comments",
-                    localField: "_id",
-                    foreignField: "content",
-                    as: "allcomments",
-                    pipeline: [
-                        {
-                            $lookup: {
-                                from: "users",
-                                localField: "owner",
-                                foreignField: "_id",
-                                as: "owner",
-                                pipeline: [
-                                    {
-                                        $project: {
-                                            username: 1,
-                                            avatar: 1
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            $addFields: {
-                                owner: { $first: "$owner" }
-                            }
-                        }
-                    ]
-                }
-            },
-            {
-                $skip: (page - 1) * limit
-            },
-            {
-                $limit: limit
-            }
-        ]);
-
+  
+    try { 
+      const comments = await Comment.find({ video: videoId })
+        .populate({
+          path: "owner",
+          select: "username avatar",  
+        })
+        .skip((page - 1) * limit) // Pagination: Skip to the correct page
+        .limit(limit) // Pagination: Limit the results
+        .exec();
+  
+      if (comments.length > 0) {
         return res.status(200).json(
-            new ApiResponse(
-                200,
-                comment[0]?.allcomments || [],
-                "Comments fetched successfully"
-            )
+          new ApiResponse(200, comments, "Comments fetched successfully")
         );
+      } else {
+        return res.status(404).json(
+          new ApiResponse(404, [], "No comments found for this video")
+        );
+      }
     } catch (error) {
-        return res.status(500).json(
-            new ApiResponse(
-                500,
-                null,
-                "Failed to fetch comments"
-            )
-        );
+      console.error("Error fetching comments:", error);
+      return res.status(500).json(
+        new ApiResponse(500, null, "Failed to fetch comments")
+      );
     }
-});
+  });
+  
 
 
 
