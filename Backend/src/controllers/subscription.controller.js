@@ -6,28 +6,39 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 
 
-const toggleSubscription = asyncHandler(async (req, res) => {
-    // TODO: toggle subscription
+const toggleAndGetSubscription = asyncHandler(async (req, res) => {
     try {
-        const {channelId} = req.params;
-        const userId = req.user._id;
-
-        if (!isValidObjectId(channelId)) {
-            return res.status(400).json(new ApiResponse(400, null, "Invalid channel ID"));
-        }
-
-        const existingSubs = await Subscription.findOne({channel: channelId, subscriber: userId});
+      const { channelId } = req.params;
+      const userId = req.user._id; // Assuming you have the user in req.user from authentication
+  
+      if (!isValidObjectId(channelId)) {
+        return res.status(400).json(new ApiResponse(400, null, "Invalid channel ID"));
+      }
+   
+      if (req.method === "POST") {
+        const existingSubs = await Subscription.findOne({ channel: channelId, subscriber: userId });
+  
         if (existingSubs) {
-            await Subscription.findByIdAndDelete(existingSubs._id);
-            return res.status(200).json(new ApiResponse(200, { Subscribed: false }, "Unsubscribed successfully"));
+          await Subscription.findByIdAndDelete(existingSubs._id); // Remove subscription
+          return res.status(200).json(new ApiResponse(200, { subscribed: false }, "Unsubscribed successfully"));
         } else {
-            await Subscription.create({channel: channelId, subscriber: userId});
-            return res.status(200).json(new ApiResponse(200, { Subscribed: true }, "Subscribed successfully"));
+          await Subscription.create({ channel: channelId, subscriber: userId }); // Add subscription
+          return res.status(200).json(new ApiResponse(200, { subscribed: true }, "Subscribed successfully"));
         }
+      }
+   
+      if (req.method === "GET") {
+        const subscriptionCount = await Subscription.countDocuments({ channel: channelId });
+        const isSubscribed = await Subscription.findOne({ channel: channelId, subscriber: userId });
+  
+        return res.status(200).json(
+          new ApiResponse(200, { subscriptionCount, subscribed: !!isSubscribed }, "Subscription data fetched successfully")
+        );
+      }
     } catch (error) {
-        return res.status(500).json(new ApiResponse(500, null, `Error toggling Subscription: ${error.message}`));
+      return res.status(500).json(new ApiResponse(500, null, `Error: ${error.message}`));
     }
-})
+  });
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
@@ -72,7 +83,7 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
 })
 
 export {
-    toggleSubscription,
+    toggleAndGetSubscription,
     getUserChannelSubscribers,
     getSubscribedChannels
 }
