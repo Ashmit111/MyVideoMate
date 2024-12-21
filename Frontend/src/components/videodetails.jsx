@@ -6,9 +6,10 @@ import { MdPlaylistAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
 import { MdClose } from "react-icons/md";
 
-const VideoDetails = ({ video, videoId }) => {
+const VideoDetails = ({ video, videoId, channelId }) => {
   const [isLiked, setIsLiked] = useState(video.isLiked || false);
   const [likeCount, setLikeCount] = useState(video.likes || 0);
+  const [subscriptionCounts, setSubscriptionCounts] = useState(0); 
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,9 +26,24 @@ const VideoDetails = ({ video, videoId }) => {
         console.error("Error fetching like data:", error);
       }
     };
-
     fetchLikeData();
   }, [videoId]);
+
+  useEffect(() => {
+    const fetchSubscriptionData = async () => {
+      try {  
+        const response = await axios.get(`/api/v1/subscriptions/c/${channelId}`);
+        const { subscriptionCount, subscribed } = response.data.data;
+        console.log(subscriptionCount); 
+        setSubscriptionCounts(subscriptionCount);
+        setIsSubscribed(subscribed);
+      } catch (error) {
+        console.error("Error fetching subscription data:", error);
+      }
+    };
+
+    fetchSubscriptionData();
+  }, [channelId]);
 
   const handleLikeToggle = async () => {
     try {
@@ -64,7 +80,7 @@ const VideoDetails = ({ video, videoId }) => {
         <div>
           <h2 className="text-lg font-semibold">{video.username}</h2>
           <p className="text-sm text-gray-400">
-            {video.subscribers || "253"} Subscribers
+            {subscriptionCounts} Subscribers
           </p>
         </div>
 
