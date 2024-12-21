@@ -1,14 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const VideoComments = ({ comments }) => {
-  const [commentList, setCommentList] = useState(comments);
+const VideoComments = ({ videoId }) => {
+  const [commentList, setCommentList] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [error, setError] = useState(null); // To store error messages
+
+  // Fetch Comments on Component Mount
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`/api/v1/comments/${videoId}`);
+        setCommentList(response.data?.data || []); // Set the comment list
+      } catch (err) {
+        console.error("Error fetching comments:", err.response?.data || err.message);
+        setError("Failed to fetch comments. Please try again.");
+      }
+    };
+
+    fetchComments();
+  }, [videoId]);
 
   // Add Comment Handler
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (newComment.trim()) {
-      setCommentList([...commentList, { owner: "You", content: newComment }]);
-      setNewComment("");
+      try {
+        // Send comment to backend
+        const response = await axios.post(`/api/v1/comments/${videoId}`, {
+          content: newComment,
+        });
+
+        console.log("API Response:", response.data);
+
+        // Check if the comment was successfully added
+        if (response.data?.success && response.data?.data) {
+          setNewComment(""); // Clear the input field
+          setError(null); // Clear errors
+
+          // Add the new comment to the list
+          setCommentList((prevComments) => [...prevComments, response.data.data]);
+        } else {
+          setError(response.data?.message || "Failed to add comment.");
+        }
+      } catch (err) {
+        console.error("Error adding comment:", err.response?.data || err.message);
+        setError("Something went wrong. Please try again.");
+      }
+    } else {
+      setError("Comment content cannot be empty.");
     }
   };
 
@@ -24,7 +63,7 @@ const VideoComments = ({ comments }) => {
           placeholder="Add a Comment"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          className="w-full p-2 bg-[#282828] rounded-lg text-white focus:outline-none "
+          className="w-full p-2 bg-[#282828] rounded-lg text-white focus:outline-none"
         />
         <button
           onClick={handleAddComment}
@@ -34,12 +73,27 @@ const VideoComments = ({ comments }) => {
         </button>
       </div>
 
+      {/* Error Message */}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+
       {/* Display Comments */}
       <div>
         {commentList.map((comment, index) => (
-          <div key={index} className="py-2 px-2 border-b border-gray-100">
-            <h4 className="font-semibold text-white">{comment.owner}</h4>
-            <p className="text-gray-300">{comment.content}</p>
+          <div
+            key={index}
+            className="py-2 px-2 border-b border-gray-600 flex items-center gap-3"
+          >
+            {/* Avatar */}
+            <img
+              src={comment?.owner?.avatar || "https://via.placeholder.com/40"}
+              alt={`${comment?.owner?.username || "User"}'s avatar`}
+              className="w-10 h-10 rounded-full"
+            />
+            {/* Comment Details */}
+            <div>
+              <h4 className="font-semibold text-white">{comment?.owner?.username || "Unknown User"}</h4>
+              <p className="text-gray-300">{comment?.content}</p>
+            </div>
           </div>
         ))}
       </div>
