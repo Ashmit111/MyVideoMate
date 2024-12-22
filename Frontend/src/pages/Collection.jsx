@@ -6,7 +6,7 @@ import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import PlaylistCard from '@/components/ui/playlistCard';
 
-function MyPlaylist() {
+function Collection() {
     const [isLoading, setIsLoading] = useState(false);  
 
     const playlists = [
@@ -87,4 +87,4 @@ function MyPlaylist() {
   )
 }
 
-export default MyPlaylist
+export default Collection
