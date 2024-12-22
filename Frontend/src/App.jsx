@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from 'react';
 import { FaVideo, FaBars, FaTimes, FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import AuthModal from './components/ui/AuthModal';  
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -10,6 +11,7 @@ const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const scale = useTransform(scrollY, [0, 300], [1, 0.8]);
+  const navigate = useNavigate()
 
   // Login Modal
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +28,20 @@ const App = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
+  
+  const handleGetStarted = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      console.log(accessToken);
+      navigate("/home"); // Navigate to home if token is available
+    } else {
+      setIsLogin(true);
+      toggleModal(); // Open AuthModal if no token is found
+    }
+  };
+
   return (
     <div className='bg-gray-900 h-screen w-screen overflow-x-hidden'>
       <div className="absolute inset-0 bg-gradient-to-br from-black/50 to-gray-900/20 backdrop-blur-sm z-0" />
@@ -58,10 +74,7 @@ const App = () => {
                 ABOUT
               </button>
               <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md"
-              onClick={() => {
-                setIsLogin(true);
-                toggleModal();
-              }}>
+              onClick={handleGetStarted}>
                 LOGIN
               </button>
             </div>
