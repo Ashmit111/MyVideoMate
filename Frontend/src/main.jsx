@@ -8,7 +8,7 @@ import App from './App'
 import Home from './pages/Home.jsx'
 import SearchResultPage from './pages/SearchResultPage'
 import WatchHistory from './pages/WatchHistory'
-import MyPlaylist from './pages/MyPlaylist'
+import Collection from './pages/Collection'
 import PlaylistVideos from './pages/PlaylistVideos'
 import LikedVideos from './pages/LikedVideos'
 import VideoDetails from './pages/VideoDetails'
@@ -20,7 +20,7 @@ const router = createBrowserRouter(
       <Route path="/home" element={<Home/>}/>
       <Route path="/search" element={<SearchResultPage/>}/>
       <Route path="/watchHistory" element={<WatchHistory/>}/>
-      <Route path="/myPlaylist" element={<MyPlaylist/>}/>
+      <Route path="/collection" element={<Collection/>}/>
       <Route path="/playlistVideos" element={<PlaylistVideos/>}/>
       <Route path="/likedVideos" element={<LikedVideos/>}/>
       <Route path="/video/:videoId" element={<VideoDetails/>}/>
