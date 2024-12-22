@@ -12,6 +12,8 @@ import VideoPlayer from '@/components/videoplayer';
 import VideoDetails from '@/components/videodetails';
 import Sidebar from '@/components/sidebar';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '@/Features/authSlice';
+import { useDispatch } from 'react-redux';
 
 function VideoDetail () {
 
@@ -84,6 +86,7 @@ function VideoDetail () {
         const response = await axios.post("/api/v1/users/logout" );
         console.log(response.data);
         localStorage.removeItem('accessToken');
+        dispatch(logout());
         navigate("/")
       }
 

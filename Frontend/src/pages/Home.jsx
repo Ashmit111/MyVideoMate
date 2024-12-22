@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
+import { logout } from '@/Features/authSlice';
+import { useDispatch } from 'react-redux';
 
 
 const Home = () => { 
@@ -175,6 +177,7 @@ const Home = () => {
             const response = await axiosInstance.post('/users/logout');
             console.log(response.data);
             localStorage.removeItem('accessToken');
+            dispatch(logout());
             navigate('/'); // Navigate to login page after logout
         } catch (error) {
             console.error('Logout failed:', error);
