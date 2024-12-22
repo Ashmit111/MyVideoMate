@@ -118,12 +118,17 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       });
 
       console.log(response.data);
+
+      const token = response.data.data.accessToken;
+      const access = token.toString();
+      localStorage.setItem("accessToken", access);
+
         
       const userData = response.data;
-      if (userData) {
-        dispatch(login(userData))
-        console.log("Data Stored in Store",userData);
-        navigate("/home")
+      if (userData ) {   
+        dispatch(login(userData)); 
+         console.log("Access token saved to localStorage", userData.accessToken);
+        navigate("/home"); // Navigate to home page after successful login
       }
     } catch (error) {
       setError(error.message);
