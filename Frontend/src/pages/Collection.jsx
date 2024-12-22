@@ -8,21 +8,7 @@ import PlaylistCard from '@/components/ui/playlistCard';
 
 function Collection() {
     const [isLoading, setIsLoading] = useState(false);  
-
-    const playlists = [
-      {
-        id: 1,
-        name: "Chill Vibes Playlist",
-        description: "A relaxing mix of chill music to unwind and de-stress.",
-      },
-      {
-        id: 2,
-        name: "Workout Hits",
-        description: "An energizing playlist to keep you motivated during your workout sessions.",
-      },
-    ];
-    
-
+ 
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
       { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel" },
@@ -46,7 +32,7 @@ function Collection() {
           </div>
         </div>
          <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Playlists</h2>
+            <h2 className='text-white font-bold text-2xl pt-3'>Collection</h2>
          </div>
       </nav>
       //sidebar 
@@ -77,9 +63,14 @@ function Collection() {
  
       {/* Main Content */}
       <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-          {playlists.map((playlist, index) => (
+          <img src={ j}  alt="coverImage" />
+          
+          
+          
+          
+          {/* {playlists.map((playlist, index) => (
             <PlaylistCard key={index} playlist={playlist} bgColor="bg-[#1e1e1e]" />
-          ))}
+          ))} */}
      </div>
     
       
