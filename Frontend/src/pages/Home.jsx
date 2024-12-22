@@ -12,6 +12,7 @@ import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
+import axiosInstance from '../utils/axiosInstance';
 
 
 const Home = () => { 
@@ -113,7 +114,7 @@ const Home = () => {
       useEffect(() => {
         const fetchVideos = async () => {
             try { 
-              const response = await axios.get("/api/v1/videos", {
+              const response = await axiosInstance.get("/videos", {
                 params: {
                     limit: 16, // Limit to 16 videos
                 },
@@ -170,10 +171,15 @@ const Home = () => {
       };
 
       const handleLogout = async () => {
-        const response = await axios.post("/api/v1/users/logout" );
-        console.log(response.data);
-        navigate("/")
-      }
+        try {
+            const response = await axiosInstance.post('/users/logout');
+            console.log(response.data);
+            localStorage.removeItem('accessToken');
+            navigate('/'); // Navigate to login page after logout
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
 
       if (loading) {
         return (
