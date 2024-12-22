@@ -83,6 +83,7 @@ function VideoDetail () {
       const handleLogout = async () => {
         const response = await axios.post("/api/v1/users/logout" );
         console.log(response.data);
+        localStorage.removeItem('accessToken');
         navigate("/")
       }
 
