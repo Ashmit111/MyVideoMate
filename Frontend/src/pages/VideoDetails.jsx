@@ -50,12 +50,13 @@ function VideoDetail () {
           setId(Id)
           setUrl(urls) 
 
+          
           const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
           const extractedData = { username, avatar, title, description, views };
           setVideoData(extractedData)
           const query = `${extractedData.title} ${extractedData.description}`;
-          const suggestedVideoResponse = await axiosInstance.get(`/videos/search?query=${encodeURIComponent(query)}` );
 
+          const suggestedVideoResponse = await axiosInstance.get(`/videos/search?query=${encodeURIComponent(query)}` ); 
           const videosWithFormattedDuration = suggestedVideoResponse.data.data.map((video) => {
           const formattedDuration = formatDuration(video.duration); // Format the duration
           return { ...video, formattedDuration };
@@ -72,8 +73,18 @@ function VideoDetail () {
           return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         } 
       }, [videoId])
-      
-    
+
+      useEffect(() => {
+        const addVideoToHistory = async () => {
+          try {
+            const response = await axiosInstance.post(`/videos/atwh/${videoId}`);
+            console.log(response.data);
+          } catch (error) {
+            console.error("Error adding video to history:", error);
+          }
+        }
+        addVideoToHistory();
+        }, [videoId]) 
 
       const handleSearch = (e) => {
         e.preventDefault();
