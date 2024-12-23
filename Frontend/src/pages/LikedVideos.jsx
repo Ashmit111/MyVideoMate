@@ -3,10 +3,10 @@ import { useState, useEffect } from 'react';
 import { BiLogOut, BiLike, BiSolidLike } from "react-icons/bi";
 import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
-import { IoSettings } from "react-icons/io5"; 
-import PlaylistCard from '@/components/ui/playlistCard'; 
-import VideoCard2 from '@/components/ui/videoCard2';
+import { IoSettings } from "react-icons/io5";  
+import VideoCard from '@/components/ui/videoCard';
 import { Link } from 'react-router-dom';
+import axiosInstance from '@/utils/axiosInstance';
 
 function LikedVideos() {
   const [isLoading, setIsLoading] = useState(false); 
@@ -21,105 +21,36 @@ function LikedVideos() {
       { icon: <IoSettings className="w-6 h-6"/>, label: "Settings"},
       // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
     ]; 
-
-    const playlists = [
-        {
-          id: 1,
-          name: "Chill Vibes Playlist",
-          description: "A relaxing mix of chill music to unwind and de-stress.",
-        }
-    ] 
+ 
 
     useEffect(() => {
-        const fetchVideos = async () => {
-          const fetchedVideos = [
-            {
-              thumbnail: 'https://i.ytimg.com/vi/NkwFxeHARqc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA_xzx8CM9e1KyGIqGxGPPr-bYf3A',
-              title: 'React Tailwind YouTube Card with Options',
-              channelName: 'CodeWithMe',
-              channelAvatar: 'https://yt3.ggpht.com/1FEdfq3XpKE9UrkT4eOc5wLF2Bz-42sskTi0RkK4nPh4WqCbVmmrDZ5SVEV3WyvPdkfR8sw2=s68-c-k-c0x00ffffff-no-rj',
-              views: '123K',
-              timeAgo: '2 days ago',
-              duration: '12:34',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-            {
-              thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-              title: 'Building Modern UI with Tailwind CSS',
-              channelName: 'DevTutorials',
-              channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-              views: '456K',
-              timeAgo: '1 week ago',
-              duration: '8:45',
-            },
-           ];
-          setVideos(fetchedVideos);
-        };
-    
-        fetchVideos();
-      }, []);
+      const fetchVideos = async () => {
+          try {
+              const response = await axiosInstance.get("/likes/videos"); 
+               const videosWithFormattedDuration = response.data.data.map((likedVideo) => {
+                  const video = likedVideo.video;   
+                  if (video && video.duration) {
+                      const formattedDuration = formatDuration(video.duration);  
+                      return { ...video, formattedDuration };  
+                  }
+  
+                  return video;  
+              });  
+              setVideos(videosWithFormattedDuration);  
+          } catch (err) {
+              console.error("Failed to fetch videos", err); 
+          }
+      };
+  
+      function formatDuration(seconds) {
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+      }
+  
+      fetchVideos();
+  }, []); 
+  
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
@@ -159,23 +90,13 @@ function LikedVideos() {
           </div>
         </div>
  
-      {/* Main Content */}
-        <div className='bg-black'>  
-            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)]">
-                <div className="w-1/2 p-4 mr-20 ml-28 fixed">
-                    {playlists.map((playlist, index) => (
-                    <PlaylistCard key={index} playlist={playlist} bgColor="bg-[#1e1e1e]" />
-                    ))}
-                </div>
-                <div className='flex-col overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
+      {/* Main Content */}  
+        <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] "> 
                 {videos.map(video => (
                   <Link key={video._id} to={`/video/${video._id}`}>
-                    <VideoCard2 video={video} />
+                    <VideoCard video={video} />
                   </Link>
-                ))}
-                </div>
-                
-            </div>
+                ))}   
         </div> 
     </div>
   )
