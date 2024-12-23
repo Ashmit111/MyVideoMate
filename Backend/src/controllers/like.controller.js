@@ -94,26 +94,31 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     try {
         const userId = req.user._id;
 
-        const likedVideos = await Like.find({likedBy: userId}).populate("video")
+        const likedVideos = await Like.find({ likedBy: userId })
+            .populate({
+                path: "video",
+                populate: {
+                    path: "owner", // Path to populate the owner of the video
+                    select: "username avatar", // Only select the username and avatar fields
+                },
+            });
+
         if (likedVideos.length > 0) {
             return res
-            .status(200)
-            .json(
-                new ApiResponse(200, likedVideos, "Liked Videos fetched successfully")
-            )
+                .status(200)
+                .json(
+                    new ApiResponse(200, likedVideos, "Liked Videos fetched successfully")
+                );
         } else {
-            throw new ApiError(404, "No liked Videos") 
+            throw new ApiError(404, "No liked Videos");
         }
     } catch (error) {
         return res.status(500).json(
-            new ApiResponse(
-                500,
-                null,
-                "Failed to fetch liked videos"
-            )
+            new ApiResponse(500, null, "Failed to fetch liked videos")
         );
-    } 
-})
+    }
+});
+
 
 export {
     toggleCommentLike,
