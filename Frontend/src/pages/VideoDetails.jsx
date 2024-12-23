@@ -14,6 +14,7 @@ import Sidebar from '@/components/sidebar';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/Features/authSlice';
 import { useDispatch } from 'react-redux';
+import axiosInstance from '@/utils/axiosInstance';
 
 function VideoDetail () {
 
@@ -26,6 +27,7 @@ function VideoDetail () {
     const [id, setId] = useState("")
     const {videoId} = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const sideItems = [
         { icon: <BiLike className="w-6 h-6" />, },
@@ -39,7 +41,7 @@ function VideoDetail () {
 
       useEffect(() => {
          const fetchVideo = async () => {
-          const response = await axios.get(`/api/v1/videos/${videoId}`)
+          const response = await axiosInstance.get(`/videos/${videoId}`)
           console.log(response.data);
           const {videoFile, thumbnail} = response.data.data;
           const urls = {videoFile, thumbnail}
@@ -52,7 +54,7 @@ function VideoDetail () {
           const extractedData = { username, avatar, title, description, views };
           setVideoData(extractedData)
           const query = `${extractedData.title} ${extractedData.description}`;
-          const suggestedVideoResponse = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` );
+          const suggestedVideoResponse = await axiosInstance.get(`/videos/search?query=${encodeURIComponent(query)}` );
 
           const videosWithFormattedDuration = suggestedVideoResponse.data.data.map((video) => {
           const formattedDuration = formatDuration(video.duration); // Format the duration
@@ -83,7 +85,7 @@ function VideoDetail () {
       };
 
       const handleLogout = async () => {
-        const response = await axios.post("/api/v1/users/logout" );
+        const response = await axiosInstance.post("/users/logout" );
         console.log(response.data);
         localStorage.removeItem('accessToken');
         dispatch(logout());
