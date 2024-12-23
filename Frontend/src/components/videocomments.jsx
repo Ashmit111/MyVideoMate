@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import axiosInstance from "@/utils/axiosInstance";
 
 const VideoComments = ({ videoId }) => {
   const [commentList, setCommentList] = useState([]);
@@ -9,7 +10,7 @@ const VideoComments = ({ videoId }) => {
   // Fetch Comments
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`/api/v1/comments/${videoId}`);
+      const response = await axiosInstance.get(`/comments/${videoId}`);
       setCommentList(response.data?.data || []); // Set the comment list
       setError(null); // Clear any existing error
     } catch (err) {
@@ -28,7 +29,7 @@ const VideoComments = ({ videoId }) => {
     if (newComment.trim()) {
       try {
         // Send comment to backend
-        const response = await axios.post(`/api/v1/comments/${videoId}`, {
+        const response = await axiosInstance.post(`/comments/${videoId}`, {
           content: newComment,
         });
 
