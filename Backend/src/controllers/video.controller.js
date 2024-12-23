@@ -1,6 +1,6 @@
 import mongoose, {isValidObjectId} from "mongoose"
 import {Video} from "../models/video.model.js"
-import { Subscription } from "../models/subscription.model.js"
+import {User} from "../models/user.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
@@ -334,6 +334,42 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     }
 })
 
+const addToWatchHistory = asyncHandler(async (req, res) => {
+    const { videoId } = req.params;  
+    try {
+        const user = await User.findById(req.user._id);  
+ 
+        const isVideoInHistory = user.watchHistory.includes(videoId);
+
+        if (!isVideoInHistory) {
+            // Add the video to the watch history if it's not already there
+            user.watchHistory.push(videoId);
+            await user.save(); // Save the updated user document
+
+            return res.status(200).json(
+                new ApiResponse(
+                    200,
+                    user.watchHistory,
+                    "Video added to watch history successfully"
+                )
+            );
+        } else {
+            return res.status(200).json(
+                new ApiResponse(
+                    200,
+                    user.watchHistory,
+                    "Video is already in the watch history"
+                )
+            );
+        }
+    } catch (error) {
+        return res.status(500).json(
+            new ApiResponse(500, null, "Failed to add video to watch history")
+        );
+    }
+});
+
+
 export {
     getAllVideos,
     homepageVideos,
@@ -341,5 +377,6 @@ export {
     getVideoById,
     updateVideo,
     deleteVideo,
-    togglePublishStatus
+    togglePublishStatus,
+    addToWatchHistory
 }
