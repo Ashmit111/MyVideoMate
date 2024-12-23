@@ -6,6 +6,7 @@ import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
 import { Link } from 'react-router-dom'; 
+import axiosInstance from '@/utils/axiosInstance';
 
 function WatchHistory() {
     const [isLoading, setIsLoading] = useState(false); 
@@ -22,141 +23,37 @@ function WatchHistory() {
     ]; 
 
     useEffect(() => {
-      const fetchVideos = async () => {
-        const fetchedVideos = [
-          {
-            thumbnail: 'https://i.ytimg.com/vi/NkwFxeHARqc/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLA_xzx8CM9e1KyGIqGxGPPr-bYf3A',
-            title: 'React Tailwind YouTube Card with Options',
-            channelName: 'CodeWithMe',
-            channelAvatar: 'https://yt3.ggpht.com/1FEdfq3XpKE9UrkT4eOc5wLF2Bz-42sskTi0RkK4nPh4WqCbVmmrDZ5SVEV3WyvPdkfR8sw2=s68-c-k-c0x00ffffff-no-rj',
-            views: '123K',
-            timeAgo: '2 days ago',
-            duration: '12:34',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          {
-            thumbnail: 'https://i.ytimg.com/vi/Lu3BYhk9nj0/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAHtZW5B7mc9EDWwhlrT6spJVdw5A',
-            title: 'Building Modern UI with Tailwind CSS',
-            channelName: 'DevTutorials',
-            channelAvatar: 'https://yt3.ggpht.com/A_3mLbY1nzH3MPjzEftkO8LK02HazD4PWy9XbwLDQ4hDkbBCla4EkcVNM0kZDTeMWqNCD4jVbA=s68-c-k-c0x00ffffff-no-rj',
-            views: '456K',
-            timeAgo: '1 week ago',
-            duration: '8:45',
-          },
-          // More video objects here
-        ];
-        setVideos(fetchedVideos);
+      const fetchWatchHistory = async () => {
+          try { 
+              const response = await axiosInstance.get('/users/history'); 
+              const videosWithFormattedDuration = response.data.data.map((video) => {
+                  const formattedDuration = formatDuration(video.duration); // Format the duration
+                  return { 
+                      ...video, 
+                      formattedDuration, // Add formatted duration
+                      // owner: video.owner // Include the owner details
+                  }; 
+              });
+  
+              console.log(videosWithFormattedDuration);
+  
+              setVideos(videosWithFormattedDuration);  
+          } catch (err) {
+              // Handle any errors
+              console.log("Failed to fetch watch history"); 
+          }
       };
   
-      fetchVideos();
-    }, []);
+      // Function to format the video duration from seconds to "minutes:seconds"
+      function formatDuration(seconds) {
+          const minutes = Math.floor(seconds / 60);
+          const remainingSeconds = seconds % 60;
+          return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+      } 
+  
+      fetchWatchHistory(); // Fetch the watch history on component mount
+  }, []); 
+  
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
@@ -197,7 +94,7 @@ function WatchHistory() {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
       {videos.map(video => (
           <Link key={video._id} to={`/video/${video._id}`}>
             <VideoCard video={video} />
