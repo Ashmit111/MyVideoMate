@@ -9,6 +9,7 @@ import VideoCard3 from '@/components/ui/videoCard3';
 import axios from 'axios'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axiosInstance from '@/utils/axiosInstance';
 
 function SearchResultPage() { 
   const [loading, setLoading] = useState(true); 
@@ -38,7 +39,7 @@ function SearchResultPage() {
         setError('');
   
         try {
-          const response = await axios.get(`/api/v1/videos/search?query=${encodeURIComponent(query)}` ); 
+          const response = await axiosInstance.get(`/videos/search?query=${encodeURIComponent(query)}` ); 
 
           const videosWithFormattedDuration = response.data.data.map((video) => {
             const formattedDuration = formatDuration(video.duration); // Format the duration

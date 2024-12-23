@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { logout } from '@/Features/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'; 
 
 
 const Home = () => { 
@@ -27,6 +27,7 @@ const Home = () => {
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const notifications = [
       { id: 1, message: "Your order has been shipped!" },
@@ -91,7 +92,7 @@ const Home = () => {
       
         console.log(formData); 
 
-        const response = await axios.post("/api/v1/videos",formData, {
+        const response = await axiosInstance.post("/videos",formData, {
           headers: {
             "Content-Type": "multipart/form-data", // Set the correct content type
           },

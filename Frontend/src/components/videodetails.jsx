@@ -5,6 +5,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { MdPlaylistAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
 import { MdClose } from "react-icons/md";
+import axiosInstance from "@/utils/axiosInstance";
 
 const VideoDetails = ({ video, videoId, channelId }) => {
   const [isLiked, setIsLiked] = useState(video.isLiked || false);
@@ -18,7 +19,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
-        const response = await axios.get(`/api/v1/likes/toggle/v/${videoId}`);
+        const response = await axiosInstance.get(`/likes/toggle/v/${videoId}`);
         const { likeCount, liked } = response.data.data;
         setLikeCount(likeCount);
         setIsLiked(liked);
@@ -32,7 +33,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
   useEffect(() => {
     const fetchSubscriptionData = async () => {
       try {  
-        const response = await axios.get(`/api/v1/subscriptions/c/${channelId}`);
+        const response = await axiosInstance.get(`/subscriptions/c/${channelId}`);
         const { subscriptionCount, subscribed } = response.data.data; 
         setSubscriptionCounts(subscriptionCount);
         setIsSubscribed(subscribed);
@@ -46,7 +47,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
 
   const handleLikeToggle = async () => {
     try {
-      const response = await axios.post(`/api/v1/likes/toggle/v/${videoId}`);
+      const response = await axiosInstance.post(`/likes/toggle/v/${videoId}`);
       const { liked, likeCount: updatedLikeCount } = response.data.data;
 
       // Update state based on API response
@@ -59,7 +60,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
 
   const handleSubscriptionToggle = async () => {
     try {
-      const response = await axios.post(`/api/v1/subscriptions/c/${channelId}`);
+      const response = await axiosInstance.post(`/subscriptions/c/${channelId}`);
       const { subscriptionCount, subscribed } = response.data.data; 
       setSubscriptionCounts(subscriptionCount);
       setIsSubscribed(subscribed);
