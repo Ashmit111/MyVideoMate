@@ -512,6 +512,37 @@ const getWatchHistory = asyncHandler(async(req, res) => {
     )
 })
 
+const getChannelViews = asyncHandler(async (req, res) => {
+    const channelId = req.user._id; // Assuming the channel ID is the user's ID
+
+    if (!channelId) {
+        throw new ApiError(400, "Channel ID is required");
+    }
+
+    const views = await Video.aggregate([
+        {
+            $match: {
+                owner: new mongoose.Types.ObjectId(channelId) // Match videos owned by the user
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalViews: { $sum: "$views" } // Sum all the views
+            }
+        }
+    ]);
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            views[0]?.totalViews || 0, // Return total views or 0 if no videos
+            "Channel views fetched successfully"
+        )
+    );
+});
+
+
 
 export {
     registerUser,
@@ -524,5 +555,6 @@ export {
     updateUserAvatar,
     updateUserCoverImage,
     getUserChannelProfile,
-    getWatchHistory
+    getWatchHistory,
+    getChannelViews
 }
