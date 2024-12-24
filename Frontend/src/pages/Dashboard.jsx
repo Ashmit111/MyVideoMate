@@ -7,6 +7,7 @@ import axiosInstance from '@/utils/axiosInstance';
 
 function Dashboard() {
   const [videos, setVideos] = useState([]);
+  const [username, setUsername] = useState(""); 
   const [totalViews, setTotalViews] = useState(0);
   const [subscriptionCounts, setSubscriptionCounts] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
@@ -40,6 +41,18 @@ function Dashboard() {
       }
     };
 
+    const fetchUserVideoData = async () => {
+      try {
+        const response = await axiosInstance.get("/users/profile");
+        setUsername(response.data.username);
+        console.log(response.data.videos); 
+        setVideos(response.data.videos);
+      } catch (error) {
+        console.error("Error fetching user video data:", error);
+      }
+    };
+
+    fetchUserVideoData();
     fetchTotalViews();
     fetchSubscriptionData();
     fetchTotalLikes();
@@ -66,7 +79,7 @@ function Dashboard() {
       <div className="pt-16 bg-black text-white w-full">
         {/* Header Section */}
         <header className="p-6 ">
-          <h1 className="text-3xl font-bold">Welcome Back, React Patterns</h1>
+          <h1 className="text-3xl font-bold">Welcome Back, {username}</h1>
           <p className="text-sm text-gray-400">Seamless Video Management, Elevated Results</p>
 
           {/* Stats */}
@@ -102,7 +115,7 @@ function Dashboard() {
               </thead>
               <tbody>
                 {/* Uncomment and use when video data is available */}
-                {/* {videos.map((video, index) => (
+                {videos.map((video, index) => (
                   <tr key={index} className="border-b border-gray-600">
                     <td className="p-4 flex items-center">
                       <img
@@ -119,7 +132,7 @@ function Dashboard() {
                     </td>
                     <td className="p-4">{video.date || "00"}</td>
                   </tr>
-                ))} */}
+                ))}
               </tbody>
             </table>
           </div>
