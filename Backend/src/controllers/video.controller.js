@@ -341,16 +341,27 @@ const addToWatchHistory = asyncHandler(async (req, res) => {
  
         const isVideoInHistory = user.watchHistory.includes(videoId);
 
+        const video = await Video.findById(videoId); 
+
+        if (!video) {
+            return res.status(404).json(
+                new ApiResponse(404, null, "Video not found")
+            );
+        }
+ 
         if (!isVideoInHistory) {
             // Add the video to the watch history if it's not already there
             user.watchHistory.push(videoId);
             await user.save(); // Save the updated user document
 
+            video.views += 1;
+            await video.save(); // Save the updated video document
+
             return res.status(200).json(
                 new ApiResponse(
                     200,
                     user.watchHistory,
-                    "Video added to watch history successfully"
+                    "Video added to watch history successfully and view count incremented"
                 )
             );
         } else {
