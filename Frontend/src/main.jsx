@@ -12,6 +12,7 @@ import Collection from './pages/Collection'
 import PlaylistVideos from './pages/PlaylistVideos'
 import LikedVideos from './pages/LikedVideos'
 import VideoDetails from './pages/VideoDetails'
+import Dashboard from './pages/Dashboard'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/playlistVideos" element={<PlaylistVideos/>}/>
       <Route path="/likedVideos" element={<LikedVideos/>}/>
       <Route path="/video/:videoId" element={<VideoDetails/>}/>
+      <Route path="/dashboard" element={<Dashboard/>}/>
     </>
   )
 );
