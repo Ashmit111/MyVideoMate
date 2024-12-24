@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { FaVideo, FaBars, FaTimes, FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import AuthModal from './components/ui/AuthModal';  
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -33,12 +34,31 @@ const App = () => {
   
   const handleGetStarted = () => {
     const accessToken = localStorage.getItem('accessToken');
+  
     if (accessToken) {
-      console.log(accessToken);
-      navigate("/home"); // Navigate to home if token is available
+      try {
+        // Decode the token to check the expiration time
+        const decodedToken = jwtDecode(accessToken);
+        const currentTime = Date.now() / 1000; // Get current time in seconds
+  
+        if (decodedToken.exp < currentTime) { 
+          console.log('Token expired');
+          setIsLogin(true);
+          toggleModal(); // Open the AuthModal if token is expired
+        } else {
+          // Token is valid
+          console.log(accessToken);
+          navigate("/home"); // Navigate to home if the token is valid
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        setIsLogin(true);
+        toggleModal(); // Open AuthModal if there's an issue with decoding
+      }
     } else {
+      // No token found
       setIsLogin(true);
-      toggleModal(); // Open AuthModal if no token is found
+      toggleModal(); // Open the AuthModal if no token is found
     }
   };
 
