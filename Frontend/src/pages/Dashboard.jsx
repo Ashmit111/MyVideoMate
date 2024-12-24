@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BiSolidLike } from "react-icons/bi";
+import { FaRegHeart } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import axiosInstance from '@/utils/axiosInstance';
 
 function Dashboard() {
@@ -60,25 +63,28 @@ function Dashboard() {
       </nav>
 
       {/* Content Section */}
-      <div className="pt-16 bg-gray-900 text-white w-screen">
+      <div className="pt-16 bg-black text-white w-full">
         {/* Header Section */}
-        <header className="p-6 text-center">
+        <header className="p-6 ">
           <h1 className="text-3xl font-bold">Welcome Back, React Patterns</h1>
           <p className="text-sm text-gray-400">Seamless Video Management, Elevated Results</p>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h2 className="text-lg">Total Views</h2>
-              <p className="text-2xl font-bold">{totalViews}</p>
+          <div className="grid grid-cols-3 gap-6 m-10">
+            <div className="p-4 bg-black rounded-lg pl-5 border border-white mx-4">
+              <MdOutlineRemoveRedEye className="w-6 h-6 text-white mb-5" />
+              <h2 className="text-md mb-1">Total Views</h2>
+              <p className="text-3xl font-semibold">{totalViews}</p>
             </div>
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h2 className="text-lg">Total Subscribers</h2>
-              <p className="text-2xl font-bold">{subscriptionCounts}</p>
+            <div className="p-4 bg-black rounded-lg pl-5 border border-white mx-4">
+              <FaRegUser className="w-6 h-6 text-white mb-5" />
+              <h2 className="text-md mb-1">Total Subscribers</h2>
+              <p className="text-3xl font-semibold">{subscriptionCounts}</p>
             </div>
-            <div className="p-4 bg-gray-800 rounded-lg">
-              <h2 className="text-lg">Total Likes</h2>
-              <p className="text-2xl font-bold">{totalLikes}</p>
+            <div className="p-4 bg-black rounded-lg pl-5 border border-white mx-4">
+              <FaRegHeart className="w-6 h-6 text-white mb-5" />
+              <h2 className="text-md mb-1">Total Likes</h2>
+              <p className="text-3xl font-semibold">{totalLikes}</p>
             </div>
           </div>
         </header>
@@ -86,7 +92,7 @@ function Dashboard() {
         {/* Video Table */}
         <section className="mt-8 px-6">
           <div className="overflow-x-auto">
-            <table className="w-full bg-gray-800">
+            <table className="w-full bg-black">
               <thead>
                 <tr className="text-left border-b border-gray-600">
                   <th className="p-4">Uploaded</th>
