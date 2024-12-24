@@ -94,7 +94,7 @@ function Dashboard() {
         </div>
         <div className="mx-auto">
           <h2 className="text-white font-bold text-2xl pt-3 flex gap-2">
-            Liked Videos <BiSolidLike className="mt-1" />
+            Admin Dashboard
           </h2>
         </div>
       </nav>
