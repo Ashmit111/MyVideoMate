@@ -12,7 +12,8 @@ import {
     getWatchHistory, 
     updateAccountDetails,
     getChannelViews,
-    getChannelLikes
+    getChannelLikes,
+    getUserProfileWithVideos
 } from "../controllers/user.controller.js";
 import {upload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -37,6 +38,7 @@ router.route("/register").post(
 router.route("/login").post(loginUser)
 
 //secured routes
+router.route("/profile").get(verifyJWT, getUserProfileWithVideos)
 router.route("/channel-views").get(verifyJWT, getChannelViews)
 router.route("/channel-likes").get(verifyJWT, getChannelLikes)
 router.route("/logout").post(verifyJWT,  logoutUser)
