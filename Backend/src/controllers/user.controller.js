@@ -545,45 +545,27 @@ const getChannelViews = asyncHandler(async (req, res) => {
 });
 
 const getChannelLikes = asyncHandler(async (req, res) => {
-    const channelId = req.user._id; // Assuming the channel ID is the user's ID
+    const channelId = req.user._id;
 
-    if (!channelId) {
-        throw new ApiError(400, "Channel ID is required");
-    }
+  // Validate channelId
+  if (!channelId) {
+    throw new ApiError(400, "Channel ID is required");
+  }
 
-    // Aggregate likes by joining the "Like" and "Video" collections
-    const totalLikes = await Like.aggregate([
-        {
-            $lookup: {
-                from: "videos",  // Collection to join
-                localField: "videoId",  // Field in the Like collection
-                foreignField: "_id", // Field in the Video collection
-                as: "video"
-            }
-        },
-        {
-            $unwind: "$video" // Unwind to access video details
-        },
-        {
-            $match: {
-                "video.owner": new mongoose.Types.ObjectId(channelId) // Filter videos owned by the user
-            }
-        },
-        {
-            $group: {
-                _id: null,
-                totalLikes: { $sum: 1 } // Count the number of likes
-            }
-        }
-    ]);
+  try {
+    // Find all videos by the channel
+    const videos = await Video.find({ owner: channelId });
 
-    return res.status(200).json(
-        new ApiResponse(
-            200,
-            totalLikes[0]?.totalLikes || 0, // Return total likes or 0 if no likes
-            "Channel likes fetched successfully"
-        )
-    );
+    // Extract video IDs
+    const videoIds = videos.map(video => video._id);
+
+    // Find all likes for the videos
+    const totalLikes = await Like.countDocuments({ video: { $in: videoIds } });
+
+    res.status(200).json({ totalLikes });
+  } catch (error) {
+    res.status(500).json({ message: "An error occurred while fetching likes", error: error.message });
+  }
 });
 
 
