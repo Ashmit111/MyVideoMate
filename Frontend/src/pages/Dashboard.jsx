@@ -11,6 +11,7 @@ import axiosInstance from '@/utils/axiosInstance';
 function Dashboard() {
   const [videos, setVideos] = useState([]);
   const [totalViews, setTotalViews] = useState(0);
+  const [subscriptionCounts, setSubscriptionCounts] = useState(0);
 
   useEffect(() => {
     const fetchTotalViews = async () => {
@@ -23,6 +24,17 @@ function Dashboard() {
       }
     };
 
+    const fetchSubscriptionData = async () => {
+      try {  
+        const response = await axiosInstance.get("/subscriptions/subscriberCount");
+        const { subscriptionCount } = response.data.data; 
+        setSubscriptionCounts(subscriptionCount); 
+      } catch (error) {
+        console.error("Error fetching subscription data:", error);
+      }
+    };
+
+    fetchSubscriptionData();
     fetchTotalViews();
   } , []);
   return (
@@ -52,7 +64,7 @@ function Dashboard() {
           </div>
           <div className="p-4 bg-gray-800 rounded-lg">
             <h2 className="text-lg">Total Subscribers</h2>
-            <p className="text-2xl font-bold">4,053</p>
+            <p className="text-2xl font-bold">{subscriptionCounts}</p>
           </div>
           <div className="p-4 bg-gray-800 rounded-lg">
             <h2 className="text-lg">Total Likes</h2>
