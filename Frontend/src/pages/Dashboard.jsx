@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { BiSolidLike } from "react-icons/bi";
+import React, { useState, useEffect } from 'react'; 
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
