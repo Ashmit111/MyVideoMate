@@ -14,6 +14,11 @@ function Dashboard() {
   const [subscriptionCounts, setSubscriptionCounts] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
 
+  const handleDelete = () => {
+    const response = axiosInstance.delete("/videos/:videoId");
+    console.log(response);
+  }
+
   useEffect(() => {
     const fetchTotalViews = async () => {
       try {
@@ -136,12 +141,12 @@ function Dashboard() {
                     <td className="p-4">{video.date || "00"}</td>
                     <td className=" flex gap-2 -pt-4">
                     {/* Update Button */}
-                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                      <button onClick={handleUpdate}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
                          <LuPencil />
                       </button>
 
                     {/* Delete Button */}
-                      <button onClick={() => handleDelete(video._id)} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                      <button onClick={handleDelete} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
                         <MdDelete />
                       </button>
                     </td>
