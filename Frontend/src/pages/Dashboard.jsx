@@ -3,6 +3,8 @@ import { BiSolidLike } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { LuPencil } from "react-icons/lu";
+import { MdDelete } from "react-icons/md";
 import axiosInstance from '@/utils/axiosInstance';
 
 function Dashboard() {
@@ -111,12 +113,13 @@ function Dashboard() {
                   <th className="p-4">Uploaded</th>
                   <th className="p-4">Rating</th>
                   <th className="p-4">Date Uploaded</th>
+                  <th className="p-4">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='ml-9'>
                 {/* Uncomment and use when video data is available */}
-                {videos.map((video, index) => (
-                  <tr key={index} className="border-b border-gray-600">
+                {videos.map((video) => (
+                  <tr key={video._id} className="border-b border-gray-600">
                     <td className="p-4 flex items-center">
                       <img
                         src={video.thumbnail}
@@ -131,6 +134,17 @@ function Dashboard() {
                       </span>
                     </td>
                     <td className="p-4">{video.date || "00"}</td>
+                    <td className=" flex gap-2 -pt-4">
+                    {/* Update Button */}
+                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                         <LuPencil />
+                      </button>
+
+                    {/* Delete Button */}
+                      <button onClick={() => handleDelete(video._id)} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                        <MdDelete />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
