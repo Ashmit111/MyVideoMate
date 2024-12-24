@@ -5,8 +5,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
-import axiosInstance from '@/utils/axiosInstance';
-import { set } from 'react-hook-form';
+import axiosInstance from '@/utils/axiosInstance'; 
 
 function Dashboard() {
   const [videos, setVideos] = useState([]);
