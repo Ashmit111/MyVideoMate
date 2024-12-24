@@ -6,6 +6,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import axiosInstance from '@/utils/axiosInstance';
+import { set } from 'react-hook-form';
 
 function Dashboard() {
   const [videos, setVideos] = useState([]);
@@ -13,10 +14,27 @@ function Dashboard() {
   const [totalViews, setTotalViews] = useState(0);
   const [subscriptionCounts, setSubscriptionCounts] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
+  const [updateModal, setUpdateModal] = useState(false);
 
-  const handleDelete = () => {
-    const response = axiosInstance.delete("/videos/:videoId");
+  const handleDelete = async (videoId) => {
+    const response = axiosInstance.delete(`/videos/${videoId}`);
     console.log(response);
+  }
+
+  const handleUpdateVideo = async (videoId, data) => {  
+    const formData = {
+      ...data, 
+    };
+    const response = await axiosInstance.patch(`/videos/${videoId}`,formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set the correct content type
+      },
+    }); 
+    console.log(response.data);
+  }
+
+  const handleUpdate = async (videoId) => {
+    setUpdateModal(true);
   }
 
   useEffect(() => {
@@ -141,12 +159,12 @@ function Dashboard() {
                     <td className="p-4">{video.date || "00"}</td>
                     <td className=" flex gap-2 -pt-4">
                     {/* Update Button */}
-                      <button onClick={handleUpdate}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
                          <LuPencil />
                       </button>
 
                     {/* Delete Button */}
-                      <button onClick={handleDelete} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
+                      <button onClick={() => handleDelete(video._id)} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
                         <MdDelete />
                       </button>
                     </td>
