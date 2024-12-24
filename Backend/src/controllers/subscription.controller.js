@@ -8,7 +8,8 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 
 const toggleAndGetSubscription = asyncHandler(async (req, res) => {
     try {
-      const { channelId } = req.params;
+      const channelId = req.params.channelId || req.user._id;
+
       const userId = req.user._id; // Assuming you have the user in req.user from authentication
   
       if (!isValidObjectId(channelId)) {
