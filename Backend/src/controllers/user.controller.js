@@ -542,6 +542,49 @@ const getChannelViews = asyncHandler(async (req, res) => {
     );
 });
 
+const getChannelLikes = asyncHandler(async (req, res) => {
+    const channelId = req.user._id; // Assuming the channel ID is the user's ID
+
+    if (!channelId) {
+        throw new ApiError(400, "Channel ID is required");
+    }
+
+    // Aggregate likes by joining the "Like" and "Video" collections
+    const totalLikes = await Like.aggregate([
+        {
+            $lookup: {
+                from: "videos",  // Collection to join
+                localField: "videoId",  // Field in the Like collection
+                foreignField: "_id", // Field in the Video collection
+                as: "video"
+            }
+        },
+        {
+            $unwind: "$video" // Unwind to access video details
+        },
+        {
+            $match: {
+                "video.owner": new mongoose.Types.ObjectId(channelId) // Filter videos owned by the user
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalLikes: { $sum: 1 } // Count the number of likes
+            }
+        }
+    ]);
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            totalLikes[0]?.totalLikes || 0, // Return total likes or 0 if no likes
+            "Channel likes fetched successfully"
+        )
+    );
+});
+
+
 
 
 export {
@@ -556,5 +599,6 @@ export {
     updateUserCoverImage,
     getUserChannelProfile,
     getWatchHistory,
-    getChannelViews
+    getChannelViews,
+    getChannelLikes
 }
