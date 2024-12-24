@@ -568,7 +568,42 @@ const getChannelLikes = asyncHandler(async (req, res) => {
   }
 });
 
-
+const getUserProfileWithVideos = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+  
+    // Validate userId
+    if (!userId) {
+      throw new ApiError(400, "User ID is required");
+    }
+  
+    try {
+      // Find the user
+      const user = await User.findById(userId).select("username");
+  
+      if (!user) {
+        throw new ApiError(404, "User not found");
+      }
+  
+      // Find all videos by the user
+      const videos = await Video.find({ owner: userId }).select("thumbnail title");
+  
+      // Get likes for each video
+      const videosWithLikes = await Promise.all(videos.map(async (video) => {
+        const likesCount = await Like.countDocuments({ video: video._id });
+        return {
+          ...video.toObject(),
+          likes: likesCount
+        };
+      }));
+  
+      res.status(200).json({
+        username: user.username,
+        videos: videosWithLikes
+      });
+    } catch (error) {
+      res.status(500).json({ message: "An error occurred while fetching user profile and videos", error: error.message });
+    }
+  });
 
 
 export {
@@ -584,5 +619,6 @@ export {
     getUserChannelProfile,
     getWatchHistory,
     getChannelViews,
-    getChannelLikes
+    getChannelLikes,
+    getUserProfileWithVideos
 }
