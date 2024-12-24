@@ -9,6 +9,22 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
 
 function Dashboard() {
+  const [videos, setVideos] = useState([]);
+  const [totalViews, setTotalViews] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalViews = async () => {
+      try {
+        const response = await axiosInstance.get("/users/channel-views"); 
+        console.log(response.data.data);
+        setTotalViews(response.data.data);
+      } catch (error) {
+        console.error("Error fetching likes", error);
+      }
+    };
+
+    fetchTotalViews();
+  } , []);
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
         <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
@@ -32,7 +48,7 @@ function Dashboard() {
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="p-4 bg-gray-800 rounded-lg">
             <h2 className="text-lg">Total Views</h2>
-            <p className="text-2xl font-bold">221,234</p>
+            <p className="text-2xl font-bold">{totalViews}</p>
           </div>
           <div className="p-4 bg-gray-800 rounded-lg">
             <h2 className="text-lg">Total Subscribers</h2>
@@ -72,7 +88,7 @@ function Dashboard() {
                       {video.likes} likes
                     </span>
                   </td>
-                  <td className="p-4">{video.date}</td>
+                  <td className="p-4">{video.date || "00"}</td>
                 </tr>
               ))}
             </tbody>
