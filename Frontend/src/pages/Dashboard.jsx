@@ -16,7 +16,7 @@ function Dashboard() {
 
   const handleDelete = async (videoId) => {
     const response = axiosInstance.delete(`/videos/${videoId}`);
-    console.log(response);
+    console.log(response.data);
   }
 
   const handleUpdateVideo = async (videoId, data) => {  
