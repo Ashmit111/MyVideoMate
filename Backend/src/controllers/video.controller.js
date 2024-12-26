@@ -5,20 +5,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
-import ffmpeg from 'fluent-ffmpeg';
-import fs from 'fs';
-
-const deleteFromCloudinary = async (imageUrl) => {
-    const publicId = extractPublicId(imageUrl); 
-    await cloudinary.uploader.destroy(publicId);
-};
-
-
-const extractPublicId = (url) => {
-    const parts = url.split('/');
-    const publicIdWithExtension = parts[parts.length - 1];
-    return publicIdWithExtension.split('.')[0]; // Remove file extension
-};
+import ffmpeg from 'fluent-ffmpeg'; 
 
 const getAllVideos = asyncHandler(async (req, res) => {
     try {
@@ -63,10 +50,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         );
     }
 });
-
-
-
-
+ 
 const homepageVideos = asyncHandler(async (req, res) => {
     try {
         // Fetch the first 16 videos sorted by the most recent
@@ -244,7 +228,15 @@ const updateVideo = asyncHandler(async (req, res) => {
     try {
         const { videoId } = req.params;
         const { title, description } = req.body;
+        const owner = req.user._id;
         const thumbnailLocalPath = req.file?.path
+
+        console.log("Video ID:", videoId);
+        console.log("Title:", title);
+        console.log("Description:", description);
+        console.log("Thumbnail Path:", thumbnailLocalPath);
+        console.log("Owner:", owner);
+        
 
         if (!thumbnailLocalPath) {
             throw new ApiError(400, "Thumbnail is missing")
@@ -252,7 +244,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 
         //TODO: delete old image - assignment
         const oldvideo = await Video.findById(videoId);
-        const oldThumbnailUrl = video.thumbnail;
+        const oldThumbnailUrl = oldvideo.thumbnail;
 
         // Delete old thumbnail from Cloudinary if it exists
         if (oldThumbnailUrl) {
