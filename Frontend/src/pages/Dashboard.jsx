@@ -14,9 +14,9 @@ function Dashboard() {
   const [totalLikes, setTotalLikes] = useState(0);
   const [updateModal, setUpdateModal] = useState(false);
 
-  const handleDelete = async (videoId) => {
-    const response = axiosInstance.delete(`/videos/${videoId}`);
-    console.log(response);
+  const handleDelete = async (videoId) => { 
+    const response = await axiosInstance.delete(`/videos/${videoId}`);
+    console.log(response.data);
   }
 
   const handleUpdateVideo = async (videoId, data) => {  
