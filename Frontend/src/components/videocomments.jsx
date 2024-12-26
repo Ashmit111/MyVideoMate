@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { useSelector } from "react-redux";
+import { LuPencil } from "react-icons/lu";
+import { MdDelete } from "react-icons/md";
 
 const VideoComments = ({ videoId }) => {
   const [commentList, setCommentList] = useState([]);
@@ -165,19 +167,19 @@ const VideoComments = ({ videoId }) => {
             {comment.owner?.username === user?.username && (
               <div className="flex gap-2">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-400"
+                  className="bg-transparent text-white px-1 py-1 rounded-md hover:text-gray-400 hover:border-transparent focus:outline-none"
                   onClick={() => {
                     setEditCommentId(comment._id);
                     setEditContent(comment.content); // Populate the edit input
                   }}
                 >
-                  Edit
+                  <LuPencil className='h-4 w-4' />
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-400"
+                  className="bg-transparent text-white px-1 py-1 rounded-md hover:text-gray-400 hover:border-transparent focus:outline-none"
                   onClick={() => handleDeleteComment(comment._id)}
                 >
-                  Delete
+                  <MdDelete className='h-5 w-5' />
                 </button>
               </div>
             )}
