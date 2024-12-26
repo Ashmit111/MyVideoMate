@@ -5,6 +5,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import axiosInstance from '@/utils/axiosInstance'; 
+import { useForm } from 'react-hook-form';
 
 function Dashboard() {
   const [videos, setVideos] = useState([]);
@@ -12,28 +13,44 @@ function Dashboard() {
   const [totalViews, setTotalViews] = useState(0);
   const [subscriptionCounts, setSubscriptionCounts] = useState(0);
   const [totalLikes, setTotalLikes] = useState(0);
-  const [updateModal, setUpdateModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false); 
+  const [videoId, setVideoId] = useState("");
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const { register, handleSubmit,setValue, formState: { errors } } = useForm();
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setThumbnailPreview(URL.createObjectURL(file)); // Preview image
+      setValue('thumbnail', file); // Set file in form state (for submission)
+    }
+  };
 
   const handleDelete = async (videoId) => { 
     const response = await axiosInstance.delete(`/videos/${videoId}`);
     console.log(response.data);
   }
 
-  const handleUpdateVideo = async (videoId, data) => {  
-    const formData = {
-      ...data, 
-    };
-    const response = await axiosInstance.patch(`/videos/${videoId}`,formData, {
+  const onSubmit = async (data) => {  
+    console.log(data);
+     
+    const response = await axiosInstance.patch(`/videos/${videoId}`,data, {
       headers: {
-        "Content-Type": "multipart/form-data", // Set the correct content type
+        "Content-Type": "multipart/form-data", 
       },
     }); 
     console.log(response.data);
   }
 
-  const handleUpdate = async (videoId) => {
+  const openModal = async (videoId) => {
     setUpdateModal(true);
+    setVideoId(videoId);
   }
+
+  const closeModal = () => {
+    setUpdateModal(false);
+  }
+ 
 
   useEffect(() => {
     const fetchTotalViews = async () => {
@@ -157,7 +174,7 @@ function Dashboard() {
                     <td className="p-4">{video.date || "00"}</td>
                     <td className=" flex gap-2 justify-center p-2">
                     {/* Update Button */}
-                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent  pb-3 text-white py-1 px-1 focus:outline-none hover:border-transparent  hover:text-gray-400" >
+                      <button onClick={() => openModal(video._id)}  className=" bg-transparent  pb-3 text-white py-1 px-1 focus:outline-none hover:border-transparent  hover:text-gray-400" >
                          <LuPencil className='h-5 w-5' />
                       </button>
 
@@ -173,7 +190,81 @@ function Dashboard() {
           </div>
         </section>
       </div>
+      {/* Update Modal */}  
+      {updateModal && (
+        <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-80">
+        <div className="modal-content bg-black text-white p-6 rounded-md w-1/3">
+          <h2 className="text-xl mb-4">Update Video</h2>
+          
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Title Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium" htmlFor="title">Title</label>
+              <input
+                id="title"
+                type="text"
+                {...register('title', { required: 'Title is required' })}
+                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+              />
+              {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+            </div>
+
+            {/* Description Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium" htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                {...register('description', { required: 'Description is required' })}
+                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+              />
+              {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+            </div>
+
+            {/* Thumbnail File Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium" htmlFor="thumbnail">Thumbnail</label>
+              <input
+                id="thumbnail"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+              />
+              {errors.thumbnail && <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>}
+
+              {/* Display image preview if available */}
+              {thumbnailPreview && (
+                <div className="mt-4">
+                  <img
+                    src={thumbnailPreview}
+                    alt="Thumbnail Preview"
+                    className="w-32 h-32 object-cover rounded-md"
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-between">
+              <button
+                type="button"
+                onClick={closeModal}
+                className="bg-gray-700 text-white py-2 px-4 rounded-md"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-500 text-white py-2 px-4 rounded-md"
+              >
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      )}
     </div>
+     
   );
 }
 
