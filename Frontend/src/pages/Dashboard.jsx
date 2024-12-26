@@ -194,7 +194,7 @@ function Dashboard() {
       {/* Update Modal */}  
       {updateModal && (
         <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center bg-black bg-opacity-80">
-        <div className="modal-content bg-black text-white p-6 rounded-md w-1/3">
+        <div className="modal-content bg-black text-white p-6 rounded-md w-1/3 border border-white">
           <h2 className="text-xl mb-4">Update Video</h2>
           
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -205,7 +205,7 @@ function Dashboard() {
                 id="title"
                 type="text"
                 {...register('title', { required: 'Title is required' })}
-                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+                className="w-full p-2 border border-white bg-black text-white rounded-md"
               />
               {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
             </div>
@@ -216,7 +216,7 @@ function Dashboard() {
               <textarea
                 id="description"
                 {...register('description', { required: 'Description is required' })}
-                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+                className="w-full p-2 border border-white bg-black text-white rounded-md"
               />
               {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
             </div>
@@ -229,7 +229,7 @@ function Dashboard() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="w-full p-2 border border-gray-700 bg-gray-800 text-white rounded-md"
+                className="w-full p-2 border border-white bg-black text-white rounded-md"
               />
               {errors.thumbnail && <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>}
 
@@ -249,13 +249,13 @@ function Dashboard() {
               <button
                 type="button"
                 onClick={closeModal}
-                className="bg-gray-700 text-white py-2 px-4 rounded-md"
+                className="bg-transparent text-white py-2 px-4 rounded-md"
               >
                 Close
               </button>
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                className="bg-white text-black py-2 px-4 rounded-md"
                 disabled={isSubmitting}
               >
                  {isSubmitting ? "Updating..." : "Update"}
