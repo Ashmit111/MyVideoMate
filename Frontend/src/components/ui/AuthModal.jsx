@@ -82,32 +82,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       setError(error.message);
     }
   };
-  
-  // const onRegister = async (data) => {
-  //   try {
-  //     const avatarInput = document.getElementById("avatar");
-  //     const coverImageInput = document.getElementById("coverImage");
-  
-  //     const formData = {
-  //       ...data,
-  //       avatar: avatarInput?.files[0] || null,
-  //       coverImage: coverImageInput?.files[0] || null,
-  //     };
-  
-  //     console.log("Register Form Data:", formData);
-  
-  //     reset();
-  //     setAvatar(null);
-  
-  //     const otpCode = generateOTP();
-  //     sessionStorage.setItem("userData", JSON.stringify(data));
-  
-  //     sendOTPEmail(data.email, otpCode);
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
-  
+ 
   const onLogin = async (data) => {
     try {
       console.log("Login Form Data:", data);
@@ -123,8 +98,10 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       const access = token.toString();
       localStorage.setItem("accessToken", access);
 
-        
-      const userData = response.data;
+      console.log(response.data.data.user);
+      const { avatar, coverImage, username, fullName, email } = response.data.data.user;
+      const  {accessToken} = response.data.data;
+      const userData = { avatar, coverImage, username, fullName, email, accessToken };
       if (userData ) {   
         dispatch(login(userData)); 
          console.log("Access token saved to localStorage", userData.accessToken);
