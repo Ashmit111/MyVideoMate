@@ -147,7 +147,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       <div className="bg-black text-white rounded-lg px-6 py-4 w-full max-w-sm relative shadow-2xl border border-white">
         <button
           onClick={toggleModal}
-          className="absolute right-4 top-4 text-white hover:text-gray-300 transition-colors duration-300"
+          className="absolute right-4 top-4 bg-transparent text-white hover:text-gray-300 transition-colors duration-300 focus:outline-none hover:border-transparent"
           aria-label="Close modal"
         >
           <IoMdClose size={24} />
@@ -187,14 +187,14 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
           {!isLogin && (
             <>
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-300">
+                <label htmlFor="username" className="block text-sm font-medium text-white">
                   Username
                 </label>
                 <input
                   {...register("username", { required: "Username is required" })}
                   type="text"
                   id="username"
-                  className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                  className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none text-white"
                 />
                 {errors.username && (
                   <p className="text-red-500 text-sm">{errors.username.message}</p>
@@ -208,7 +208,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                   {...register("fullName", { required: "Fullname is required" })}
                   type="text"
                   id="fullName"
-                  className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                  className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none text-white"
                 />
                 {errors.fullName && (
                   <p className="text-red-500 text-sm">{errors.fullName.message}</p>
@@ -231,7 +231,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               })}
               type="email"
               id="email"
-              className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+              className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none  text-white"
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -252,7 +252,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
               })}
               type="password"
               id="password"
-              className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+              className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none  text-white"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -268,7 +268,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
                 type="file"
                 id="coverImage"
                 accept="image/*"
-                className="w-full px-4 py-1 bg-gray-800 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
                 onChange={(e) => handleCoverImageChange(e, setCoverImageProp)}
               />
             </div>
@@ -276,26 +276,17 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
 
           <button
             type="submit"
-            className="w-full py-2 bg-gray-200 text-black rounded hover:opacity-90 transition font-semibold"
+            className="w-full py-2 bg-white text-black rounded hover:opacity-90 transition font-semibold"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Submitting..." : isLogin ? "Login" : "Register"}
-          </button>
-
-          <button
-            type="button"
-            className="w-full py-2 bg-gray-800 text-white rounded flex items-center justify-center space-x-2 hover:bg-gray-900 transition border border-gray-600"
-          >
-            <FcGoogle size={20} />
-            <span>{isLogin ? "Login with Google" : "Register with Google"}</span>
-          </button>
-
-          <p className="text-center text-sm text-gray-400">
+          </button> 
+          <p className="text-center text-sm text-white">
             {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
             <button
               type="button"
               onClick={toggleForm}
-              className="text-white font-medium"
+              className="text-white bg-transparent font-medium focus:outline-none hover:border-transparent"
             >
               {isLogin ? "Register" : "LogIn"}
             </button>
