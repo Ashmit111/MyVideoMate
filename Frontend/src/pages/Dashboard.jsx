@@ -128,9 +128,9 @@ function Dashboard() {
         {/* Video Table */}
         <section className="mt-8 px-6">
           <div className="overflow-x-auto">
-            <table className="w-full bg-black">
+            <table className="w-full bg-black mb-3">
               <thead>
-                <tr className="text-left border-b border-gray-600">
+                <tr className=" border border-white">
                   <th className="p-4">Uploaded</th>
                   <th className="p-4">Rating</th>
                   <th className="p-4">Date Uploaded</th>
@@ -140,12 +140,12 @@ function Dashboard() {
               <tbody className='ml-9'>
                 {/* Uncomment and use when video data is available */}
                 {videos.map((video) => (
-                  <tr key={video._id} className="border-b border-gray-600">
-                    <td className="p-4 flex items-center">
+                  <tr key={video._id} className="border-b border-l border-r border-gray-300 text-center">
+                    <td className="p-4 flex items-center pl-14">
                       <img
                         src={video.thumbnail}
                         alt="thumbnail"
-                        className="w-12 h-12 object-cover mr-4 rounded-md"
+                        className="w-12 h-12 object-cover mr-4 rounded-3xl"
                       />
                       <span>{video.title}</span>
                     </td>
@@ -155,15 +155,15 @@ function Dashboard() {
                       </span>
                     </td>
                     <td className="p-4">{video.date || "00"}</td>
-                    <td className=" flex gap-2 -pt-4">
+                    <td className=" flex gap-2 justify-center p-2">
                     {/* Update Button */}
-                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
-                         <LuPencil />
+                      <button onClick={() => handleUpdate(video._id)}  className=" bg-transparent  pb-3 text-white py-1 px-1 focus:outline-none hover:border-transparent  hover:text-gray-400" >
+                         <LuPencil className='h-5 w-5' />
                       </button>
 
                     {/* Delete Button */}
-                      <button onClick={() => handleDelete(video._id)} className=" bg-transparent flex items-center justify-center text-white py-1 px-2 focus:outline-none" >
-                        <MdDelete />
+                      <button onClick={() => handleDelete(video._id)} className=" bg-transparent pb-3 text-white py-1 px-1 focus:outline-none hover:border-transparent hover:text-gray-400" >
+                        <MdDelete className='h-5 w-5' />
                       </button>
                     </td>
                   </tr>
