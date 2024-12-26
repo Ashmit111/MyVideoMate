@@ -270,7 +270,7 @@ const Home = () => {
 
              <button
                onClick={handleCloseVideoModal}
-               className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+               className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors focus:outline-none hover:border-transparent"
                aria-label="Close modal"
              >
                <FiX size={24} />
@@ -296,7 +296,7 @@ const Home = () => {
                      {!videoPreview && (
                        <label
                          htmlFor="video-upload"
-                         className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-colors"
+                         className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-white transition-colors"
                        >
                          <div className="text-center">
                            <FiUpload className="mx-auto text-gray-400 mb-2" size={24} />
@@ -349,7 +349,7 @@ const Home = () => {
                      />
                      <label
                        htmlFor="thumbnail-upload"
-                       className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-blue-500 transition-colors"
+                       className="flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-white  transition-colors"
                      >
                        {thumbnailPreview ? (
                          <img
@@ -482,7 +482,7 @@ const Home = () => {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-19px)] ">
         {videos.map(video => (
           <Link key={video._id} to={`/video/${video._id}`}>
             <VideoCard video={video} />
