@@ -87,13 +87,13 @@ const App = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-4">
-              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md">
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
                 HOME
               </button>
-              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md">
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
                 ABOUT
               </button>
-              <button className="px-6 py-2 rounded-2xl bg-transparent text-white hover:bg-gray-800 transition-all duration-300 text-md"
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500"
               onClick={handleGetStarted}>
                 LOGIN
               </button>
@@ -119,7 +119,7 @@ const App = () => {
               {["GO", "ABOUT", "LOGIN"].map((item) => (
                 <button
                   key={item}
-                  className="block w-full text-left px-3 py-1 rounded-lg bg-transparent text-white hover:bg-gray-800/30 transition-all duration-300 text-sm"
+                  className="block w-full text-left px-3 py-1 rounded-lg bg-transparent text-white duration-300 text-sm focus:outline-none hover:border-transparent hover:text-gray-500"
                 >
                   {item}
                 </button>
@@ -150,9 +150,9 @@ const App = () => {
           sharing
         </p>
         <div className="flex items-start">
-          <button className="px-6 py-2 rounded-lg bg-red-600 hover:bg-gray-700 transition-all duration-300 text-base font-semibold text-white">
+          <button className="px-6 py-2 rounded-lg bg-red-600 hover:bg-white transition-all duration-300 text-base font-semibold text-white focus:outline-none hover:border-transparent hover:text-red-600">
             Get Started
-          </button>
+          </button> 
         </div>
       </motion.div>
       <AuthModal
