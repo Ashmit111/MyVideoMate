@@ -16,7 +16,7 @@ function Dashboard() {
   const [updateModal, setUpdateModal] = useState(false); 
   const [videoId, setVideoId] = useState("");
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const { register, handleSubmit,setValue, formState: { errors } } = useForm();
+  const { register, handleSubmit,setValue, formState: { errors, isSubmitting } } = useForm();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -40,6 +40,7 @@ function Dashboard() {
       },
     }); 
     console.log(response.data);
+    setUpdateModal(false);
   }
 
   const openModal = async (videoId) => {
@@ -255,8 +256,9 @@ function Dashboard() {
               <button
                 type="submit"
                 className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                disabled={isSubmitting}
               >
-                Update
+                 {isSubmitting ? "Updating..." : "Update"}
               </button>
             </div>
           </form>
