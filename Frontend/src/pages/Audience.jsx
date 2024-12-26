@@ -60,7 +60,7 @@ function Audience() {
                 </div>
               </div>
                <div className='mx-auto'>
-                  <h2 className='text-white font-bold text-2xl pt-3 flex gap-2'>Audience<BiSolidLike className='mt-1'/></h2>
+                  <h2 className='text-white font-bold text-2xl pt-3 flex gap-2'>Audience</h2>
                </div>
             </nav>
             //sidebar 
@@ -95,13 +95,13 @@ function Audience() {
         <div className="flex space-x-4 mb-6 justify-center items-center">
             <button
                 onClick={() => setView('subscriptions')}
-                className={`px-4 py-2 rounded-md ${view === 'subscriptions' ? 'bg-black text-white' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded-md focus:outline-none hover:border-transparent ${view === 'subscriptions' ? 'bg-white text-black' : 'bg-black text-white'}`}
             >
                 Subscriptions
             </button>
             <button
                 onClick={() => setView('subscribers')}
-                className={`px-4 py-2 rounded-md ${view === 'subscribers' ? 'bg-black text-white' : 'bg-gray-200'}`}
+                className={`px-4 py-2 rounded-md focus:outline-none hover:border-transparent ${view === 'subscribers' ? 'bg-white text-black' : 'bg-black text-white'}`}
             >
                 Subscribers
             </button>
