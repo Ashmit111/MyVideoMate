@@ -15,8 +15,8 @@ const authSlice = createSlice({
         username: action.payload.username, 
         fullName: action.payload.fullName,
         email: action.payload.email, 
-        avatar: action.payload.avatarUrl, 
-        coverImage: action.payload.coverImageUrl, 
+        avatar: action.payload.avatar, 
+        coverImage: action.payload.coverImage, 
         accessToken: action.payload.accessToken 
       };
     },
