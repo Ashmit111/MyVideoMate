@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
+import React, { useState } from "react"; 
 import { IoMdClose } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import emailjs from '@emailjs/browser';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "@/Features/authSlice";
 import { useNavigate } from "react-router-dom";
 import OTPModal from "./OtpModal";
