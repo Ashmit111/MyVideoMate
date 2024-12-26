@@ -43,20 +43,52 @@ const toggleAndGetSubscription = asyncHandler(async (req, res) => {
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-    try {
-        const {channelId} = req.params;
-        
-        if (!isValidObjectId(channelId)) {
-            return res.status(400).json(new ApiResponse(400, null, "Invalid channel ID"));
-        }
+  const userId = req.user._id;
 
-        const subscribers = await Subscription.find({channel: channelId}).populate("subscriber");
+  // Validate userId
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
 
-        if (subscribers.length === 0) {
-            return res.status(404).json(new ApiResponse(404, null, "No subscribers found for this channel"));
-        } 
+  try {
+    // Aggregate to get subscribers and their total videos
+    const subscribers = await Subscription.aggregate([
+      { $match: { channel: userId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "subscriber",
+          foreignField: "_id",
+          as: "subscriberDetails",
+        },
+      },
+      { $unwind: "$subscriberDetails" },
+      {
+        $lookup: {
+          from: "videos",
+          localField: "subscriber",
+          foreignField: "owner",
+          as: "videos",
+        },
+      },
+      {
+        $addFields: {
+          totalVideos: { $size: "$videos" },
+        },
+      },
+      {
+        $project: {
+          "subscriberDetails.username": 1, 
+          "subscriberDetails.avatar": 1,
+          totalVideos: 1,
+        },
+      },
+    ]);
 
-        return res.status(200).json(new ApiResponse(200, subscribers, "Subscribers fetched successfully"));
+    res.status(200).json({
+      message: "Subscribers fetched successfully",
+      data: subscribers,
+    });
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, null, `Error fetching subscribers: ${error.message}`));
     }
@@ -64,20 +96,52 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
 
 // controller to return channel list to which user has subscribed
 const getSubscribedChannels = asyncHandler(async (req, res) => {
-    try {
-        const { subscriberId } = req.params;
+  const userId = req.user._id;
 
-        if (!isValidObjectId(subscriberId)) {
-            return res.status(400).json(new ApiResponse(400, null, "Invalid Subscriber ID"));
-        }
-        
-        const subscribedChannels = await Subscription.find({subscriber: subscriberId}).populate("channel");
+  // Validate userId
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
 
-        if (subscribedChannels.length === 0) {
-            return res.status(404).json(new ApiResponse(404, null, "No subscribed channels found for this user"));
-        } 
+  try {
+    // Aggregate to get subscribed channels and their total videos
+    const subscribedChannels = await Subscription.aggregate([
+      { $match: { subscriber: userId } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "channel",
+          foreignField: "_id",
+          as: "channelDetails",
+        },
+      },
+      { $unwind: "$channelDetails" },
+      {
+        $lookup: {
+          from: "videos",
+          localField: "channel",
+          foreignField: "owner",
+          as: "videos",
+        },
+      },
+      {
+        $addFields: {
+          totalVideos: { $size: "$videos" },
+        },
+      },
+      {
+        $project: {
+          "channelDetails.username": 1, 
+          "channelDetails.avatar": 1,
+          totalVideos: 1,
+        },
+      },
+    ]);
 
-        return res.status(200).json(new ApiResponse(200, subscribedChannels, "Subscribers fetched successfully"));
+    res.status(200).json({
+      message: "Subscribed channels fetched successfully",
+      data: subscribedChannels,
+    });
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, null, `Error fetching subscribers: ${error.message}`));
     }
