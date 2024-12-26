@@ -28,7 +28,7 @@ function Dashboard() {
 
   const handleDelete = async (videoId) => { 
     const response = await axiosInstance.delete(`/videos/${videoId}`);
-    console.log(response.data);
+    console.log(response.data.data);
   }
 
   const onSubmit = async (data) => {  
