@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react"; 
 import axiosInstance from "@/utils/axiosInstance";
+import { useSelector } from "react-redux";
 
 const VideoComments = ({ videoId }) => {
   const [commentList, setCommentList] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState(null); // To store error messages
 
+  const user = useSelector((state) => state.auth.userData);
+  console.log(user);
+  
   // Fetch Comments
   const fetchComments = async () => {
     try {
