@@ -1,6 +1,6 @@
 import React from 'react' 
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 
 const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
@@ -35,12 +35,10 @@ const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
         });
         
         console.log(response.data);
-
-         sessionStorage.removeItem("userData"); // Clean up
+        sessionStorage.removeItem("userData");  
         reset();
-        toggleOTPModal();
-        navigate('/home')
-        // Close OTP modal
+        toggleOTPModal(); 
+        navigate("/");
       } else {
         console.error("Invalid OTP!");
       }
@@ -70,14 +68,14 @@ const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
                 {...register("otp", { required: "OTP is required" })}
                 type="text"
                 id="otp"
-                className="w-full px-4 py-1 bg-gray-800 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-white text-white"
+                className="w-full px-4 py-1 bg-black border border-white rounded focus:outline-none text-white"
               />
               {errors.otp && <p className="text-red-500 text-sm">{errors.otp.message}</p>}
             </div>
   
             <button
               type="submit"
-              className="w-full py-2 bg-gray-200 text-black rounded hover:opacity-90 transition font-semibold"
+              className="w-full py-2 bg-white text-black rounded hover:opacity-90 transition font-semibold"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Verifying" : "Verify OTP"}
