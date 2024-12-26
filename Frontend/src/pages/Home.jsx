@@ -270,7 +270,7 @@ const Home = () => {
 
              <button
                onClick={handleCloseVideoModal}
-               className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors focus:outline-none hover:border-transparent"
+               className="absolute right-4 top-4 bg-transparent text-gray-400 hover:text-white transition-colors focus:outline-none hover:border-transparent"
                aria-label="Close modal"
              >
                <FiX size={24} />
