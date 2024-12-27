@@ -12,10 +12,14 @@ const VideoDetails = ({ video, videoId, channelId }) => {
   const [likeCount, setLikeCount] = useState(video.likes || 0);
   const [subscriptionCounts, setSubscriptionCounts] = useState(0); 
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [playlists, setPlaylists] = useState([]);
 
-  const playlists = ["Favorites", "Watch Later", "React Tutorials", "My Playlist"];
- 
+  const fetchPlaylist = async () =>{
+    const response = await axiosInstance.get('/playlist');
+    console.log(response.data);
+    setPlaylists(response.data.data);
+}
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
@@ -28,6 +32,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
       }
     };
     fetchLikeData();
+    fetchPlaylist();
   }, [videoId]);
 
   useEffect(() => {
@@ -38,7 +43,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
         setSubscriptionCounts(subscriptionCount);
         setIsSubscribed(subscribed);
       } catch (error) {
-        console.error("Error fetching subscription data:", error);
+        console.log("Error fetching subscription data:", error);
       }
     };
 
@@ -150,12 +155,12 @@ const VideoDetails = ({ video, videoId, channelId }) => {
               onClick={() => setIsModalOpen(false)}
             />
             <ul>
-              {playlists.map((playlist, index) => (
+              {playlists.map((playlist ) => (
                 <li
-                  key={index}
+                  key={playlist._id}
                   className="p-2 hover:bg-[#282828] rounded-lg cursor-pointer"
                 >
-                  {playlist}
+                  {playlist.name}
                 </li>
               ))}
             </ul>
