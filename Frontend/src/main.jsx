@@ -14,6 +14,7 @@ import LikedVideos from './pages/LikedVideos'
 import VideoDetails from './pages/VideoDetails'
 import Dashboard from './pages/Dashboard'
 import Audience from './pages/Audience'
+import MyPlaylists from './pages/MyPlaylists'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/video/:videoId" element={<VideoDetails/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/audience" element={<Audience/>}/>
+      <Route path="/myplaylist" element={<MyPlaylists/>}/>
     </>
   )
 );
