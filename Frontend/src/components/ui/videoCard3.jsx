@@ -24,8 +24,7 @@ const VideoCard3 = ({ video }) => {
                 </div>
                 <div>
                     <p className="text-base text-gray-400 pt-2 pl-5">
-                    {video.views} views • 2 Month Ago 
-                    {video.createdAt}
+                    {video.views} views  &nbsp; • {video.createdAt}
                     </p>
                 </div>
                 <div className='flex gap-4 pt-4 pl-5'>
