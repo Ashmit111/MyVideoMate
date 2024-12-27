@@ -19,9 +19,12 @@ const createPlaylist = asyncHandler(async (req, res) => {
 
 const getUserPlaylists = asyncHandler(async (req, res) => {
     //TODO: get user playlists
-    try {
-        const {userId} = req.params
-        const userPlaylist = await Playlist.find({owner:userId}).populate("videos");
+    const userId = req?.params.userId || req.user._id;
+    if(!userId){
+        console.log("usernId");
+    }
+    try { 
+        const userPlaylist = await Playlist.find({owner:userId}) 
         if (userPlaylist.length === 0) {
             return res.status(200).json(new ApiResponse(200, [], "No playlists found for this user"));
         }
