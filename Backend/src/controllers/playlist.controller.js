@@ -38,13 +38,22 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
 const getPlaylistById = asyncHandler(async (req, res) => {
     //TODO: get playlist by id
     try {
-        const {playlistId} = req.params;
+        const { playlistId } = req.params;
 
         if (!mongoose.isValidObjectId(playlistId)) {
             return res.status(400).json(new ApiResponse(400, null, "Invalid playlist ID format"));
         }
-        
-        const playlistById = await Playlist.findOne({_id:playlistId}).populate("videos");
+
+        const playlistById = await Playlist.findOne({ _id: playlistId })
+            .select("name description")  // Only select name and description
+            .populate({
+                path: "videos",  // Populate videos
+                select: "thumbnail title duration views description",  // Select only the required fields from videos
+                    populate: {
+                        path: "owner",  // Populate owner field of each video
+                        select: "avatar username"  // Only select avatar and username of the owner
+                    }
+            });
 
         if (!playlistById) {
             return res.status(404).json(new ApiResponse(404, null, "Playlist not found"));
@@ -54,8 +63,8 @@ const getPlaylistById = asyncHandler(async (req, res) => {
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, null, `Error getting Playlist: ${error.message}`));
     }
-    
-})
+});
+
 
 const addVideoToPlaylist = asyncHandler(async (req, res) => {
     try {
