@@ -1,19 +1,19 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { MdOutlineCreateNewFolder } from "react-icons/md";
+import { useForm } from "react-hook-form"; 
 import axiosInstance from "@/utils/axiosInstance";
 
 const CreatePlaylistModal = ({ Modal, setModal }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
     const createPlaylist = async () => {
         const response = await axiosInstance.post("/playlist", data);
         console.log(response.data);
-    }
-    setModal(false);
+    } 
     createPlaylist();
+    setModal(false);
+    reset();
   };
 
   if (!Modal) return null;
@@ -69,8 +69,9 @@ const CreatePlaylistModal = ({ Modal, setModal }) => {
               <button
                 type="submit"
                 className="bg-white text-black px-4 py-2 rounded hover:border-transparent focus:outline-none"
+                disabled={isSubmitting}
               >
-                Create
+                {isSubmitting ? "Creating" : "Create"} 
               </button>
             </div>
           </form>
