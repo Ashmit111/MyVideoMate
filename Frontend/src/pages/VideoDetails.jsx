@@ -50,8 +50,8 @@ function VideoDetail () {
           setUrl(urls) 
 
           
-          const { title, description, views,  userDetails: { username, avatar }, } = response.data.data;
-          const extractedData = { username, avatar, title, description, views };
+          const { title, description, views, createdAt,  userDetails: { username, avatar }, } = response.data.data;
+          const extractedData = { username, avatar, title, description, views, createdAt };
           setVideoData(extractedData)
           const query = `${extractedData.title} ${extractedData.description}`;
 
@@ -187,7 +187,7 @@ function VideoDetail () {
                        </button>
                      </div>
                    </div>
-                  <div className="flex flex-col lg:flex-row gap-4 bg-[#0F0F0F] text-white p-4 pl-20 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-131px)] ml-16 mt-6 mr-12">
+                  <div className="flex flex-col lg:flex-row gap-4 bg-[#0F0F0F] text-white p-4 pl-20 pt-20 pb-8 px-4 overflow-y-auto space-y-8 w-[calc(100vw-129px)] ml-16 mt-6 mr-12">
                     {/* Main Video Section */}
                     <div className="flex-1">
                       <VideoPlayer video={url} />
