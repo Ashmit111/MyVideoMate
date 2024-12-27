@@ -30,7 +30,7 @@ const Sidebar = ({ video }) => {
           <p className="text-gray-400 text-sm">{video.owner.username}</p>
         </div>
         <p className="text-gray-500 text-xs mt-2">
-          {video.views} Views • {video?.uploadedTime || "2 Month Ago"}
+          {video.views} Views • {video?.createdAt}
         </p>
       </div>
     </div>
