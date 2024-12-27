@@ -23,14 +23,18 @@ function MyPlaylists() {
       // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
     ]; 
 
-    useEffect(() => {
-      const fetchPlaylist = async () =>{
+    const fetchPlaylist = async () =>{
         const response = await axiosInstance.get('/playlist');
         console.log(response.data);
         setPlaylists(response.data.data);
-      }
+    }
+    useEffect(() => { 
       fetchPlaylist();
-    }, []);
+    }, [setModal]);
+
+    const onPlaylistCreated = () => {
+        fetchPlaylist(); // Fetch the updated playlists
+    };
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
@@ -71,27 +75,38 @@ function MyPlaylists() {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">   
-      {playlists.length > 0 ? (
-        playlists.map((playlist) => (
-          <PlaylistCard key={playlist._id} playlist={playlist} bgColor="bg-[#1e1e1e]" />
-        ))
-      ) : (
-        <div className="col-span-full text-center text-white w-[calc(100vw-290px)] relative">
-            <div className="absolute right-0 top-0">
-                <button className="bg-green-700 text-white px-4 py-2 rounded flex items-center gap-2"
-                onClick={() => setModal(true)}>
-                    <MdOutlineCreateNewFolder className="w-6 h-6" />
-                    <span>Create Playlist</span>
-                </button>
-            </div>
-            <p className='text-center text-white mt-52 mr-16'>No playlists available.</p>
-        </div>
+      <div className="pl-64 pt-20 pb-8 px-4 w-[calc(100vw-19px)]">
+  {/* Button to Create Playlist */}
+  <div className="flex justify-end mb-4">
+    <button
+      className="bg-green-700 text-white px-4 py-2 rounded flex items-center gap-2"
+      onClick={() => setModal(true)}
+    >
+      <MdOutlineCreateNewFolder className="w-6 h-6" />
+      <span>Create Playlist</span>
+    </button>
+  </div>
 
-      )}
-     </div>
+  {/* Playlists Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
+    {playlists.length > 0 ? (
+      playlists.map((playlist) => (
+        <PlaylistCard
+          key={playlist._id}
+          playlist={playlist}
+          bgColor="bg-[#1e1e1e]"
+        />
+      ))
+    ) : (
+      <div className="col-span-full text-center text-white">
+        <p className="text-center text-white mt-52">No playlists available.</p>
+      </div>
+    )}
+  </div>
+</div>
+
     {/* Modal */}
-    <CreatePlaylistModal Modal={modal} setModal={setModal} />
+    <CreatePlaylistModal Modal={modal} setModal={setModal} onPlaylistCreated={onPlaylistCreated} />
       
     </div>
   )
