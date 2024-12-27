@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form"; 
 import axiosInstance from "@/utils/axiosInstance";
 
-const CreatePlaylistModal = ({ Modal, setModal }) => {
+const CreatePlaylistModal = ({ Modal, setModal, onPlaylistCreated }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
 
   const onSubmit = (data) => {
@@ -12,6 +12,7 @@ const CreatePlaylistModal = ({ Modal, setModal }) => {
         console.log(response.data);
     } 
     createPlaylist();
+    onPlaylistCreated();
     setModal(false);
     reset();
   };
