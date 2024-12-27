@@ -6,6 +6,7 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary, deleteFromCloudinary} from "../utils/cloudinary.js"
 import ffmpeg from 'fluent-ffmpeg'; 
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const getAllVideos = asyncHandler(async (req, res) => {
     try {
@@ -62,15 +63,14 @@ const homepageVideos = asyncHandler(async (req, res) => {
             
 
         // Check if no videos are found
-        if (!videos.length) {
-            return res.status(404).json(
-                new ApiResponse(404, null, "No videos found")
-            );
-        }
+        const formattedVideos = videos.map(video => ({
+            ...video.toObject(),
+            createdAt: formatDistanceToNowStrict(new Date(video.createdAt), { addSuffix: true })
+          }));
 
         // Return the videos along with user details
         return res.status(200).json(
-            new ApiResponse(200, videos, "Videos fetched successfully")
+            new ApiResponse(200, formattedVideos, "Videos fetched successfully")
         );
     } catch (error) {
         console.error("Error fetching homepage videos:", error);
