@@ -482,7 +482,7 @@ const Home = () => {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-19px)] ">
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
         {videos.map(video => (
           <Link key={video._id} to={`/video/${video._id}`}>
             <VideoCard video={video} />
