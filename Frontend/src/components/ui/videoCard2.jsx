@@ -11,7 +11,7 @@ const VideoCard2 = ({ video }) => {
             className="w-auto h-36 object-cover"
           />
           <span className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-xs px-2 pb-2  rounded-md">
-            {video.duration}
+            {video.formattedDuration}
           </span>
         </div>
   
@@ -24,7 +24,7 @@ const VideoCard2 = ({ video }) => {
                 </div>
                 <div>
                     <p className="text-xs text-gray-400">
-                    {video.views} views • 
+                    {video.views} views 
                     {/* {video.timeAgo} */}
                     </p>
                 </div>
