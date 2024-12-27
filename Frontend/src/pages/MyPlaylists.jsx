@@ -32,7 +32,7 @@ function MyPlaylists() {
           </div>
         </div>
          <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Collection</h2>
+            <h2 className='text-white font-bold text-2xl pt-3'>My Playlists</h2>
          </div>
       </nav>
       //sidebar 
