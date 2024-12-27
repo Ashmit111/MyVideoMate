@@ -35,7 +35,7 @@ const VideoCard = ({ video }) => {
               </p>
               <p className="text-xs text-gray-400">
                 {video.views} views 
-                {/* • {new Date(video.createdAt).toLocaleDateString()} */}
+                • { video.createdAt }
               </p>
             </div>
           </div>
