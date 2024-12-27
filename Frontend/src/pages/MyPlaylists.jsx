@@ -7,6 +7,7 @@ import { IoSettings } from "react-icons/io5";
 import PlaylistCard from '@/components/ui/playlistCard';
 import axiosInstance from '@/utils/axiosInstance';
 import CreatePlaylistModal from '@/components/ui/CreatePlaylistModal';
+import { Link } from 'react-router-dom';
 
 function MyPlaylists() {
     const [isLoading, setIsLoading] = useState(false);  
@@ -90,18 +91,19 @@ function MyPlaylists() {
   {/* Playlists Grid */}
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
     {playlists.length > 0 ? (
-      playlists.map((playlist) => (
-        <PlaylistCard
-          key={playlist._id}
-          playlist={playlist}
-          bgColor="bg-[#1e1e1e]"
-        />
-      ))
+    playlists.map((playlist) => (
+      <Link to={`/playlists/${playlist._id}`} key={playlist._id}>
+      <PlaylistCard
+        playlist={playlist}
+        bgColor="bg-[#1e1e1e]"
+      />
+    </Link>
+    ))
     ) : (
-      <div className="col-span-full text-center text-white">
-        <p className="text-center text-white mt-52">No playlists available.</p>
-      </div>
-    )}
+    <div className="col-span-full text-center text-white">
+      <p className="text-center text-white mt-52">No playlists available.</p>
+  </div>
+)}
   </div>
 </div>
 
