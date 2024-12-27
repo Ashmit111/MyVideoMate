@@ -2,7 +2,7 @@ import React from 'react';
 
 const VideoCard2 = ({ video }) => {
     return (
-      <div className="w-[395px] h-36 rounded-lg shadow-lg bg-black text-white overflow-hidden cursor-pointer flex hover:bg-[#1e1e1e]">
+      <div className="w-[395px] h-36 rounded-lg shadow-lg bg-[#1e1e1e] text-white overflow-hidden cursor-pointer flex hover:bg-black">
         {/* Thumbnail */}
         <div className="relative h-40">
           <img
