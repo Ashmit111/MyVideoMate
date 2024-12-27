@@ -5,9 +5,11 @@ import { FaHistory, FaRegCompass,  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import PlaylistCard from '@/components/ui/playlistCard';
+import axiosInstance from '@/utils/axiosInstance';
 
 function MyPlaylists() {
     const [isLoading, setIsLoading] = useState(false);  
+    const [playlists, setPlaylists] = useState([]);
  
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
@@ -20,7 +22,12 @@ function MyPlaylists() {
     ]; 
 
     useEffect(() => {
-      
+      const fetchPlaylist = async () =>{
+        const response = await axiosInstance.get('/playlist');
+        console.log(response.data);
+        setPlaylists(response.data.data);
+      }
+      fetchPlaylist();
     }, []);
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
@@ -62,15 +69,10 @@ function MyPlaylists() {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-          <img src={ j}  alt="coverImage" />
-          
-          
-          
-          
-          {/* {playlists.map((playlist, index) => (
-            <PlaylistCard key={index} playlist={playlist} bgColor="bg-[#1e1e1e]" />
-          ))} */}
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">   
+          {playlists.map((playlist) => (
+            <PlaylistCard key={playlist._id} playlist={playlist} bgColor="bg-[#1e1e1e]" />
+          ))}
      </div>
     
       
