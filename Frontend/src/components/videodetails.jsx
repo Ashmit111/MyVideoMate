@@ -19,6 +19,8 @@ const VideoDetails = ({ video, videoId, channelId }) => {
     console.log(response.data);
     setPlaylists(response.data.data);
 }
+console.log(video);
+
   useEffect(() => {
     const fetchLikeData = async () => {
       try {
@@ -87,7 +89,7 @@ const VideoDetails = ({ video, videoId, channelId }) => {
       {/* Views and Upload Time */}
       <div className="flex justify-between text-sm text-gray-400">
         <span>
-          {video.views} Views • {video.uploadedTime || "2 Months ago"}
+          {video.views} Views &nbsp; • {video?.createdAt}
         </span>
       </div>
 
