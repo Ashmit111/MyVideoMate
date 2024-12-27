@@ -40,9 +40,14 @@ const getAllVideos = asyncHandler(async (req, res) => {
             throw new ApiError(404, `No videos found for query: "${query}"`);
         }
 
+        const formattedVideos = allVideos.map(video => ({
+            ...video.toObject(),
+            createdAt: formatDistanceToNowStrict(new Date(video.createdAt), { addSuffix: true })
+          }));
+
         // Return the response with fetched videos
         return res.status(200).json(
-            new ApiResponse(200, allVideos, "Videos fetched successfully")
+            new ApiResponse(200, formattedVideos, "Videos fetched successfully")
         );
     } catch (error) {
         console.error("Error fetching videos:", error);
@@ -196,6 +201,7 @@ const getVideoById = asyncHandler(async (req, res) => {
                     description: 1,
                     thumbnail: 1, 
                     views: 1, 
+                    createdAt: 1,
                     "userDetails.username": 1,
                     "userDetails.avatar": 1,
                     "userDetails.fullName": 1,
@@ -210,8 +216,13 @@ const getVideoById = asyncHandler(async (req, res) => {
             );
         }
 
+        const formattedVideo = {
+            ...video[0],
+            createdAt: formatDistanceToNowStrict(new Date(video[0].createdAt), { addSuffix: true })
+          };
+
         return res.status(200).json(
-            new ApiResponse(200, video[0], "Video Details fetched successfully")
+            new ApiResponse(200, formattedVideo, "Video Details fetched successfully")
         );
     } catch (error) {
         console.error("Error fetching video:", error);
