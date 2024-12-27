@@ -58,7 +58,7 @@ function PlaylistVideos() {
       }, []);
 
   return (
-    <div className='h-screen bg-black w-full overflow-y-scroll'>
+    <div className='h-screen bg-black w-full overflow-y-scroll overflow-x-hidden'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
         <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3 ml-2">
@@ -98,7 +98,7 @@ function PlaylistVideos() {
  
       {/* Main Content */}
         <div className='bg-black'>  
-            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)]">
+            <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)] overflow-x-hidden">
                 <div className="w-1/2 p-4 mr-20 ml-28 fixed"> 
                     <PlaylistCard playlist={playlist} bgColor="bg-[#1e1e1e]" /> 
                 </div>
