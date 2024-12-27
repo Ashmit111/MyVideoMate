@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react"; 
 import { FiThumbsUp } from "react-icons/fi";
 import { BiSolidLike } from "react-icons/bi";
 import { MdPlaylistAddCircle } from "react-icons/md";
@@ -49,6 +48,12 @@ const VideoDetails = ({ video, videoId, channelId }) => {
 
     fetchSubscriptionData();
   }, [channelId]);
+
+  const handleVideo = async (playlistId) => {
+    const response = await axiosInstance.patch(`/playlist/add/${videoId}/${playlistId}`);
+    console.log(response.data);
+    setIsModalOpen(false);
+  }
 
   const handleLikeToggle = async () => {
     try {
@@ -148,22 +153,23 @@ const VideoDetails = ({ video, videoId, channelId }) => {
       {/* Save to Playlist Modal */}
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 flex justify-center items-center">
-          <div className="bg-[#181818] p-6 rounded-lg w-[400px] relative">
+          <div className="bg-[#181818] p-6 rounded-lg w-[400px] relative border border-white">
             <h3 className="text-lg font-semibold mb-4">Save to Playlist</h3>
             <MdClose
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-300 cursor-pointer"
               onClick={() => setIsModalOpen(false)}
             />
-            <ul>
+            <div className="flex flex-col gap-2">
               {playlists.map((playlist ) => (
-                <li
+                <button
                   key={playlist._id}
-                  className="p-2 hover:bg-[#282828] rounded-lg cursor-pointer"
+                  className="p-2 hover:bg-[#202020] rounded-lg cursor-pointer focus:outline-none hover:border-transparent"
+                  onClick={() => handleVideo(playlist._id)}
                 >
                   {playlist.name}
-                </li>
+                </button>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       )}
