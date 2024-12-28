@@ -2,6 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
+import { showEmojiToast, showPromiseToast, showSuccessToast, showErrorToast } from '@/utils/toastNotification'; 
 
 const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -39,8 +40,10 @@ const OTPModal = ({ isOpen, toggleOTPModal, avatar, coverImage }) => {
         reset();
         toggleOTPModal(); 
         navigate("/");
+        showSuccessToast("Account created successfully! Please login to continue.");
       } else {
         console.error("Invalid OTP!");
+        showErrorToast("Invalid OTP! Please try again.");
       }
     };
   
