@@ -5,6 +5,7 @@ import { MdPlaylistAddCircle } from "react-icons/md";
 import { motion } from "framer-motion";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "@/utils/axiosInstance";
+import {toast} from 'react-hot-toast';
 
 const VideoDetails = ({ video, videoId, channelId }) => {
   const [isLiked, setIsLiked] = useState(video.isLiked || false);
@@ -55,6 +56,9 @@ console.log(video);
     const response = await axiosInstance.patch(`/playlist/add/${videoId}/${playlistId}`);
     console.log(response.data);
     setIsModalOpen(false);
+    toast('Video Added to Playlist', {
+      icon: '📂',
+    });
   }
 
   const handleLikeToggle = async () => {
