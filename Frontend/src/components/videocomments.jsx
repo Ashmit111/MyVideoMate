@@ -20,8 +20,7 @@ const VideoComments = ({ videoId }) => {
       setCommentList(response.data?.data || []);
       setError(null);
     } catch (err) {
-      console.error("Error fetching comments:", err.response?.data || err.message);
-      setError("Failed to fetch comments. Please try again.");
+      console.error("Error fetching comments:", err.response?.data || err.message); 
     }
   };
 
