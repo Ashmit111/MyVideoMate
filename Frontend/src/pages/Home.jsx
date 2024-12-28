@@ -8,13 +8,13 @@ import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
 import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import VideoCard from '@/components/ui/videoCard';
-import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";
-import axios from 'axios'; 
+import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";  
 import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { logout } from '@/Features/authSlice';
 import { useDispatch } from 'react-redux'; 
+import { showPromiseToast, showErrorToast } from '@/utils/toastNotification';
 
 
 const Home = () => { 
@@ -80,7 +80,7 @@ const Home = () => {
         }
       }; 
     
-      const onSubmit = async (data) => { 
+      const onSubmit = (data) => {
         const videoInput = document.getElementById("video-upload");
         const thumbnailInput = document.getElementById("thumbnail-upload");
       
@@ -90,22 +90,43 @@ const Home = () => {
           thumbnail: thumbnailInput?.files[0] || null,
         };
       
-        console.log(formData); 
-
-        const response = await axiosInstance.post("/videos",formData, {
+        console.log(formData);
+      
+        // Create the promise for the video upload
+        const uploadPromise = axiosInstance.post("/videos", formData, {
           headers: {
             "Content-Type": "multipart/form-data", // Set the correct content type
           },
-        }); 
-        console.log(response.data);
-          // Reset form 
-        reset();
-        setVideoPreview(null);
-        setThumbnailPreview(null); 
-        setShowModal(false)
+        });
+      
+        // Call showPromiseToast and pass the upload promise
+        showPromiseToast(
+          uploadPromise,  // The promise
+          "Uploading video...",  // Loading message
+          " Video uploaded successfully!",  // Success message
+          "Failed to upload video",  // Error message
+        );
+        
+        // Handle any further logic if necessary
+        uploadPromise
+          .then(() => {
+            // Success block
+            reset();
+            setVideoPreview(null);
+            setThumbnailPreview(null);
+            setShowModal(false);
+            fetchVideos();  // Fetch updated video list after successful upload
+          })
+          .catch(() => {
+            // Failure block
+            setVideoPreview(null);
+            setThumbnailPreview(null);
+            setShowModal(false);
+            showErrorToast("Failed to upload video");
+          });
       };
-
-      const handleRemoveVideo = () => {
+      
+     const handleRemoveVideo = () => {
         setVideoPreview(null);
         const videoInput = document.getElementById("video-upload");
         if (videoInput) {
@@ -113,36 +134,36 @@ const Home = () => {
         }
       };
     
+      const fetchVideos = async () => {
+        try { 
+          const response = await axiosInstance.get("/videos", {
+            params: {
+                limit: 16, // Limit to 16 videos
+            },
+        });
+
+        const videosWithFormattedDuration = response.data.data.map((video) => {
+            const formattedDuration = formatDuration(video.duration); // Format the duration
+            return { ...video, formattedDuration }; // Add formatted duration to each video object
+        });
+        console.log(videosWithFormattedDuration);
+        
+        setVideos(videosWithFormattedDuration); // Update state with formatted videos
+        setLoading(false);
+        } catch (err) {
+            // Handle any errors
+            setError("Failed to fetch videos");
+            setLoading(false);
+        }
+    };
+    function formatDuration(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    } 
 
       useEffect(() => {
-        const fetchVideos = async () => {
-            try { 
-              const response = await axiosInstance.get("/videos", {
-                params: {
-                    limit: 16, // Limit to 16 videos
-                },
-            });
-
-            const videosWithFormattedDuration = response.data.data.map((video) => {
-                const formattedDuration = formatDuration(video.duration); // Format the duration
-                return { ...video, formattedDuration }; // Add formatted duration to each video object
-            });
-            console.log(videosWithFormattedDuration);
-            
-            setVideos(videosWithFormattedDuration); // Update state with formatted videos
-            setLoading(false);
-            } catch (err) {
-                // Handle any errors
-                setError("Failed to fetch videos");
-                setLoading(false);
-            }
-        };
-        function formatDuration(seconds) {
-          const minutes = Math.floor(seconds / 60);
-          const remainingSeconds = seconds % 60;
-          return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-        } 
-        fetchVideos();
+         fetchVideos();
     }, []);
 
     const handleSearch = (e) => {
