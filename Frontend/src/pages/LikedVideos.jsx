@@ -36,7 +36,8 @@ function LikedVideos() {
   
                   return video;  
               });  
-              setVideos(videosWithFormattedDuration);  
+              setVideos(videosWithFormattedDuration);
+               
           } catch (err) {
               console.error("Failed to fetch videos", err); 
           }
