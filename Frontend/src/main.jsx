@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import store, {persistor} from './store/store'
 import { PersistGate } from 'redux-persist/integration/react' 
 import App from './App'
+import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home.jsx'
 import SearchResultPage from './pages/SearchResultPage'
 import WatchHistory from './pages/WatchHistory'
@@ -39,6 +40,16 @@ createRoot(document.getElementById('root')).render(
   <Provider store={store}> 
     <PersistGate loading={null} persistor={persistor}>
       <RouterProvider router={router} />
+      <Toaster 
+        position="top-right" 
+        reverseOrder={false} 
+        toastOptions={{
+          style: {
+            background: '#333', // Dark theme
+            color: '#fff',
+          },
+        }}
+      />
     </PersistGate>
   </Provider> 
 )
