@@ -2,6 +2,8 @@ import mongoose, {isValidObjectId} from "mongoose"
 import {Video} from "../models/video.model.js"
 import {User} from "../models/user.model.js"
 import { Like } from "../models/like.model.js"
+import {Comment} from "../models/comment.model.js"
+import {Playlist} from "../models/playlist.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
@@ -311,10 +313,16 @@ const deleteVideo = asyncHandler(async (req, res) => {
     try {
       // Find the video by ID
       const video = await Video.findByIdAndDelete(videoId);
-      const like =  await Like.deleteMany({video: videoId})
+      const like =  await Like.deleteMany({video: videoId});
+      const comment = await Comment.deleteMany({video: videoId});
+      const playlist = await Playlist.updateMany(
+        { videos: videoId },
+        { $pull: { videos: videoId } }
+      );
       console.log("Like:", like); 
       console.log("Video:", video);
-  
+      console.log("Comment:", comment);
+      console.log("Playlist:", playlist);
       if (!video) {
         console.log("Video not found");
       }
