@@ -6,6 +6,7 @@ import { LuPencil } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import axiosInstance from '@/utils/axiosInstance'; 
 import { useForm } from 'react-hook-form';
+import {toast} from 'react-hot-toast';
 
 function Dashboard() {
   const [videos, setVideos] = useState([]);
@@ -28,7 +29,13 @@ function Dashboard() {
 
   const handleDelete = async (videoId) => { 
     const response = await axiosInstance.delete(`/videos/${videoId}`);
-    console.log(response.data.data);
+    console.log(response.data);
+    toast('Video Deleted Successfully!', {
+      icon: '🗑',
+    });
+    fetchUserVideoData();
+    fetchTotalViews(); 
+    fetchTotalLikes();
   }
 
   const onSubmit = async (data) => {  
@@ -41,6 +48,10 @@ function Dashboard() {
     }); 
     console.log(response.data);
     setUpdateModal(false);
+    fetchUserVideoData();
+    toast('Video Updated Successfully!', {
+      icon: '🎥',
+    });
   }
 
   const openModal = async (videoId) => {
@@ -52,47 +63,46 @@ function Dashboard() {
     setUpdateModal(false);
   }
  
+  const fetchTotalViews = async () => {
+    try {
+      const response = await axiosInstance.get("/users/channel-views");
+      setTotalViews(response.data.data);
+    } catch (error) {
+      console.error("Error fetching views:", error);
+    }
+  };
 
-  useEffect(() => {
-    const fetchTotalViews = async () => {
-      try {
-        const response = await axiosInstance.get("/users/channel-views");
-        setTotalViews(response.data.data);
-      } catch (error) {
-        console.error("Error fetching views:", error);
-      }
-    };
+  const fetchSubscriptionData = async () => {
+    try {
+      const response = await axiosInstance.get("/subscriptions/subscriberCount");
+      const { subscriptionCount } = response.data.data;
+      setSubscriptionCounts(subscriptionCount);
+    } catch (error) {
+      console.error("Error fetching subscription data:", error);
+    }
+  };
 
-    const fetchSubscriptionData = async () => {
-      try {
-        const response = await axiosInstance.get("/subscriptions/subscriberCount");
-        const { subscriptionCount } = response.data.data;
-        setSubscriptionCounts(subscriptionCount);
-      } catch (error) {
-        console.error("Error fetching subscription data:", error);
-      }
-    };
+  const fetchTotalLikes = async () => {
+    try {
+      const response = await axiosInstance.get("/users/channel-likes");
+      setTotalLikes(response.data.totalLikes);
+    } catch (error) {
+      console.error("Error fetching likes:", error);
+    }
+  };
 
-    const fetchTotalLikes = async () => {
-      try {
-        const response = await axiosInstance.get("/users/channel-likes");
-        setTotalLikes(response.data.totalLikes);
-      } catch (error) {
-        console.error("Error fetching likes:", error);
-      }
-    };
+  const fetchUserVideoData = async () => {
+    try {
+      const response = await axiosInstance.get("/users/profile");
+      setUsername(response.data.username);
+      console.log(response.data.videos); 
+      setVideos(response.data.videos);
+    } catch (error) {
+      console.error("Error fetching user video data:", error);
+    }
+  };
 
-    const fetchUserVideoData = async () => {
-      try {
-        const response = await axiosInstance.get("/users/profile");
-        setUsername(response.data.username);
-        console.log(response.data.videos); 
-        setVideos(response.data.videos);
-      } catch (error) {
-        console.error("Error fetching user video data:", error);
-      }
-    };
-
+  useEffect(() => { 
     fetchUserVideoData();
     fetchTotalViews();
     fetchSubscriptionData();
