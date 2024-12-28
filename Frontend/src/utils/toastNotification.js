@@ -3,8 +3,8 @@ import { toast } from 'react-hot-toast';
 // Common configuration for dark theme
 const commonOptions = {
   style: {
-    background: '#333',
-    color: '#fff',
+    background: '#fff',
+    color: '#000',
   },
 };
 
