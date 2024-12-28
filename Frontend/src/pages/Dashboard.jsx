@@ -17,7 +17,7 @@ function Dashboard() {
   const [updateModal, setUpdateModal] = useState(false); 
   const [videoId, setVideoId] = useState("");
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const { register, handleSubmit,setValue, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit,setValue,reset, formState: { errors, isSubmitting } } = useForm();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -47,6 +47,7 @@ function Dashboard() {
       },
     }); 
     console.log(response.data);
+    reset();
     setUpdateModal(false);
     fetchUserVideoData();
     toast('Video Updated Successfully!', {
@@ -259,13 +260,13 @@ function Dashboard() {
               <button
                 type="button"
                 onClick={closeModal}
-                className="bg-transparent text-white py-2 px-4 rounded-md"
+                className="bg-transparent text-white py-2 px-4 rounded-md focus:outline-none hover:border-transparent hover:text-gray-400"
               >
                 Close
               </button>
               <button
                 type="submit"
-                className="bg-white text-black py-2 px-4 rounded-md"
+                className="bg-white text-black py-2 px-4 rounded-md focus:outline-none hover:bg-gray-300 hover:border-black "
                 disabled={isSubmitting}
               >
                  {isSubmitting ? "Updating..." : "Update"}
