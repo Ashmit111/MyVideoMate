@@ -7,6 +7,7 @@ import { login } from "@/Features/authSlice";
 import { useNavigate } from "react-router-dom";
 import OTPModal from "./OtpModal";
 import axios from "axios";
+import { showSuccessToast, showPromiseToast, showEmojiToast, showErrorToast } from "@/utils/toastNotification"; 
 
 
 const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
@@ -71,6 +72,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       
   
       await sendOTPEmail(data.email, otpCode);
+      showSuccessToast("OTP sent to email");
   
       setOTPModalOpen(true); // Open OTP modal
       // setTimeout(() => {
@@ -79,6 +81,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       reset();
     } catch (error) {
       setError(error.message);
+      showErrorToast(error.message);
     }
   };
  
@@ -105,9 +108,11 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
         dispatch(login(userData)); 
          console.log("Access token saved to localStorage", userData.accessToken);
         navigate("/home"); // Navigate to home page after successful login
+        showSuccessToast("Login successful")
       }
     } catch (error) {
       setError(error.message);
+      showErrorToast(error.message);
     }
   };
   
