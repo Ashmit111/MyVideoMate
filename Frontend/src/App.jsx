@@ -5,6 +5,7 @@ import { FaVideo, FaBars, FaTimes, FaFacebookF, FaTwitter, FaInstagram, FaLinked
 import AuthModal from './components/ui/AuthModal';  
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
+import { showSuccessToast } from './utils/toastNotification';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -49,6 +50,7 @@ const App = () => {
           // Token is valid
           console.log(accessToken);
           navigate("/home"); // Navigate to home if the token is valid
+          showSuccessToast("Logged in successfully!");
         }
       } catch (error) {
         console.error('Error decoding token:', error);
