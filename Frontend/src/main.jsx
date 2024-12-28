@@ -45,8 +45,8 @@ createRoot(document.getElementById('root')).render(
         reverseOrder={false} 
         toastOptions={{
           style: {
-            background: '#333', // Dark theme
-            color: '#fff',
+            background: '#fff', // Dark theme
+            color: '#000',
           },
         }}
       />
