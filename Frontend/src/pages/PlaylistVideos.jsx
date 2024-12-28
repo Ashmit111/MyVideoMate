@@ -102,7 +102,7 @@ function PlaylistVideos() {
                 <div className="w-1/2 p-4 mr-20 ml-28 fixed"> 
                     <PlaylistCard playlist={playlist} bgColor="bg-[#1e1e1e]" /> 
                 </div>
-                <div className='flex-col overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
+                <div className='flex-col gap-6 overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
                 {videos.map(video => (
                   <Link key={video._id} to={`/video/${video._id}`}>
                     <VideoCard2 video={video} />
