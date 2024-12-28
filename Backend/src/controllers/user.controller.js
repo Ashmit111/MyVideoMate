@@ -7,6 +7,7 @@ import { Like } from "../models/like.model.js";
 import { Video } from "../models/video.model.js";
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+import { formatDistanceToNowStrict } from 'date-fns';
 import fs from 'fs'
 
 
@@ -503,12 +504,17 @@ const getWatchHistory = asyncHandler(async(req, res) => {
         }
     ])
 
+    const formattedWatchHistory = user[0].watchHistory.map(video => ({
+        ...video,
+        createdAt: formatDistanceToNowStrict(new Date(video.createdAt), { addSuffix: true })
+      }));
+
     return res
     .status(200)
     .json(
         new ApiResponse(
             200,
-            user[0].watchHistory,
+            formattedWatchHistory,
             "Watch history fetched successfully"
         )
     )
