@@ -3,6 +3,7 @@ import {Like} from "../models/like.model.js"
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js" 
+import { formatDistanceToNowStrict } from 'date-fns';
 
  const toggleAndGetLikes = asyncHandler(async (req, res) => {
   try {
@@ -90,34 +91,42 @@ const toggleTweetLike = asyncHandler(async (req, res) => {
 })
 
 const getLikedVideos = asyncHandler(async (req, res) => {
-    //TODO: get all liked videos
     try {
-        const userId = req.user._id;
-
-        const likedVideos = await Like.find({ likedBy: userId })
-            .populate({
-                path: "video",
-                populate: {
-                    path: "owner", // Path to populate the owner of the video
-                    select: "username avatar", // Only select the username and avatar fields
-                },
-            });
-
-        if (likedVideos.length > 0) {
-            return res
-                .status(200)
-                .json(
-                    new ApiResponse(200, likedVideos, "Liked Videos fetched successfully")
-                );
-        } else {
-            throw new ApiError(404, "No liked Videos");
+      const userId = req.user._id;
+      console.log(userId);
+        
+      const likedVideos = await Like.find({ likedBy: userId })
+        .populate({
+          path: "video",
+          populate: {
+            path: "owner", // Path to populate the owner of the video
+            select: "username avatar", // Only select the username and avatar fields
+          },
+        });
+  
+      if (!likedVideos.length) {
+        throw new ApiError(404, "No liked Videos");
+      }
+  
+      // Format the createdAt field for each liked video
+      const formattedLikedVideos = likedVideos.map(likedVideo => ({
+        ...likedVideo.toObject(),
+        video: {
+          ...likedVideo.video.toObject(),
+          createdAt: formatDistanceToNowStrict(new Date(likedVideo.video.createdAt), { addSuffix: true })
         }
+      }));
+  
+      return res.status(200).json(
+        new ApiResponse(200, formattedLikedVideos, "Liked Videos fetched successfully")
+      );
     } catch (error) {
-        return res.status(500).json(
-            new ApiResponse(500, null, "Failed to fetch liked videos")
-        );
+      console.error("Error fetching liked videos:", error);
+      return res.status(500).json(
+        new ApiResponse(500, null, "Failed to fetch liked videos")
+      );
     }
-});
+  });
 
 
 export {
