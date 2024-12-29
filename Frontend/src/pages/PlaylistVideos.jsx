@@ -10,21 +10,22 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
 import { useParams } from 'react-router-dom';
 import { showEmojiToast } from '@/utils/toastNotification';
+import { useNavigate } from 'react-router-dom';
 
 function PlaylistVideos() {
     const [isLoading, setIsLoading] = useState(false); 
     const [videos, setVideos] = useState([]); 
     const [playlist, setPlaylist] = useState({});
     const { playlistId } = useParams();
+    const navigate = useNavigate();
 
     const sideItems = [
-      { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
-      { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel" },
-      { icon: <MdSubscriptions className="w-6 h-6" />, label: "Subscriptions" },
-      { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists" },
-      { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History" }, 
-      { icon: <IoSettings className="w-6 h-6"/>, label: "Settings"},
-      // { icon: <BiLogOut className="w-6 h-6" />, label: "Log Out" }
+      { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
+      { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
+      { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
+      { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
+      { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
+      { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
     ];  
 
     const fetchVideos = async () => {
@@ -84,6 +85,7 @@ function PlaylistVideos() {
                 key={index}
                 className="w-full flex cursor-pointer items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
                 aria-label={item.label}
+                onClick={() => navigate(item.path)}
               >
                 {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
                 <span className="ml-4 text-sm">{item.label}</span>

@@ -29,13 +29,13 @@ function VideoDetail () {
     const dispatch = useDispatch()
 
     const sideItems = [
-        { icon: <BiLike className="w-6 h-6" />, },
-        { icon: <FaRegCompass className="w-6 h-6" />, },
-        { icon: <MdSubscriptions className="w-6 h-6" />, },
-        { icon: <MdVideoLibrary className="w-6 h-6" />, },
-        { icon: <FaHistory className="w-6 h-6"/>, }, 
-        { icon: <IoSettings className="w-6 h-6"/>, } 
-      ];
+      { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
+      { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
+      { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
+      { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
+      { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
+      { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
+    ];
       const profilePic = ""; 
 
       useEffect(() => {
@@ -172,6 +172,7 @@ function VideoDetail () {
                          <button
                            key={index}
                            className="w-full flex cursor-pointer items-center px-7 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
+                           onClick={() => navigate(item.path)}
                          >
                            {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })} 
                          </button>
