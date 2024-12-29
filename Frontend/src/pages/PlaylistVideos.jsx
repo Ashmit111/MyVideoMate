@@ -9,6 +9,7 @@ import VideoCard2 from '@/components/ui/videoCard2';
 import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
 import { useParams } from 'react-router-dom';
+import { showEmojiToast } from '@/utils/toastNotification';
 
 function PlaylistVideos() {
     const [isLoading, setIsLoading] = useState(false); 
@@ -109,7 +110,7 @@ function PlaylistVideos() {
                 <div className='flex-col gap-6 overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
                 {videos.map(video => (
                   <Link key={video._id} to={`/video/${video._id}`}>
-                    <VideoCard2 video={video} />
+                    <VideoCard2 video={video} playlistId={playlistId} videoId={video._id} onPlaylistCreated={onPlaylistCreated} />
                   </Link>
                 ))}
                 </div>
