@@ -53,6 +53,10 @@ function PlaylistVideos() {
       return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     } 
 
+    const onPlaylistCreated = () => {
+      fetchVideos(); // Fetch the updated playlists
+    };
+
     useEffect(() => { 
       fetchVideos();
       }, []);
@@ -100,7 +104,7 @@ function PlaylistVideos() {
         <div className='bg-black'>  
             <div className="flex pl-64 pt-20 pb-8 px-4 bg-black w-[calc(100vw-17px)] overflow-x-hidden">
                 <div className="w-1/2 p-4 mr-20 ml-28 fixed"> 
-                    <PlaylistCard playlist={playlist} bgColor="bg-[#1e1e1e]" /> 
+                    <PlaylistCard playlist={playlist} bgColor="bg-[#1e1e1e]" onPlaylistCreated={onPlaylistCreated}/> 
                 </div>
                 <div className='flex-col gap-6 overflow-y-auto space-y-8 mr-14 ml-[calc(50%+6rem)]'>
                 {videos.map(video => (
