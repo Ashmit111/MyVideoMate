@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form"; 
 import axiosInstance from "@/utils/axiosInstance";
+import { showEmojiToast } from '@/utils/toastNotification';
 
 const CreatePlaylistModal = ({ Modal, setModal, onPlaylistCreated, editModal, playlistId=null }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
@@ -16,6 +17,7 @@ const CreatePlaylistModal = ({ Modal, setModal, onPlaylistCreated, editModal, pl
       onPlaylistCreated();
       setModal(false);
       reset();
+      showEmojiToast('Playlist updated successfully', '🎉');
     }else{
       const createPlaylist = async () => {
         const response = await axiosInstance.post("/playlist", data);
@@ -25,6 +27,7 @@ const CreatePlaylistModal = ({ Modal, setModal, onPlaylistCreated, editModal, pl
     onPlaylistCreated();
     setModal(false);
     reset();
+    showEmojiToast('Playlist created successfully', '🎉');
     }
   };
 
