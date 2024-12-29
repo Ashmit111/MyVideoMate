@@ -2,13 +2,13 @@ import React from 'react';
 
 const VideoCard3 = ({ video }) => {
     return (
-      <div className="w-full h-64 rounded-xl shadow-lg bg-black text-white overflow-hidden cursor-pointer flex hover:bg-[#1e1e1e]">
+      <div className="w-full h-56 rounded-xl shadow-lg bg-black text-white overflow-hidden cursor-pointer flex hover:bg-[#1e1e1e]">
         {/* Thumbnail */}
-        <div className="relative h-64">
+        <div className="relative h-56">
           <img
             src={video.thumbnail}
             alt={video.title}
-            className="w-auto h-64 object-cover"
+            className="w-80 h-full object-cover"
           />
           <span className="absolute bottom-2 right-2 bg-black bg-opacity-75 text-xs px-2 pb-1  rounded-md">
             {video.formattedDuration}
