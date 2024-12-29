@@ -88,19 +88,23 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
 
 const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
     // TODO: remove video from playlist
-    try {
-        const {playlistId, videoId} = req.params;
+    const {playlistId, videoId} = req.params;
         const owner = req.user._id;
+        console.log(playlistId, videoId);
+        
+    try {
+        
         const removeVideo = await Playlist.findOneAndUpdate(
             {_id: playlistId,owner},
             {$pull: {videos: videoId}},
             {new: true}
         )
-
+        console.log("Console Hai",removeVideo);
+        
         if (!removeVideo) {
             return res.status(404).json(new ApiResponse(404, null, "Failed to Remove Video from Playlist"));
         }
-        return res.status(200).json(new ApiResponse(200, addVideo, "Video Removed from Playlist successfully"));
+        return res.status(200).json(new ApiResponse(200, removeVideo, "Video Removed from Playlist successfully"));
     } catch (error) {
         return res.status(500).json(new ApiResponse(500, null, `Error removing video from Playlist: ${error.message}`));
     }
