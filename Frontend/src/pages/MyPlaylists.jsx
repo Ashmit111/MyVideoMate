@@ -13,6 +13,7 @@ function MyPlaylists() {
     const [isLoading, setIsLoading] = useState(false);  
     const [playlists, setPlaylists] = useState([]);
     const [modal, setModal] = useState(false);  
+    const editModal = false;
  
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos" },
@@ -76,7 +77,7 @@ function MyPlaylists() {
         </div>
  
       {/* Main Content */}
-      <div className="pl-64 pt-20 pb-8 px-4 w-[calc(100vw-19px)]">
+      <div className="pl-64 pt-20 pb-8 px-4 w-[calc(100vw-17px)]">
   {/* Button to Create Playlist */}
   <div className="flex justify-end mb-4">
     <button
@@ -108,7 +109,7 @@ function MyPlaylists() {
 </div>
 
     {/* Modal */}
-    <CreatePlaylistModal Modal={modal} setModal={setModal} onPlaylistCreated={onPlaylistCreated} />
+    <CreatePlaylistModal Modal={modal} setModal={setModal} onPlaylistCreated={onPlaylistCreated} editModal={editModal} />
       
     </div>
   )
