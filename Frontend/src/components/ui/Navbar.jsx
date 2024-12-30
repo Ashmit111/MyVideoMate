@@ -31,7 +31,7 @@ function Navbar() {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
-      const user = useSelector((state) => state.auth.userData);
+    const user = useSelector((state) => state.auth.userData);
 
     const notifications = [
       { id: 1, message: "Your order has been shipped!" },
