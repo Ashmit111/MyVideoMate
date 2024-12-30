@@ -6,8 +6,10 @@ import { IoSettings } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';  
 import axiosInstance from '@/utils/axiosInstance';
 import { logout } from '@/Features/authSlice';
+import { useDispatch } from 'react-redux';
 function Sidebar() {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
     const sideItems = [
           { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
