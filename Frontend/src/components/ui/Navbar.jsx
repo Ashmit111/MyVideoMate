@@ -183,17 +183,17 @@ function Navbar() {
       };
  
 
-      if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
-                <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
-            </div>
-        );
-      }
+    //   if (loading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
+    //             <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+    //         </div>
+    //     );
+    //   }
 
-      if (error) {
-        return <div className="text-center">{error}</div>;
-      }
+    //   if (error) {
+    //     return <div className="text-center">{error}</div>;
+    //   }
   return (
     <>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>
