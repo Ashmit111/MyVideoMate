@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showPromiseToast, showErrorToast } from '@/utils/toastNotification';
 import UpdateProfileModal from '@/components/ui/updateProfileModal';
 import Navbar from '@/components/ui/Navbar';
+import Sidebar from '@/components/ui/Sidebar';
 
 
 const Home = () => { 
@@ -43,14 +44,14 @@ const Home = () => {
     //   { id: 6, message: "Reminder: Your meeting starts in 30 minutes." },
     // ];
 
-    const sideItems = [
-      { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
-      { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
-      { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
-      { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
-      { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
-      { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
-    ];
+    // const sideItems = [
+    //   { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
+    //   { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
+    //   { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
+    //   { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
+    //   { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
+    //   { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
+    // ];
       // const profilePic = user.avatar;
 
       // const {
@@ -198,17 +199,17 @@ const Home = () => {
       //   setNotiModal(false); // Notification Modal 
       // };
 
-      const handleLogout = async () => {
-        try {
-            const response = await axiosInstance.post('/users/logout');
-            console.log(response.data);
-            localStorage.removeItem('accessToken');
-            dispatch(logout());
-            navigate('/'); // Navigate to login page after logout
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    };
+    //   const handleLogout = async () => {
+    //     try {
+    //         const response = await axiosInstance.post('/users/logout');
+    //         console.log(response.data);
+    //         localStorage.removeItem('accessToken');
+    //         dispatch(logout());
+    //         navigate('/'); // Navigate to login page after logout
+    //     } catch (error) {
+    //         console.error('Logout failed:', error);
+    //     }
+    // };
 
       if (loading) {
         return (
@@ -230,29 +231,7 @@ const Home = () => {
       //sidebar 
         {/* Sidebar */}
         <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-slate-500">
-          <div>
-            {sideItems.map((item, index) => (
-              <button
-                key={index}
-                className="w-full flex cursor-pointer items-center px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:bg-[#1e1e1e] focus:ring-0 hover:bg-[#1e1e1e]"
-                aria-label={item.label}
-                onClick={() => navigate(item.path)}
-              >
-                {React.cloneElement(item.icon, { className: 'h-5 w-5 text-white' })}
-                <span className="ml-4 text-sm">{item.label}</span>
-              </button>
-            ))}
-          </div>
-          <div className="mt-auto mb-2">
-            <button
-              className="w-full flex items-center cursor-pointer px-8 py-3 text-white bg-transparent outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#1e1e1e] focus:bg-[#1e1e1e]"
-              aria-label="Log Out"
-              onClick={handleLogout}
-            >
-              <BiLogOut className="h-5 w-5 text-red" />
-              <span className="ml-4 text-sm">Log Out</span>
-            </button>
-          </div>
+          <Sidebar /> 
         </div>
  
       {/* Main Content */}
