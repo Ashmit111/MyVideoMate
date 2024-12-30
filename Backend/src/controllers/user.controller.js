@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js"
 import { User} from "../models/user.model.js"
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import {uploadOnCloudinary, deleteFromCloudinary} from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Like } from "../models/like.model.js";
 import { Video } from "../models/video.model.js";
@@ -9,20 +9,7 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
 import { formatDistanceToNowStrict } from 'date-fns';
 import fs from 'fs'
-
-
-const deleteFromCloudinary = async (imageUrl) => {
-    const publicId = extractPublicId(imageUrl); 
-    await cloudinary.uploader.destroy(publicId);
-};
-
-
-const extractPublicId = (url) => {
-    const parts = url.split('/');
-    const publicIdWithExtension = parts[parts.length - 1];
-    return publicIdWithExtension.split('.')[0]; // Remove file extension
-};
-
+ 
 const generateAccessAndRefereshTokens = async(userId) =>{
     try {
         const user = await User.findById(userId)
@@ -278,8 +265,8 @@ const getCurrentUser = asyncHandler(async(req, res) => {
 })
 
 const updateAccountDetails = asyncHandler(async(req, res) => {
-    const { username} = req.body
-
+    const {username} = req.body
+    console.log(username);
     if ( !username) {
         throw new ApiError(400, "All fields are required")
     }
@@ -310,7 +297,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
     //TODO: delete old image - assignment
     // Retrieve the user and check for an existing avatar URL
     const olduser = await User.findById(req.user?._id);
-    const oldAvatarUrl = user.avatar;
+    const oldAvatarUrl = olduser.avatar;
 
     // Delete old image from Cloudinary if it exists
     if (oldAvatarUrl) {
@@ -332,9 +319,7 @@ const updateUserAvatar = asyncHandler(async(req, res) => {
             }
         },
         {new: true}
-    ).select("-password")
-
-    fs.unlinkSync(avatarLocalPath);
+    ).select("-password") 
 
     return res
     .status(200)
@@ -352,7 +337,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
 
     //TODO: delete old image - assignment
     const olduser = await User.findById(req.user?._id);
-    const oldcoverImage = user.coverImage;
+    const oldcoverImage = olduser.coverImage;
 
     // Delete old image from Cloudinary if it exists
     if (oldcoverImage) {
@@ -375,8 +360,7 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
         },
         {new: true}
     ).select("-password")
-
-    fs.unlinkSync(coverImageLocalPath);
+ 
 
     return res
     .status(200)
