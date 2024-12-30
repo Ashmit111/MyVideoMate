@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home.jsx'
 import SearchResultPage from './pages/SearchResultPage'
 import WatchHistory from './pages/WatchHistory'
-import Collection from './pages/Collection'
+import Setting from './pages/Setting'
 import PlaylistVideos from './pages/PlaylistVideos'
 import LikedVideos from './pages/LikedVideos'
 import VideoDetails from './pages/VideoDetails'
@@ -24,7 +24,7 @@ const router = createBrowserRouter(
       <Route path="/home" element={<Home/>}/>
       <Route path="/search" element={<SearchResultPage/>}/>
       <Route path="/watchHistory" element={<WatchHistory/>}/>
-      <Route path="/collection" element={<Collection/>}/>
+      <Route path="/settings" element={<Setting/>}/>
       <Route path="/playlists/:playlistId" element={<PlaylistVideos/>}/>
       <Route path="/likedVideos" element={<LikedVideos/>}/>
       <Route path="/video/:videoId" element={<VideoDetails/>}/>
