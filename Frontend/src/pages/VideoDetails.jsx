@@ -12,7 +12,7 @@ import VideoDetails from '@/components/videodetails';
 import Sidebar from '@/components/sidebar';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/Features/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '@/utils/axiosInstance';
 
 function VideoDetail () {
@@ -28,6 +28,8 @@ function VideoDetail () {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+    const user = useSelector((state) => state.auth.userData);
+
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
       { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
@@ -36,7 +38,7 @@ function VideoDetail () {
       { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
       { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
     ];
-      const profilePic = ""; 
+      const profilePic = user?.avatar; 
 
       useEffect(() => {
          const fetchVideo = async () => {
