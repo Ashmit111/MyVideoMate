@@ -1,14 +1,10 @@
 import React from 'react';
-import { useState, useEffect } from 'react'; 
-import { BiLogOut, BiLike } from "react-icons/bi";
-import { FaHistory, FaRegCompass,  } from "react-icons/fa";
-import { MdSubscriptions, MdVideoLibrary, MdOutlineCreateNewFolder } from "react-icons/md";
-import { IoSettings } from "react-icons/io5"; 
+import { useState, useEffect } from 'react';  
+import { MdOutlineCreateNewFolder } from "react-icons/md"; 
 import PlaylistCard from '@/components/ui/playlistCard';
 import axiosInstance from '@/utils/axiosInstance';
 import CreatePlaylistModal from '@/components/ui/CreatePlaylistModal';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 import Navbar from '@/components/ui/Navbar';
 import Sidebar from '@/components/ui/Sidebar';
 
@@ -17,7 +13,7 @@ function MyPlaylists() {
     const [playlists, setPlaylists] = useState([]);
     const [modal, setModal] = useState(false);  
     const editModal = false; 
-    
+
     const fetchPlaylist = async () =>{
         const response = await axiosInstance.get('/playlist');
         console.log(response.data);

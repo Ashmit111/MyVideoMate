@@ -1,12 +1,7 @@
 import React from 'react';
-import { useState, useEffect } from 'react'; 
-import { BiLogOut, BiLike  } from "react-icons/bi";
-import { FaHistory, FaRegCompass,  } from "react-icons/fa";
-import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
-import { IoSettings } from "react-icons/io5";  
+import { useState, useEffect } from 'react';  
 import axiosInstance from '@/utils/axiosInstance';
-import AudienceCard from '@/components/ui/AudienceCard';
-import { useNavigate } from 'react-router-dom'; 
+import AudienceCard from '@/components/ui/AudienceCard'; 
 import Navbar from '@/components/ui/Navbar';
 import Sidebar from '@/components/ui/Sidebar';
 

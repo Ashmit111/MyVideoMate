@@ -1,16 +1,10 @@
 import React from 'react';
-import { useState, useEffect } from 'react'; 
-import { BiLogOut, BiLike } from "react-icons/bi";
-import { FaHistory, FaRegCompass,  } from "react-icons/fa";
-import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
-import { IoSettings } from "react-icons/io5"; 
+import { useState, useEffect } from 'react';  
 import PlaylistCard from '@/components/ui/playlistCard'; 
 import VideoCard2 from '@/components/ui/videoCard2';
 import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
-import { useParams } from 'react-router-dom';
-import { showEmojiToast } from '@/utils/toastNotification';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom'; 
 import Navbar from '@/components/ui/Navbar';
 import Sidebar from '@/components/ui/Sidebar';
 
