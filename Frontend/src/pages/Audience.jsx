@@ -7,6 +7,7 @@ import { IoSettings } from "react-icons/io5";
 import axiosInstance from '@/utils/axiosInstance';
 import AudienceCard from '@/components/ui/AudienceCard';
 import { useNavigate } from 'react-router-dom'; 
+import Navbar from '@/components/ui/Navbar';
 
 function Audience() {
 
@@ -50,17 +51,7 @@ function Audience() {
     }, []);
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
-      <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
-              <div className='flex items-center py-3'>
-                <div className="flex gap-2 items-center px-3 ml-2">
-                  <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
-                  <h2 className='pt-1 text-lg text-white'>MyTube</h2>
-                </div>
-              </div>
-               <div className='mx-auto'>
-                  <h2 className='text-white font-bold text-2xl pt-3 flex gap-2'>Audience</h2>
-               </div>
-            </nav>
+      <Navbar/>
             //sidebar 
               {/* Sidebar */}
               <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-gray-600">
@@ -88,7 +79,7 @@ function Audience() {
                 </div>
               </div>
             {/* Main Content */}  
-            <div className="pl-64 pt-20 pb-8 px-4 flex flex-col items-center w-[calc(100vw-19px)]"> 
+            <div className="pl-64 pt-20 pb-8 px-4 flex flex-col items-center w-[calc(100vw-17px)]"> 
     <div className="p-6 w-full flex flex-col items-center">
         {/* Toggle buttons */}
         <div className="flex space-x-4 mb-6 justify-center items-center">
