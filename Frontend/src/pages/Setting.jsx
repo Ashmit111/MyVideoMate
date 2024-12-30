@@ -6,10 +6,13 @@ import { MdSubscriptions, MdVideoLibrary,  } from "react-icons/md";
 import { IoSettings } from "react-icons/io5"; 
 import PlaylistCard from '@/components/ui/playlistCard';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function Setting() {
     const [isLoading, setIsLoading] = useState(false);  
     const navigate = useNavigate();
+
+    const user = useSelector((state) => state.auth.userData);
  
     const sideItems = [
       { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
@@ -33,7 +36,7 @@ function Setting() {
           </div>
         </div>
          <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Collection</h2>
+            <h2 className='text-white font-bold text-2xl pt-3'>Settings</h2>
          </div>
       </nav>
       //sidebar 
@@ -64,9 +67,9 @@ function Setting() {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-          <img src={ j}  alt="coverImage" />
-          
+      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
+          <img src={user?.coverImage}  alt="coverImage" />
+          <img src={user?.avatar}  alt="coverImage" />
           
           
           
