@@ -1,24 +1,68 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axiosInstance from '@/utils/axiosInstance';
+import { showEmojiToast,showErrorToast } from '@/utils/toastNotification';  
 
 const UpdateProfileModal = ({ Modal, setModal }) => {
   const [activeTab, setActiveTab] = useState(null); // No tab active initially
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onUpdateUsername = (data) => {
-    console.log('Username data submitted:', data);
+  const onUpdateUsername = async (data) => {
+    try {
+        console.log('Username data submitted:', data.username); 
+        const response = await axiosInstance.patch('/users/update-account', data);
+        console.log(response.data);
+        setModal(false);
+        reset();
+        showEmojiToast('Username updated successfully', '🎉');
+    } catch (error) {
+        showErrorToast('Failed to update username');
+    }
   };
 
-  const onUpdateAvatar = (data) => {
-    console.log('Avatar data submitted:', data);
+  const onUpdateAvatar = async (data) => {
+    try {
+      // Create a FormData object and append the avatar file
+      const formData = new FormData();
+      formData.append('avatar', data.avatar[0]);
+  
+      // Send the FormData object via axios
+      const response = await axiosInstance.patch('/users/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      console.log(response.data);
+      setModal(false);
+      reset();
+      showEmojiToast('Avatar updated successfully', '🎉');
+    } catch (error) {
+      showErrorToast('Failed to update avatar');
+      console.error('Error updating avatar:', error);
+    }
   };
+  
 
-  const onUpdateCoverImage = (data) => {
-    console.log('Cover Image data submitted:', data);
+  const onUpdateCoverImage = async (data) => {
+    try { 
+        const formData = new FormData();
+        formData.append('coverImage', data.coverImage[0]);
+        const response = await axiosInstance.patch('/users/cover-image', formData,{headers: {
+          'Content-Type': 'multipart/form-data',
+        },});
+        console.log(response.data);
+        setModal(false);
+        reset();
+        showEmojiToast('Cover Image updated successfully', '🎉');
+    } catch (error) {
+        showErrorToast('Failed to update cover image');
+    }
   };
 
   const renderForm = () => {
