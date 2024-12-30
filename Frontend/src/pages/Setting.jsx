@@ -7,6 +7,7 @@ import { IoSettings } from "react-icons/io5";
 import PlaylistCard from '@/components/ui/playlistCard';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import Navbar from '@/components/ui/Navbar';
 
 function Setting() {
     const [isLoading, setIsLoading] = useState(false);  
@@ -28,17 +29,7 @@ function Setting() {
     }, []);
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
-      <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-gray-600'>
-        <div className='flex items-center py-3'>
-          <div className="flex gap-2 items-center px-3 ml-2">
-            <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
-            <h2 className='pt-1 text-lg text-white'>MyTube</h2>
-          </div>
-        </div>
-         <div className='mx-auto'>
-            <h2 className='text-white font-bold text-2xl pt-3'>Settings</h2>
-         </div>
-      </nav>
+      <Navbar/> 
       //sidebar 
         {/* Sidebar */}
         <div className="fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-60 bg-black flex flex-col gap-3 overflow-y-auto pt-4 border-r border-gray-600">
