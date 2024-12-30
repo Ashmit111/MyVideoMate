@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import Navbar from '@/components/ui/Navbar';
 import Sidebar from '@/components/ui/Sidebar';
+import { useSelector } from 'react-redux';
 
 function Setting() {
     const [isLoading, setIsLoading] = useState(false);  
     const navigate = useNavigate(); 
-
+    const user = useSelector((state) => state.auth.userData);
+  
     useEffect(() => {
       
     }, []);
