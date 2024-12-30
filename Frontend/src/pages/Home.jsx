@@ -13,8 +13,9 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { logout } from '@/Features/authSlice';
-import { useDispatch } from 'react-redux'; 
+import { useDispatch, useSelector } from 'react-redux'; 
 import { showPromiseToast, showErrorToast } from '@/utils/toastNotification';
+import UpdateProfileModal from '@/components/ui/updateProfileModal';
 
 
 const Home = () => { 
@@ -26,8 +27,11 @@ const Home = () => {
     const [notiModal,setNotiModal] = useState(false);
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
+    const [Modal, setModal] = useState(false);  
     const navigate = useNavigate()
     const dispatch = useDispatch();
+
+      const user = useSelector((state) => state.auth.userData);
 
     const notifications = [
       { id: 1, message: "Your order has been shipped!" },
@@ -46,7 +50,7 @@ const Home = () => {
       { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
       { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
     ];
-      const profilePic = "";
+      const profilePic = user.avatar;
 
       const {
         register,
@@ -275,6 +279,7 @@ const Home = () => {
               alt="Profile"
               className="w-10 h-10 rounded-full object-cover border-2 border-white"
               aria-label="User profile"
+              onClick={() => setModal(true)}
               />
               ) : (
               <FaRegUser
@@ -282,6 +287,7 @@ const Home = () => {
                 aria-label="Default user icon"
               />
           )}
+          <UpdateProfileModal Modal={Modal} setModal={setModal}/>
         </div>
 
         {showModal && (
