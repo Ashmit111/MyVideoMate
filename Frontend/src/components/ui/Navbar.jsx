@@ -2,18 +2,13 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { RiVideoAddLine } from "react-icons/ri";
-import { FiSearch } from "react-icons/fi";
-import { BiLogOut, BiLike } from "react-icons/bi";
-import { FaHistory, FaRegCompass, FaRegUser  } from "react-icons/fa";
-import { MdSubscriptions, MdVideoLibrary, MdOutlineNotificationsActive } from "react-icons/md";
-import { IoSettings } from "react-icons/io5"; 
-import VideoCard from './videoCard';
+import { FiSearch } from "react-icons/fi"; 
+import { FaRegUser  } from "react-icons/fa";
+import { MdOutlineNotificationsActive } from "react-icons/md"; 
 import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";  
-import { useNavigate } from 'react-router-dom'; 
-import { Link } from 'react-router-dom';
-import axiosInstance from '@/utils/axiosInstance';
-import { logout } from '@/Features/authSlice';
-import { useDispatch, useSelector } from 'react-redux'; 
+import { useNavigate } from 'react-router-dom';  
+import axiosInstance from '@/utils/axiosInstance'; 
+import {  useSelector } from 'react-redux'; 
 import { showPromiseToast, showErrorToast }from '@/utils/toastNotification';
 import UpdateProfileModal from './updateProfileModal';
 
@@ -28,8 +23,7 @@ function Navbar() {
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
     const [Modal, setModal] = useState(false);  
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
+    const navigate = useNavigate() 
 
     const user = useSelector((state) => state.auth.userData);
 
@@ -40,16 +34,7 @@ function Navbar() {
       { id: 4, message: "Update: System maintenance scheduled." },
       { id: 5, message: "You've earned a new badge!" },
       { id: 6, message: "Reminder: Your meeting starts in 30 minutes." },
-    ];
-
-    const sideItems = [
-      { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
-      { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
-      { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
-      { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
-      { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
-      { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
-    ];
+    ]; 
       const profilePic = user.avatar;
 
       const {
@@ -196,18 +181,7 @@ function Navbar() {
       const handleCloseNotificationModal = () => {
         setNotiModal(false); // Notification Modal 
       };
-
-      const handleLogout = async () => {
-        try {
-            const response = await axiosInstance.post('/users/logout');
-            console.log(response.data);
-            localStorage.removeItem('accessToken');
-            dispatch(logout());
-            navigate('/'); // Navigate to login page after logout
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    };
+ 
 
       if (loading) {
         return (
