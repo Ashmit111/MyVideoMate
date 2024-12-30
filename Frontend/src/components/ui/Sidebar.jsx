@@ -17,7 +17,7 @@ function Sidebar() {
           { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
           { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
           { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
-          { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/dashboard'} 
+          { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/settings'} 
         ];
 
     const handleLogout = async () => {
