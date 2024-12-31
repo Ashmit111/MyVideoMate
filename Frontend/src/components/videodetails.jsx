@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { MdClose } from "react-icons/md";
 import axiosInstance from "@/utils/axiosInstance";
 import {toast} from 'react-hot-toast';
+import { Link } from "react-router-dom";
 
 const VideoDetails = ({ video, videoId, channelId }) => {
   const [isLiked, setIsLiked] = useState(video.isLiked || false);
@@ -105,7 +106,10 @@ console.log(video);
           className="w-12 h-12 rounded-full"
         />
         <div>
-          <h2 className="text-lg font-semibold">{video.username}</h2>
+          <h2 className="text-lg font-semibold">
+            <Link to={`/channel/${channelId}`} className="hover:cursor-pointer text-white" >
+            {video.username}</Link>
+            </h2>
           <p className="text-sm text-gray-400">
             {subscriptionCounts} {subscriptionCounts === 1 ? "Subscriber" : "Subscribers"} 
           </p>
