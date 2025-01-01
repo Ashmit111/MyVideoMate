@@ -564,14 +564,15 @@ const getUserProfileWithVideos = asyncHandler(async (req, res) => {
       }
   
       // Find all videos by the user
-      const videos = await Video.find({ owner: userId }).select("thumbnail title description views");
+      const videos = await Video.find({ owner: userId }).select("thumbnail title description views createdAt");
   
       // Get likes for each video
       const videosWithLikes = await Promise.all(videos.map(async (video) => {
         const likesCount = await Like.countDocuments({ video: video._id });
         return {
           ...video.toObject(),
-          likes: likesCount
+          likes: likesCount,
+          createdAt: formatDistanceToNowStrict(new Date(video.createdAt), { addSuffix: true })
         };
       }));
   
