@@ -16,6 +16,7 @@ import VideoDetails from './pages/VideoDetails'
 import Dashboard from './pages/Dashboard'
 import Audience from './pages/Audience'
 import MyPlaylists from './pages/MyPlaylists'
+import AboutUs from './pages/About'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/audience" element={<Audience/>}/>
       <Route path="/myplaylist" element={<MyPlaylists/>}/>
+      <Route path="/about" element={<AboutUs/>}/>
     </>
   )
 );
