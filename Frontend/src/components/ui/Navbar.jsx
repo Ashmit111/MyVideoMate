@@ -16,7 +16,7 @@ import UpdateProfileModal from './updateProfileModal';
 function Navbar() {
     const [loading, setLoading] = useState(true); 
     const [searchQuery, setSearchQuery] = useState("");
-    const [error, setError] = useState("");
+    const [error, setErrors] = useState("");
     const [videos, setVideos] = useState([]);
     const [showModal,setShowModal] = useState(false); 
     const [videoPreview, setVideoPreview] = useState(null);
@@ -25,13 +25,16 @@ function Navbar() {
     const navigate = useNavigate() 
 
     const user = useSelector((state) => state.auth.userData);
+
+    const videoSizeLimit = 50 * 1024 * 1024; // 50MB
+    const thumbnailSizeLimit = 2 * 1024 * 1024; // 2MB
   
       const profilePic = user.avatar;
 
       const {
         register,
         handleSubmit,
-        reset, 
+        reset,  setError, clearErrors,
         formState: { errors, isSubmitting },
       } = useForm();
 
@@ -39,24 +42,36 @@ function Navbar() {
         const file = e.target.files[0];
         console.log(file)
         if (file) {
+          if (file.size > videoSizeLimit) {
+            setError('videoFile', { type: 'manual', message: 'Video size exceeds 50MB.' });
+            setVideoPreview(null);
+          }else{
+          clearErrors('videoFile');  
           const reader = new FileReader();
           reader.onloadend = () => {
             setVideoPreview(reader.result); // Set video preview 
           };
           reader.readAsDataURL(file); // Read the file as a data URL
         }
+      }
       };
       
       const handleThumbnailChange = (e) => {
         const file = e.target.files[0];
         console.log(file)
         if (file) {
+          if (file.size > thumbnailSizeLimit) {
+            setError('thumbnail', { type: 'manual', message: 'Thumbnail size exceeds 2MB.' });
+            setThumbnailPreview(null);
+          }else{ 
+          clearErrors('thumbnail');
           const reader = new FileReader();
           reader.onloadend = () => {
             setThumbnailPreview(reader.result); // Set thumbnail preview 
           };
           reader.readAsDataURL(file); // Read the file as a data URL
         }
+      }
       }; 
     
       const onSubmit = (data) => {
@@ -93,8 +108,7 @@ function Navbar() {
             reset();
             setVideoPreview(null);
             setThumbnailPreview(null);
-            setShowModal(false);
-            fetchVideos();  // Fetch updated video list after successful upload
+            setShowModal(false);  // Fetch updated video list after successful upload
           })
           .catch(() => {
             // Failure block
@@ -112,39 +126,7 @@ function Navbar() {
           videoInput.value = "";
         }
       };
-    
-      const fetchVideos = async () => {
-        try { 
-          const response = await axiosInstance.get("/videos", {
-            params: {
-                limit: 16, // Limit to 16 videos
-            },
-        });
-
-        const videosWithFormattedDuration = response.data.data.map((video) => {
-            const formattedDuration = formatDuration(video.duration); // Format the duration
-            return { ...video, formattedDuration }; // Add formatted duration to each video object
-        });
-        console.log(videosWithFormattedDuration);
-        
-        setVideos(videosWithFormattedDuration); // Update state with formatted videos
-        setLoading(false);
-        } catch (err) {
-            // Handle any errors
-            setError("Failed to fetch videos");
-            setLoading(false);
-        }
-    };
-    function formatDuration(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-      return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-    } 
-
-      useEffect(() => {
-         fetchVideos();
-    }, []);
-
+     
     const handleSearch = (e) => {
       e.preventDefault();
       if (searchQuery.trim()) {
@@ -166,17 +148,17 @@ function Navbar() {
       };
  
 
-      if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
-                <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
-            </div>
-        );
-      }
+      // if (loading) {
+      //   return (
+      //       <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
+      //           <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+      //       </div>
+      //   );
+      // }
 
-      if (error) {
-        return <div className="text-center">{error}</div>;
-      }
+      // if (error) {
+      //   return <div className="text-center">{error}</div>;
+      // }
   return (
     <>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>
@@ -204,12 +186,8 @@ function Navbar() {
                 className="px-6 py-2 bg-transparent rounded-full outline-none border-none focus:outline-none focus:ring-0 hover:bg-[#313030] focus:bg-[#313030]"
                 aria-label="Submit search"
                 // onClick={handleSearch}
-              >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-gray-500 border-t-red-500 rounded-full animate-spin"></div>
-                ) : (
-                <FiSearch className="h-5 w-5 text-white" />
-                )}
+              > 
+                <FiSearch className="h-5 w-5 text-white" /> 
               </button>
             </form>
             <button
