@@ -64,7 +64,7 @@ function Audience() {
         </div>
 
         {/* Display audience cards based on the selected view */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full justify-center items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-36 w-full justify-center items-center">
             {view === 'subscriptions'
                 ? subscriptionsData.map((subscription) => (
                     subscription.channelDetails && (
