@@ -24,10 +24,11 @@ function LikedVideos() {
   
                   return video;  
               });  
+              console.log(videosWithFormattedDuration);
               setVideos(videosWithFormattedDuration);
                
           } catch (err) {
-              console.error("Failed to fetch videos", err); 
+              console.log("Failed to fetch videos", err); 
           }
       };
   
@@ -50,13 +51,20 @@ function LikedVideos() {
         </div>
  
       {/* Main Content */}  
-        <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] "> 
-                {videos.map(video => (
-                  <Link key={video._id} to={`/video/${video._id}`}>
-                    <VideoCard video={video} />
-                  </Link>
-                ))}   
-        </div> 
+      <div className="pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)]">
+    {videos && videos.length > 0 ? (
+        videos.map(video => (
+            <Link key={video._id} to={`/video/${video._id}`}>
+                <VideoCard video={video} />
+            </Link>
+        ))
+    ) : (
+      <div className="col-span-full text-center text-white">
+        <p className="text-center text-white mt-52">No Liked Videos</p>
+      </div>
+    )}
+</div>
+
     </div>
   )
 }
