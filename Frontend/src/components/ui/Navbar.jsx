@@ -199,7 +199,7 @@ function Navbar() {
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>
         <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3 ml-2">
-            <img src="./public/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
+            <img src="/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
             <h2 className='pt-1 text-lg text-white'>MyTube</h2>
           </div>
         </div>
