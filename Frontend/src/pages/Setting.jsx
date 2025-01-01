@@ -102,7 +102,7 @@ function Setting() {
                 <div className="relative w-full">
                     <img
                         className="w-full h-64 object-cover"
-                        src={pageData?.coverImage || user?.coverImage}
+                        src={pageData?.coverImage || user?.coverImage || "https://images.pexels.com/photos/2485336/pexels-photo-2485336.jpeg?auto=compress&cs=tinysrgb&w=600"}
                         alt="Cover"
                     />
                     <div className="absolute top-44 left-8">
