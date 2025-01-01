@@ -89,7 +89,8 @@ const App = () => {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-4">
-              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
+              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500"
+              onClick={handleGetStarted}>
                 HOME
               </button>
               <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
