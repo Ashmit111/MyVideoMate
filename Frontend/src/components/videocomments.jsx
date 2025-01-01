@@ -47,9 +47,7 @@ const VideoComments = ({ videoId }) => {
         console.error("Error adding comment:", err.response?.data || err.message);
         setError("Something went wrong. Please try again.");
       }
-    } else {
-      setError("Comment content cannot be empty.");
-    }
+    }  
   };
 
   // Delete Comment
