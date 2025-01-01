@@ -22,7 +22,7 @@ function WatchHistory() {
                       // owner: video.owner // Include the owner details
                   }; 
               });
-  
+              
               console.log(videosWithFormattedDuration);
   
               setVideos(videosWithFormattedDuration);  
@@ -52,13 +52,19 @@ function WatchHistory() {
         </div>
  
       {/* Main Content */}
-      <div className=" pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)] ">
-      {videos.map(video => (
-          <Link key={video._id} to={`/video/${video._id}`}>
-            <VideoCard video={video} />
-          </Link>
-        ))}
-     </div>
+      <div className="pl-64 pt-20 pb-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0 w-[calc(100vw-17px)]">
+    {videos && videos.length > 0 ? (
+        videos.map(video => (
+            <Link key={video._id} to={`/video/${video._id}`}>
+                <VideoCard video={video} />
+            </Link>
+        ))
+    ) : (
+      <div className="col-span-full text-center text-white">
+        <p className="text-center text-white mt-52">Watch History is empty</p>
+      </div>
+    )}
+</div>
     
       
     </div>
