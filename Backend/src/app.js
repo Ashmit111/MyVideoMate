@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
-import { createServer } from "http";
-import { Server } from "socket.io";
+import cookieParser from "cookie-parser"; 
 
 const app = express();
 
@@ -15,47 +13,7 @@ app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
-
-// WebSocket integration
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-    cors: {
-        origin: process.env.CORS_ORIGIN,
-        methods: ["GET", "POST", "PATCH"],
-        credentials: true
-    }
-});
-
-// Manage connected users
-const connectedUsers = {};
-
-// Handle WebSocket connections
-io.on("connection", (socket) => {
-    console.log("New client connected:", socket.id);
-
-    // Register user by their ID
-    socket.on("register", (userId) => {
-        connectedUsers[userId] = socket.id;
-    });
-
-    // Handle disconnection
-    socket.on("disconnect", () => {
-        console.log("Client disconnected:", socket.id);
-        for (const [userId, socketId] of Object.entries(connectedUsers)) {
-            if (socketId === socket.id) {
-                delete connectedUsers[userId];
-                break;
-            }
-        }
-    });
-});
-
-// Middleware to pass `io` instance to all routes/controllers
-app.use((req, res, next) => {
-    req.io = io;
-    req.connectedUsers = connectedUsers; // Make connected users available
-    next();
-});
+ 
 
 // Routes import
 import userRouter from './routes/user.routes.js';
