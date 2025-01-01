@@ -55,6 +55,7 @@ function VideoDetail () {
           const { title, description, views, createdAt,  userDetails: { username, avatar }, } = response.data.data;
           const extractedData = { username, avatar, title, description, views, createdAt };
           setVideoData(extractedData)
+          setLoading(false);
           const query = `${extractedData.title} ${extractedData.description}`;
 
           const suggestedVideoResponse = await axiosInstance.get(`/videos/search?query=${encodeURIComponent(query)}` ); 
@@ -104,19 +105,14 @@ function VideoDetail () {
         navigate("/")
       }
 
-      // if (loading) {
-      //   return (
-      //       <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
-      //           <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
-      //       </div>
-      //   );
-      // }
-
-      // if (error) {
-      //   return <div className="text-center">{error}</div>;
-      // }
-
-
+      if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black w-screen fixed top-0 left-0 z-50">
+                <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+            </div>
+        );
+      } 
+      
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>

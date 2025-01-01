@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
 import Navbar from '@/components/ui/Navbar';
 import Sidebar from '@/components/ui/Sidebar';
+import { set } from 'react-hook-form';
 
 function SearchResultPage() { 
   const [loading, setLoading] = useState(true);  
@@ -31,7 +32,7 @@ function SearchResultPage() {
         console.log(videosWithFormattedDuration);
         
         setVideos(videosWithFormattedDuration); // Update state with formatted videos
-         
+         setLoading(false);
         } catch (err) {
           setError('Error fetching videos. Please try again.');
         } finally {
@@ -49,17 +50,13 @@ function SearchResultPage() {
      } 
     }, [query]); 
  
-    // if (loading) {
-    //   return (
-    //       <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
-    //           <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
-    //       </div>
-    //   );
-    // }
-
-    // if (error) {
-    //   return <div className="text-center">{error}</div>;
-    // }
+    if (loading) {
+      return (
+          <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black w-screen fixed top-0 left-0 z-50">
+              <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+          </div>
+      );
+    } 
 
 
 return (
