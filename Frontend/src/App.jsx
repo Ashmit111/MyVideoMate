@@ -6,6 +6,7 @@ import AuthModal from './components/ui/AuthModal';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { showSuccessToast } from './utils/toastNotification';
+import { Link } from 'react-router-dom';
 
 const App = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -93,9 +94,11 @@ const App = () => {
               onClick={handleGetStarted}>
                 HOME
               </button>
-              <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
+             <Link to="/about">
+             <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500">
                 ABOUT
               </button>
+             </Link>
               <button className="px-6 py-2 rounded-2xl bg-transparent text-white text-md focus:outline-none hover:border-transparent hover:text-gray-500"
               onClick={handleGetStarted}>
                 LOGIN
@@ -153,7 +156,8 @@ const App = () => {
           sharing
         </p>
         <div className="flex items-start">
-          <button className="px-6 py-2 rounded-lg bg-red-600 hover:bg-white transition-all duration-300 text-base font-semibold text-white focus:outline-none hover:border-transparent hover:text-red-600">
+          <button className="px-6 py-2 rounded-lg bg-red-600 hover:bg-white transition-all duration-300 text-base font-semibold text-white focus:outline-none hover:border-transparent hover:text-red-600"
+          onClick={handleGetStarted}> 
             Get Started
           </button> 
         </div>
