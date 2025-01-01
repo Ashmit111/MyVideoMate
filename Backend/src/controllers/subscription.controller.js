@@ -43,8 +43,11 @@ const toggleAndGetSubscription = asyncHandler(async (req, res) => {
 
 // controller to return subscriber list of a channel
 const getUserChannelSubscribers = asyncHandler(async (req, res) => {
-  const userId = req.params.channelId || req.user._id;
+  const userId = req.params.channelId
+    ? new mongoose.Types.ObjectId(req.params.channelId)
+    : req.user._id;
 
+  console.log(userId)
   // Validate userId
   if (!userId) {
     throw new ApiError(400, "User ID is required");
@@ -84,7 +87,7 @@ const getUserChannelSubscribers = asyncHandler(async (req, res) => {
         },
       },
     ]);
-
+    console.log(subscribers)
     res.status(200).json({
       message: "Subscribers fetched successfully",
       data: subscribers,
