@@ -1,0 +1,13 @@
+{
+    "name": "MyVideoMate Backend",
+    "version": "1.0.0",
+    "description": "Backend service for MyVideoMate, handling APIs, database, and server logic.",
+    "main": "src/index.js",
+    "scripts": {
+      "start": "node src/index.js",
+      "dev": "nodemon src/index.js"
+    },
+    "author": "",
+    "license": "MIT"
+  }
+  
