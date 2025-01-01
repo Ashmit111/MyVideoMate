@@ -286,7 +286,7 @@ function Navbar() {
                      </div>
                    </div>
                  )}
- 
+                  <p className='text-gray-300 text-sm'>Video limit 50Mb</p>
                  <div className="space-y-2">
                    <label className="block text-gray-300 text-sm font-medium">
                      Thumbnail
@@ -325,7 +325,7 @@ function Navbar() {
                      )}
                    </div>
                  </div>
- 
+                 <p className='text-gray-300 text-sm'>Thumbnail limit 2Mb</p>    
                  <div className="space-y-2">
                    <label className="block text-gray-300 text-sm font-medium">
                      Title
