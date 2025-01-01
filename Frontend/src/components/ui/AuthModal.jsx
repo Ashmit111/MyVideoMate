@@ -84,7 +84,9 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
       showErrorToast(error.message);
     }
   };
- 
+ const resetModal = () => {
+    toggleModal();
+ }
   const onLogin = async (data) => {
     try {
       console.log("Login Form Data:", data);
@@ -302,6 +304,7 @@ const AuthModal = ({ isOpen, toggleModal, isLogin, toggleForm }) => {
         toggleOTPModal={() => setOTPModalOpen(false)}
         avatar={avatarProp}  
         coverImage={coverImageProp}  
+        resetModal={resetModal} 
       />
     </div>
     
