@@ -26,6 +26,7 @@ function WatchHistory() {
               console.log(videosWithFormattedDuration);
   
               setVideos(videosWithFormattedDuration);  
+              setIsLoading(false);
           } catch (err) {
               // Handle any errors
               console.log("Failed to fetch watch history"); 
@@ -41,6 +42,14 @@ function WatchHistory() {
   
       fetchWatchHistory(); // Fetch the watch history on component mount
   }, []); 
+
+  if (isLoading) {
+    return (
+        <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black w-screen fixed top-0 left-0 z-50">
+            <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+        </div>
+    );
+  } 
   
   return (
     <div className='h-screen bg-black w-full overflow-y-scroll'>
