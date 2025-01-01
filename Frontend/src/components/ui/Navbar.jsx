@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { RiVideoAddLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi"; 
 import { FaRegUser  } from "react-icons/fa";
-import { MdOutlineNotificationsActive } from "react-icons/md"; 
+import { Link } from 'react-router-dom';
 import { FiUpload, FiX, FiAlertCircle  } from "react-icons/fi";  
 import { useNavigate } from 'react-router-dom';  
 import axiosInstance from '@/utils/axiosInstance'; 
@@ -18,23 +18,14 @@ function Navbar() {
     const [searchQuery, setSearchQuery] = useState("");
     const [error, setError] = useState("");
     const [videos, setVideos] = useState([]);
-    const [showModal,setShowModal] = useState(false);
-    const [notiModal,setNotiModal] = useState(false);
+    const [showModal,setShowModal] = useState(false); 
     const [videoPreview, setVideoPreview] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(null);
     const [Modal, setModal] = useState(false);  
     const navigate = useNavigate() 
 
     const user = useSelector((state) => state.auth.userData);
-
-    const notifications = [
-      { id: 1, message: "Your order has been shipped!" },
-      { id: 2, message: "New friend request received." },
-      { id: 3, message: "Your subscription will expire soon." },
-      { id: 4, message: "Update: System maintenance scheduled." },
-      { id: 5, message: "You've earned a new badge!" },
-      { id: 6, message: "Reminder: Your meeting starts in 30 minutes." },
-    ]; 
+  
       const profilePic = user.avatar;
 
       const {
@@ -173,34 +164,28 @@ function Navbar() {
         setVideoPreview(null);
         setThumbnailPreview(null); 
       };
-
-      const handleNotifications = () => {
-        setNotiModal(true); // Notification Modal 
-      };
-
-      const handleCloseNotificationModal = () => {
-        setNotiModal(false); // Notification Modal 
-      };
  
 
-    //   if (loading) {
-    //     return (
-    //         <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
-    //             <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
-    //         </div>
-    //     );
-    //   }
+      if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-opacity-50 bg-black">
+                <div className="w-16 h-16 border-8 border-t-8 border-white border-solid rounded-full animate-spin"></div>
+            </div>
+        );
+      }
 
-    //   if (error) {
-    //     return <div className="text-center">{error}</div>;
-    //   }
+      if (error) {
+        return <div className="text-center">{error}</div>;
+      }
   return (
     <>
       <nav className='w-full fixed bg-black h-16 flex items-center z-50 border-b border-slate-500'>
         <div className='flex items-center py-3'>
           <div className="flex gap-2 items-center px-3 ml-2">
-            <img src="/mytube.svg" alt="Logo" className='w-8 h-8 pt-1'/>
-            <h2 className='pt-1 text-lg text-white'>MyTube</h2>
+          <Link to="/home" className="flex items-center">
+            <img src="/mytube.svg" alt="Logo" className="w-8 h-8 pt-1" />
+            <h2 className="pt-1 text-lg text-white">MyTube</h2>
+          </Link>
           </div>
         </div>
         <div className="flex-1 max-w-xl mx-auto mt-2 items-center justify-center">
@@ -233,15 +218,7 @@ function Navbar() {
               onClick={handleCreateVideo}
             >
               <RiVideoAddLine className="h-6 w-6 text-white" />
-            </button>
-            <button
-              className="p-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0 -mt-2 hover:bg-[#313030] focus:bg-[#313030]"
-              aria-label="Notifications"
-              onClick={handleNotifications}
-            >
-              <MdOutlineNotificationsActive className="h-6 w-6 text-white" />
-            </button>
-            
+            </button> 
           </div>
         </div>
         <div className="items-center pr-8">
@@ -428,29 +405,7 @@ function Navbar() {
            </div>
          </div>
         )}
-
-        {notiModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 border-white">
-            <div className="bg-black border  border-white rounded-xl w-5/12 max-w-3xl p-6 relative">
-              <button onClick={handleCloseNotificationModal} className="absolute top-4 right-4 text-white hover:text-gray-400" >
-                ✕
-              </button>
-              {notifications.length > 0 ? (
-                notifications.map((notification, index) => (
-                <div
-                  key={notification.id || index}
-                  className="flex items-start justify-between p-3 border-b border-gray-700 last:border-0"
-                >
-                  <p className="text-white">{notification.message}</p> 
-                </div>
-                ))
-              ) : (
-                <p className="text-gray-400 text-center">No notifications available.</p>
-              )}  
-            </div>
-          </div>
-        )}
-
+ 
       </nav>
     </>
   )
