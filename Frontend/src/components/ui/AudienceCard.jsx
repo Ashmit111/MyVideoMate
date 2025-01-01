@@ -6,7 +6,7 @@ const AudienceCard = ({ user, totalVideos }) => {
    
   return (
   
-    <div className="flex justify-between items-center p-4 border border-gray-300 rounded-md shadow-sm">
+    <div className="flex justify-between items-center p-4 border border-gray-300 rounded-md shadow-sm w-80">
       {/* Left side: Avatar and Username */}
       <div className="flex items-center space-x-4">
         <img
