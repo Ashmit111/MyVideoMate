@@ -104,9 +104,9 @@ const getLikedVideos = asyncHandler(async (req, res) => {
           },
         });
   
-      if (!likedVideos.length) {
-        throw new ApiError(404, "No liked Videos");
-      }
+      // if (!likedVideos.length) {
+      //   throw new ApiError(404, "No liked Videos");
+      // }
   
       // Format the createdAt field for each liked video
       const formattedLikedVideos = likedVideos.map(likedVideo => ({
