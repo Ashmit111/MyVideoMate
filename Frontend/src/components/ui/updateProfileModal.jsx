@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axiosInstance from '@/utils/axiosInstance';
-import { showEmojiToast,showErrorToast } from '@/utils/toastNotification';  
+import { showEmojiToast,showErrorToast } from '@/utils/toastNotification'; 
+import { updateUser } from '@/Features/authSlice'; 
+import { useDispatch } from 'react-redux';
 
 const UpdateProfileModal = ({ Modal, setModal }) => {
   const [activeTab, setActiveTab] = useState(null); // No tab active initially
@@ -11,12 +13,14 @@ const UpdateProfileModal = ({ Modal, setModal }) => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
+  const dispatch = useDispatch();
 
   const onUpdateUsername = async (data) => {
     try {
         console.log('Username data submitted:', data.username); 
         const response = await axiosInstance.patch('/users/update-account', data);
-        console.log(response.data);
+        console.log(response.data.data.username);
+        dispatch(updateUser({ username: response.data.data.username }));
         setModal(false);
         reset();
         showEmojiToast('Username updated successfully', '🎉');
@@ -39,6 +43,7 @@ const UpdateProfileModal = ({ Modal, setModal }) => {
       });
   
       console.log(response.data);
+      dispatch(updateUser({ avatar: response.data.data.avatar }));
       setModal(false);
       reset();
       showEmojiToast('Avatar updated successfully', '🎉');
@@ -57,6 +62,7 @@ const UpdateProfileModal = ({ Modal, setModal }) => {
           'Content-Type': 'multipart/form-data',
         },});
         console.log(response.data);
+        dispatch(updateUser({ coverImage: response.data.data.coverImage }));
         setModal(false);
         reset();
         showEmojiToast('Cover Image updated successfully', '🎉');
