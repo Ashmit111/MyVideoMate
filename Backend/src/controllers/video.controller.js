@@ -137,20 +137,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
             videoFile: videoFile.url,
             owner,
             duration, 
-        });
-
-        // Find all subscribers of this channel (owner)
-        // const subscribers = await Subscription.find({ channel: owner });
-
-        // Notify each subscriber
-        // for (const subscription of subscribers) {
-        //     const subscriberId = subscription.subscriber;
-        //     const message = `New video "${title}" published by a channel you follow!`;
-
-        //     // Use WebSocket to create and send the notification
-        //     await createAndSendNotification(subscriberId, message, video._id, req.io);
-        // }
-
+        }); 
         const createdVideo = await Video.findById(video._id);
 
         if (!createdVideo) {
