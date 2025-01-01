@@ -151,7 +151,7 @@ function Dashboard() {
                 <tr className=" border border-white">
                   <th className="p-4">Uploaded</th>
                   <th className="p-4">Rating</th>
-                  <th className="p-4">Date Uploaded</th>
+                  <th className="p-4"> Uploaded</th>
                   <th className="p-4">Actions</th>
                 </tr>
               </thead>
@@ -172,7 +172,7 @@ function Dashboard() {
                         {video.likes} likes
                       </span>
                     </td>
-                    <td className="p-4">{video.date || "00"}</td>
+                    <td className="p-4">{video.createdAt || "00"}</td>
                     <td className=" flex gap-2 justify-center p-2">
                     {/* Update Button */}
                       <button onClick={() => openModal(video._id)}  className=" bg-transparent  pb-3 text-white py-1 px-1 focus:outline-none hover:border-transparent  hover:text-gray-400" >
