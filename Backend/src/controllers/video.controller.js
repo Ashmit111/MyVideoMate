@@ -109,9 +109,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
         // Calculate video duration using ffmpeg
         let duration = 0;
-        await new Promise((resolve, reject) => {
-            const ffmpegBuffer = require('fluent-ffmpeg');
-            ffmpegBuffer.ffprobe(videoFile.buffer, (err, metadata) => {
+        await new Promise((resolve, reject) => { 
+            ffmpeg.ffprobe(videoFile.buffer, (err, metadata) => {
                 if (err) {
                     console.error("Error retrieving video duration:", err);
                     return reject(new ApiError(500, "Failed to process video file"));
