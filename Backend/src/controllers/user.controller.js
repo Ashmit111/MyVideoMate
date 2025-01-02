@@ -288,87 +288,111 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"))
 });
 
-const updateUserAvatar = asyncHandler(async(req, res) => {
-    const avatarLocalPath = req.file?.path
+const updateUserAvatar = asyncHandler(async (req, res) => {
+    try {
+        // Access uploaded avatar file from Multer's memory storage
+        const avatarFile = req.file;
 
-    if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is missing")
+        if (!avatarFile) {
+            throw new ApiError(400, "Avatar file is missing");
+        }
+
+        // Retrieve the user and check for an existing avatar URL
+        const oldUser = await User.findById(req.user?._id);
+        if (!oldUser) {
+            throw new ApiError(404, "User not found");
+        }
+
+        const oldAvatarUrl = oldUser.avatar;
+
+        // Delete old avatar from Cloudinary if it exists
+        if (oldAvatarUrl) {
+            await deleteFromCloudinary(oldAvatarUrl); // Ensure this function is implemented
+        }
+
+        // Upload the new avatar to Cloudinary
+        const avatar = await uploadOnCloudinary(avatarFile.buffer);
+
+        if (!avatar?.url) {
+            throw new ApiError(500, "Error while uploading avatar");
+        }
+
+        // Update user document with the new avatar URL
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user?._id,
+            { $set: { avatar: avatar.url } },
+            { new: true }
+        ).select("-password");
+
+        if (!updatedUser) {
+            throw new ApiError(500, "Failed to update user avatar");
+        }
+
+        // Respond with success
+        return res.status(200).json(
+            new ApiResponse(200, updatedUser, "Avatar image updated successfully")
+        );
+    } catch (error) {
+        console.error("Error updating user avatar:", error);
+        return res.status(500).json(
+            new ApiResponse(500, null, "Failed to update avatar image")
+        );
     }
+});
 
-    //TODO: delete old image - assignment
-    // Retrieve the user and check for an existing avatar URL
-    const olduser = await User.findById(req.user?._id);
-    const oldAvatarUrl = olduser.avatar;
 
-    // Delete old image from Cloudinary if it exists
-    if (oldAvatarUrl) {
-        await deleteFromCloudinary(oldAvatarUrl); // Implement this function
+const updateUserCoverImage = asyncHandler(async (req, res) => {
+    try {
+        // Access uploaded cover image file from Multer's memory storage
+        const coverImageFile = req.file;
+
+        if (!coverImageFile) {
+            throw new ApiError(400, "Cover image file is missing");
+        }
+
+        // Retrieve the user and check for an existing cover image URL
+        const oldUser = await User.findById(req.user?._id);
+        if (!oldUser) {
+            throw new ApiError(404, "User not found");
+        }
+
+        const oldCoverImageUrl = oldUser.coverImage;
+
+        // Delete old cover image from Cloudinary if it exists
+        if (oldCoverImageUrl) {
+            await deleteFromCloudinary(oldCoverImageUrl); // Ensure this function is implemented
+        }
+
+        // Upload the new cover image to Cloudinary
+        const coverImage = await uploadOnCloudinary(coverImageFile.buffer);
+
+        if (!coverImage?.url) {
+            throw new ApiError(500, "Error while uploading cover image");
+        }
+
+        // Update user document with the new cover image URL
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user?._id,
+            { $set: { coverImage: coverImage.url } },
+            { new: true }
+        ).select("-password");
+
+        if (!updatedUser) {
+            throw new ApiError(500, "Failed to update cover image");
+        }
+
+        // Respond with success
+        return res.status(200).json(
+            new ApiResponse(200, updatedUser, "Cover image updated successfully")
+        );
+    } catch (error) {
+        console.error("Error updating cover image:", error);
+        return res.status(500).json(
+            new ApiResponse(500, null, "Failed to update cover image")
+        );
     }
+});
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
-
-    if (!avatar.url) {
-        throw new ApiError(400, "Error while uploading on avatar")
-        
-    }
-
-    const user = await User.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $set:{
-                avatar: avatar.url
-            }
-        },
-        {new: true}
-    ).select("-password") 
-
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, user, "Avatar image updated successfully")
-    )
-})
-
-const updateUserCoverImage = asyncHandler(async(req, res) => {
-    const coverImageLocalPath = req.file?.path
-
-    if (!coverImageLocalPath) {
-        throw new ApiError(400, "Cover image file is missing")
-    }
-
-    //TODO: delete old image - assignment
-    const olduser = await User.findById(req.user?._id);
-    const oldcoverImage = olduser.coverImage;
-
-    // Delete old image from Cloudinary if it exists
-    if (oldcoverImage) {
-        await deleteFromCloudinary(oldcoverImage); // Implement this function
-    }
-
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
-
-    if (!coverImage.url) {
-        throw new ApiError(400, "Error while uploading on avatar")
-        
-    }
-
-    const user = await User.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $set:{
-                coverImage: coverImage.url
-            }
-        },
-        {new: true}
-    ).select("-password")
- 
-
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, user, "Cover image updated successfully")
-    )
-})
 
 
 const getUserChannelProfile = asyncHandler(async(req, res) => {
