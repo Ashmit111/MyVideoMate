@@ -6,7 +6,7 @@ import path from "path"
 export default defineConfig({
   server:{
     proxy:{
-      '/api': 'http://localhost:3000'
+      '/api': 'https://my-video-mate.vercel.app/'
     }
   },
   plugins: [react()],
