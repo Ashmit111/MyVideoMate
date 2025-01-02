@@ -12,7 +12,7 @@
     "backend",
     "chai"
   ],
-  "author": "Hitesh Choudhary",
+  "author": "Ashmit Singh",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1",
