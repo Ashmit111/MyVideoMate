@@ -10,6 +10,24 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary, deleteFromCloudinary} from "../utils/cloudinary.js"
 import ffmpeg from 'fluent-ffmpeg'; 
 import { formatDistanceToNowStrict } from 'date-fns';
+import { Readable } from 'stream';
+
+const getVideoDurationFromBuffer = async (fileBuffer) => {
+    return new Promise((resolve, reject) => {
+        const readableStream = new Readable();
+        readableStream.push(fileBuffer);
+        readableStream.push(null); // Signal end of the stream
+
+        ffmpeg.ffprobe(readableStream, (err, metadata) => {
+            if (err) {
+                console.error("Error retrieving video duration:", err);
+                return reject(new ApiError(500, "Failed to process video file"));
+            }
+            const duration = Math.floor(metadata.format.duration); // Duration in seconds
+            resolve(duration);
+        });
+    });
+};
 
 const getAllVideos = asyncHandler(async (req, res) => {
     try {
@@ -108,28 +126,18 @@ const publishAVideo = asyncHandler(async (req, res) => {
         }
 
         // Calculate video duration using ffmpeg
-        let duration = 0;
-        await new Promise((resolve, reject) => { 
-            ffmpeg.ffprobe(videoFile.buffer, (err, metadata) => {
-                if (err) {
-                    console.error("Error retrieving video duration:", err);
-                    return reject(new ApiError(500, "Failed to process video file"));
-                }
-                duration = Math.floor(metadata.format.duration); // Duration in seconds
-                resolve();
-            });
-        });
+        const duration = await getVideoDurationFromBuffer(videoFile.buffer);
 
         // Upload files to Cloudinary
-        const thumbnail = await uploadOnCloudinary(thumbnailFile.buffer);
-        const videoCloudFile = await uploadOnCloudinary(videoFile.buffer);
+        const thumbnail = await uploadWithRetry(thumbnailFile.buffer, { resource_type: "image" });
+        const videoCloudFile = await uploadWithRetry(videoFile.buffer, { resource_type: "video" });
 
-        if (!thumbnail) {
-            throw new ApiError(400, "Failed to upload thumbnail");
+        if (!thumbnail?.url) {
+            throw new ApiError(500, "Failed to upload thumbnail");
         }
 
-        if (!videoCloudFile) {
-            throw new ApiError(400, "Failed to upload video file");
+        if (!videoCloudFile?.url) {
+            throw new ApiError(500, "Failed to upload video file");
         }
 
         // Create a new video document in the database
@@ -158,6 +166,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
         );
     }
 });
+
 
 
 const getVideoById = asyncHandler(async (req, res) => {
