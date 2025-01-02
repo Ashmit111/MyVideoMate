@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "http://localhost:3000/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://your-backend-vercel-deployment-url.vercel.app/api/:path*"
     }
   ]
 }
