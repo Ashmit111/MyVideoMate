@@ -9,21 +9,24 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {uploadOnCloudinary, deleteFromCloudinary} from "../utils/cloudinary.js"
 import ffmpeg from 'fluent-ffmpeg'; 
+import { ffprobe } from "fluent-ffmpeg"
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Readable } from 'stream';
 import fs from "fs/promises"
 
 const getVideoDurationFromBuffer = async (fileBuffer) => {
-    const tempFilePath = `temp_video_${Date.now()}.mp4`;
-    await fs.writeFile(tempFilePath, fileBuffer);
-
     return new Promise((resolve, reject) => {
-        ffmpeg.ffprobe(tempFilePath, (err, metadata) => {
-            fs.unlink(tempFilePath); // Clean up temporary file
+        const readableStream = new Readable();
+        readableStream.push(fileBuffer);
+        readableStream.push(null); // Signal end of the stream
+
+        ffmpeg.ffprobe(readableStream, (err, metadata) => {
             if (err) {
-                return reject(new ApiError(500, "Error processing video duration"));
+                console.error("Error retrieving video duration:", err);
+                return reject(new ApiError(500, "Failed to process video file"));
             }
-            resolve(Math.floor(metadata.format.duration));
+            const duration = Math.floor(metadata.format.duration); // Duration in seconds
+            resolve(duration);
         });
     });
 };
