@@ -13,11 +13,11 @@ function Sidebar() {
 
     const sideItems = [
           { icon: <BiLike className="w-6 h-6" />, label: "Liked Videos", path: '/likedVideos' },
-          { icon: <FaRegCompass className="w-6 h-6" />, label: "My Channel", path: '/dashboard' },
+          { icon: <IoSettings className="w-6 h-6" />, label: "Dashboard", path: '/dashboard' },
           { icon: <MdSubscriptions className="w-6 h-6" />, label: "Audience", path: '/audience' },
           { icon: <MdVideoLibrary className="w-6 h-6" />, label: "My Playlists", path: '/myplaylist' },
           { icon: <FaHistory className="w-6 h-6"/>, label: "Watch History", path: '/watchHistory' }, 
-          { icon: <IoSettings className="w-6 h-6"/>, label: "Settings", path: '/settings'} 
+          { icon: <FaRegCompass className="w-6 h-6"/>, label: "My Channel", path: '/settings'} 
         ];
 
     const handleLogout = async () => {
