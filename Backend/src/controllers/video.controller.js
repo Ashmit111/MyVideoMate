@@ -11,20 +11,19 @@ import {uploadOnCloudinary, deleteFromCloudinary} from "../utils/cloudinary.js"
 import ffmpeg from 'fluent-ffmpeg'; 
 import { formatDistanceToNowStrict } from 'date-fns';
 import { Readable } from 'stream';
+import fs from "fs/promises"
 
 const getVideoDurationFromBuffer = async (fileBuffer) => {
-    return new Promise((resolve, reject) => {
-        const readableStream = new Readable();
-        readableStream.push(fileBuffer);
-        readableStream.push(null); // Signal end of the stream
+    const tempFilePath = `temp_video_${Date.now()}.mp4`;
+    await fs.writeFile(tempFilePath, fileBuffer);
 
-        ffmpeg.ffprobe(readableStream, (err, metadata) => {
+    return new Promise((resolve, reject) => {
+        ffmpeg.ffprobe(tempFilePath, (err, metadata) => {
+            fs.unlink(tempFilePath); // Clean up temporary file
             if (err) {
-                console.error("Error retrieving video duration:", err);
-                return reject(new ApiError(500, "Failed to process video file"));
+                return reject(new ApiError(500, "Error processing video duration"));
             }
-            const duration = Math.floor(metadata.format.duration); // Duration in seconds
-            resolve(duration);
+            resolve(Math.floor(metadata.format.duration));
         });
     });
 };
